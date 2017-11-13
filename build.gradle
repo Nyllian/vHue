@@ -1,0 +1,48 @@
+apply plugin: 'java'
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'idea'
+
+    group = 'net.nyllian.vhue'
+
+    repositories {
+        mavenCentral()
+
+        maven {
+            url "http://www.mvnrepository.com"
+        }
+    }
+
+    dependencies {
+        dependencies {
+            compile(
+                    [group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'],
+                    [group: 'org.slf4j', name: 'log4j-over-slf4j', version: '1.7.25'],
+                    [group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3']
+            )
+        }
+    }
+}
+
+project(':vHue-server') {
+    apply plugin: 'application'
+
+    mainClassName = 'net.nyllian.vhue.ServerMain'
+
+    run {
+        jvmArgs (
+                '-Dlogback.configurationFile=./conf/logback.xml'
+        )
+    }
+
+    /*
+    dependencies {
+
+    }
+    */
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion '4.3.1'
+}

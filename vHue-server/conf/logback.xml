@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<configuration debug="false">
+
+    <appender name="STDOUT"
+              class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy/MM/dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+<!--
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>../log/devcenter-swing.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>../log/%d{yyyy-MM-dd}-devcenter-swing.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy/MM/dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+-->
+<!--
+    <logger name="org">
+        <level value="ERROR"/>
+    </logger>
+
+    <logger name="ch">
+        <level value="ERROR"/>
+    </logger>
+
+    <logger name="com">
+        <level value="ERROR"/>
+    </logger>
+
+    <logger name="org.mediastuffx">
+        <level value="INFO"/>
+    </logger>
+-->
+    <root>
+        <level value="TRACE"/>
+        <appender-ref ref="STDOUT"/>
+<!--
+        <appender-ref ref="FILE"/>
+-->
+    </root>
+
+</configuration>
