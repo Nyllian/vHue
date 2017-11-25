@@ -19,23 +19,33 @@
         </encoder>
     </appender>
 -->
-<!--
-    <logger name="org">
+    <logger name="org.apache.tomcat">
         <level value="ERROR"/>
     </logger>
-
+    <logger name="org.apache.catalina">
+        <level value="ERROR"/>
+    </logger>
+    <logger name="org.apache.coyote">
+        <level value="ERROR"/>
+    </logger>
+        <logger name="com.sun.jersey">
+            <level value="ERROR"/>
+        </logger>
     <logger name="ch">
         <level value="ERROR"/>
     </logger>
-
-    <logger name="com">
-        <level value="ERROR"/>
+    <logger name="freemarker">
+        <level value="WARN"/>
     </logger>
-
-    <logger name="org.mediastuffx">
-        <level value="INFO"/>
+    <logger name="net.nyllian.vhue.util">
+        <level value="WARN"/>
     </logger>
--->
+    <logger name="net.nyllian.vhue.server.HueServer">
+        <level value="DEBUG"/>
+    </logger>
+    <logger name="net.nyllian.vhue.server.SSDPServer">
+        <level value="WARN"/>
+    </logger>
     <root>
         <level value="TRACE"/>
         <appender-ref ref="STDOUT"/>

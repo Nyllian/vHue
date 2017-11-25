@@ -1,0 +1,32 @@
+{
+  "datastoreversion" : 59,
+  "mac" : "12:34:56:78:90:AB",
+  "name" : "vHue",
+  "bridgeid" : "1234657890123456",
+  "swversion" : "1709131301",
+  "factorynew" : false,
+  "apiversion" : "1.19.0",
+  "modelid" : "vHUE-001",
+  "ipaddress" : "10.2.1.200",
+  "gateway" : "10.2.1.200",
+  "netmask" : "255.255.255.0",
+  "proxyaddress" : "none",
+  "proxyport" : 0,
+  "dhcp" : true,
+  "linkbutton" : true,
+  "portalservices" : true,
+  "zigbeechannel" : 1,
+  "utc" : "2017-11-328T1524:05:30",
+  "localtime" : "2017-11-328T1524:05:30",
+  "timezone" : "Brussels/Europe",
+  "whitelist" : {
+    "a7161538be80d40b3de98dece6e91f904dc96170" : {
+      "last use date" : "2017-11-328T1524:05:30",
+      "create date" : "2017-11-328T1524:05:30",
+      "name" : "vHue client"
+    }
+  },
+  "swupdate" : {
+    "checkforupdate" : false
+  }
+}

@@ -17,9 +17,28 @@ subprojects {
     dependencies {
         dependencies {
             compile(
+                    // Logging libraries
                     [group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'],
                     [group: 'org.slf4j', name: 'log4j-over-slf4j', version: '1.7.25'],
-                    [group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3']
+                    [group: 'org.slf4j', name: 'jul-to-slf4j', version: '1.7.25'],
+                    [group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'],
+                    // JSON libraries
+                    [group: "com.fasterxml.jackson.core", name: "jackson-databind", version: "2.5.3"],
+                    [group: "com.fasterxml.jackson.core", name: "jackson-annotations", version: "2.5.3"],
+                    // Webserver libraries
+                    /*
+                    [group: "com.sun.jersey", name: "jersey-core", version: "1.19.4"],
+                    [group: "com.sun.jersey", name: "jersey-servlet", version: "1.19.4"],
+                    [group: "javax.xml.ws", name: "jaxws-api", version: "2.3.0"],
+                    */
+                    // [group: "org.glassfish.jersey.archetypes", name: "jersey-quickstart-webapp", version: "2.25.1"],
+                    [group: "org.glassfish.jersey.containers", name: "jersey-container-servlet", version: "2.25"],
+                    [group: "org.glassfish.jersey.core", name: "jersey-server", version: "2.25"],
+                    [group: "javax.ws.rs", name: "javax.ws.rs-api", version: "2.0.1"],
+                    [group: "org.apache.tomcat.embed", name: "tomcat-embed-core", version: "9.0.1"],
+                    [group: "org.apache.tomcat", name: "jasper", version: "6.0.53"],
+                    // Template libraries
+                    [group: "org.freemarker", name: "freemarker", version: "2.3.27-incubating"],
             )
         }
     }
@@ -31,16 +50,14 @@ project(':vHue-server') {
     mainClassName = 'net.nyllian.vhue.ServerMain'
 
     run {
+        // workingDir = 'src/'
+
         jvmArgs (
                 '-Dlogback.configurationFile=./conf/logback.xml'
         )
-    }
 
-    /*
-    dependencies {
-
+        // configurations.runtime.each { println it }
     }
-    */
 }
 
 task wrapper(type: Wrapper) {
