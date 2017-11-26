@@ -3,13 +3,6 @@ package net.nyllian.vhue;
 import net.nyllian.vhue.model.*;
 import net.nyllian.vhue.util.Serializer;
 
-import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 /**
  * Created by Nyllian on 22/11/2017.
  *
@@ -18,42 +11,20 @@ public class BridgeTest
 {
     public static void main(String[] args) throws Exception
     {
-        Device device = new DeviceConfig()
-                .setIpAddress(Inet4Address.getLocalHost().getHostAddress())
-                .setGateway(Inet4Address.getLocalHost().getHostAddress())
-                .setNetmask("255.255.255.0")
-                .setProxyAddress("none")
-                .setProxyPort(0)
-                .setDhcp(true)
-                .setLinkButton(true)
-                .setPortalServices(true)
-                .setZigbeeChannel(15)
-                .setUtc(new Date())
-                .setLocaltime(new Date())
-                .setTimezone("Brussels/Europe")
-                .setSwitchUpdate(false)
-                .addToWhitelist("132465789123456789123456798", "Samsung vHue client")
-                // Device Properties
-                .setDatastoreVersion(1)
-                .setMacAddress("12:34:56:78:90:AB")
-                .setName("vHue")
-                .setId("1234657890123456")
-                .setSwitchVersion("0000000001")
-                .setFactoryNew(false)
-                .setApiVersion("0.1.0")
-                .setModelId("vHUE-001");
+        Bridge b = new Bridge();
+        b.setBridgeConfig(new BridgeConfig());
+        b.getBridgeConfig().addToWhitelist("8f2ce5f6591542cfa1ca7978a7eb9ef7", "Nyllian!!!");
+        String jsonB = Serializer.SerializeJson(b);
+        System.out.println(jsonB);
+        Bridge b2 = Serializer.SerializeJson(jsonB, Bridge.class);
 
-        DeviceConfig deviceConfig = (DeviceConfig) device;
+        System.err.println("Starting with jsonData...");
+        String jsonData = "{\"lights\" : {\"1\" : {\"modelid\" : \"DUM001\",\"name\" : \"Dummy Light\",\"state\" : {\"alert\" : \"select\",\"bri\" : 18,\"colormode\" : \"ct\",\"ct\" : 461,\"effect\" : \"none\",\"hue\" : 0,\"on\" : false,\"reachable\" : true,\"sat\" : 0,\"xy\" : [ 0.310669, 0.323961 ]},\"swversion\" : \"66009461\",\"type\" : \"Dummy color Light\",\"uniqueid\" : \"37550654df\",\"manufacturername\" : \"Nyllian\"},\"2\" : {\"modelid\" : \"DUM001\",\"name\" : \"Dummy Light\",\"state\" : {\"alert\" : \"select\",\"bri\" : 18,\"colormode\" : \"ct\",\"ct\" : 461,\"effect\" : \"none\",\"hue\" : 0,\"on\" : false,\"reachable\" : true,\"sat\" : 0,\"xy\" : [ 0.310669, 0.323961 ]},\"swversion\" : \"66009461\",\"type\" : \"Dummy color Light\",\"uniqueid\" : \"831f4e6975\",\"manufacturername\" : \"Nyllian\"}},\"groups\" : {\"1\" : {\"action\" : {\"alert\" : \"select\",\"bri\" : 20,\"colormode\" : \"ct\",\"ct\" : 461,\"effect\" : \"none\",\"hue\" : 0,\"on\" : false,\"sat\" : 0,\"xy\" : [ 0.310669, 0.323961 ]},\"class\" : \"Living room\",\"lights\" : [ ],\"name\" : \"Woonkamer\",\"state\" : {\"all_on\" : false,\"any_on\" : false,\"lastupdated\" : \"2017-11-26T16:30:50\",\"on\" : false,\"brightness\" : 0},\"type\" : \"Room\"}},\"schedules\" : { },\"rules\" : { },\"sensors\" : { },\"config\" : {\"datastoreversion\" : 1,\"mac\" : \"F0:1F:AF:43:BC:AE\",\"name\" : \"vHue\",\"bridgeid\" : \"1234657890123456\",\"swversion\" : \"1709131301\",\"factorynew\" : false,\"apiversion\" : \"1.19.0\",\"modelid\" : \"vHUE-001\",\"ipaddress\" : \"192.168.0.14\",\"gateway\" : \"192.168.0.14\",\"netmask\" : \"255.255.255.0\",\"proxyaddress\" : \"none\",\"proxyport\" : 0,\"dhcp\" : true,\"linkbutton\" : true,\"portalservices\" : true,\"zigbeechannel\" : 1,\"utc\" : \"2017-11-26T16:29:40\",\"localtime\" : \"2017-11-26T16:29:40\",\"timezone\" : \"Brussels/Europe\",\"whitelist\" : {\"303a22f8e5e24b4bb9f81eebdc4de86a\" : {\"last use date\" : \"2017-11-26T16:29:41\",\"create date\" : \"2017-11-26T16:29:41\",\"name\" : \"192.168.0.248\"}},\"swupdate\" : {\"checkforupdate\" : false}},\"scenes\" : { },\"resourceLinks\" : { }}";
+        Bridge bridge = Serializer.SerializeJson(jsonData, Bridge.class);
 
-        Map<String, Light> lights = new LinkedHashMap<>();
-        // lights.put("3", createLight());
-        // lights.put("1", createLight());
-
-        Bridge bridge = new Bridge()
-                .setDeviceConfig(deviceConfig);
-                // .setLights(lights);
-
+        System.out.println(bridge);
         System.out.println(Serializer.SerializeJson(bridge));
+
     }
 
     private static Light createLight()
@@ -77,7 +48,7 @@ public class BridgeTest
                 .setType("Extended color light")
                 .setUniqueId("1a2b3c465");
 
-        light1.setState(lightState1);
+        light1.setLightState(lightState1);
 
         return light1;
     }

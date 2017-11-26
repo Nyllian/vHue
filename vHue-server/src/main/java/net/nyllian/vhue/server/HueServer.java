@@ -1,8 +1,9 @@
 package net.nyllian.vhue.server;
 
-import net.nyllian.vhue.model.Device;
-import net.nyllian.vhue.model.DeviceConfig;
+import net.nyllian.vhue.model.Bridge;
+import net.nyllian.vhue.model.BridgeConfig;
 import net.nyllian.vhue.util.Randomizer;
+import net.nyllian.vhue.util.ResourceManager;
 import net.nyllian.vhue.util.Serializer;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.slf4j.Logger;
@@ -10,6 +11,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.Inet4Address;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -23,16 +27,18 @@ public class HueServer extends ResourceConfig
     private static final Logger LOG = LoggerFactory.getLogger(HueServer.class);
 
     private Properties properties = new Properties();
-    private Map<String, Object> resourceMap;
+    //private Map<String, Object> resourceMap;
+    private ResourceManager<Object> manager;
 
     public HueServer()
     {
-        resourceMap = new HashMap<>();
+        manager = new ResourceManager<>();
 
         try
         {
-            InitializeServer();
+            InitializeServerConfig();
             InitializeTemplateMap();
+            InitializeResources();
             InitializeBridgeConfig();
             startSsdpServer();
         }
@@ -42,6 +48,8 @@ public class HueServer extends ResourceConfig
             System.exit(1);
         }
 
+        Map<String, Object> resourceMap = new HashMap<>();
+        resourceMap.put("manager", manager);
         setProperties(resourceMap);
     }
 
@@ -49,7 +57,7 @@ public class HueServer extends ResourceConfig
     {
         LOG.info("Starting SSDP Server...");
 
-        Thread ssdpThread = new Thread(new SSDPServer(resourceMap));
+        Thread ssdpThread = new Thread(new SSDPServer(manager.getResourceMap()));
         ssdpThread.start();
 
         LOG.info("SSDP server started successfully!");
@@ -60,7 +68,7 @@ public class HueServer extends ResourceConfig
      * Initialize the server configuration
      * When no configurations was found, save the configuration
      */
-    private void InitializeServer() throws IOException
+    private void InitializeServerConfig() throws IOException
     {
         String fileLocation = "./conf/.properties";
         File configFile = new File(fileLocation);
@@ -138,8 +146,8 @@ public class HueServer extends ResourceConfig
 
     private void InitializeBridgeConfig() throws IOException
     {
-        String fileLocation = "./conf/bridgeconfig.json";
-        File configFile = new File(fileLocation);
+        File configFile = new File(Bridge.configStoreLocation);
+        Bridge bridge = new Bridge();
 
         try
         {
@@ -162,8 +170,6 @@ public class HueServer extends ResourceConfig
             throw ioEx;
         }
 
-        Device devConfig;
-
         try
         {
             FileInputStream fis = new FileInputStream(configFile);
@@ -172,14 +178,15 @@ public class HueServer extends ResourceConfig
             fis.close();
 
             LOG.debug(String.format("Number of bytes read: %1d", bytesRead));
-            devConfig = Serializer.SerializeJson(new String(jsonData), DeviceConfig.class);
+            bridge = Serializer.SerializeJson(new String(jsonData), Bridge.class);
+            manager.addResource("bridge", bridge);
         }
         catch (IOException ioEx)
         {
-            LOG.warn("Error while reading the config file, creating new bridge.");
+            LOG.warn("The bridgeconfig file could not be read or is empty!", ioEx);
 
-            // Create new deviceConfig
-            devConfig = new DeviceConfig()
+            // Create a new Bridge
+            BridgeConfig bridgeConfig = new BridgeConfig()
                     .setIpAddress(Inet4Address.getLocalHost().getHostAddress())
                     .setGateway(Inet4Address.getLocalHost().getHostAddress())
                     .setNetmask("255.255.255.0")
@@ -193,25 +200,34 @@ public class HueServer extends ResourceConfig
                     .setLocaltime(new Date())
                     .setTimezone("Brussels/Europe")
                     .setSwitchUpdate(false)
-                    .addToWhitelist("a7161538be80d40b3de98dece6e91f904dc96170", "vHue client") // TODO: These details should come from the client
-                    // Device Properties
-                    .setMacAddress("12:34:56:78:90:AB")
+                    .setMacAddress(manager.getResource("macAddress").toString())
                     .setName("vHue")
-                    .setId("1234657890123456")
+                    .setBridgeId("1234657890123456")
                     .setFactoryNew(false)
-                            // .setDatastoreVersion(1)
-                            // .setSwitchVersion("0000000001")
-                            // .setApiVersion("0.1.0")
+                    .setDatastoreVersion(1)
+                    .setSwitchVersion("1709131301")
+                    .setApiVersion("1.19.0")
                     .setModelId("vHUE-001");
 
+            bridge.setBridgeConfig(bridgeConfig);
+            manager.addResource("bridge", bridge);
+
+            bridge.writeConfig();
         }
+    }
 
-        // TODO: This should be the bridge
-        resourceMap.put("device", devConfig);
+    private void InitializeResources() throws UnknownHostException, SocketException
+    {
+        // Get the macAddress
+        byte[] mac = NetworkInterface.getByInetAddress(Inet4Address.getLocalHost()).getHardwareAddress();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < mac.length; i++) {
+            sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? ":" : ""));
+        }
+        manager.addResource("macAddress", sb.toString());
 
-        FileWriter fw = new FileWriter(configFile);
-        fw.write(Serializer.SerializeJson(devConfig));
-        fw.close();
+        // Get the ipAddress
+
     }
 
     /**
@@ -229,6 +245,6 @@ public class HueServer extends ResourceConfig
                 )
         );
 
-        resourceMap.put("tplMap", tplMap);
+        manager.addResource("tplMap", tplMap);
     }
 }

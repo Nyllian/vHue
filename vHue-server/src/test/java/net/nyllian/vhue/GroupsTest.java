@@ -80,7 +80,7 @@ public class GroupsTest
         light1.setType("Extended color light");
         light1.setUniqueId("1a2b3c465");
 
-        light1.setState(lightState1);
+        light1.setLightState(lightState1);
 
         return light1;
     }

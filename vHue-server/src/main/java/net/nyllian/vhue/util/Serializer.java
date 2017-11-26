@@ -1,6 +1,7 @@
 package net.nyllian.vhue.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.nyllian.vhue.model.IJSon;
 import org.slf4j.Logger;
@@ -19,8 +20,13 @@ public class Serializer
 
     public static String SerializeJson(IJSon jsonObject) throws JsonProcessingException
     {
+        return SerializeJson((Object)jsonObject);
+    }
+
+    public static String SerializeJson(Object jsonObject) throws JsonProcessingException
+    {
         ObjectMapper serializer = new ObjectMapper();
-        serializer.setDateFormat(new SimpleDateFormat("yyyy-MM-DD'T'HH24:mm:ss"));
+        serializer.setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"));
 
         String serializedString = serializer
                 .writerWithDefaultPrettyPrinter()
@@ -33,10 +39,17 @@ public class Serializer
     public static <T> T SerializeJson(String jsonString, Class<T> jsonClass) throws IOException
     {
         ObjectMapper serializer = new ObjectMapper();
-        serializer.setDateFormat(new SimpleDateFormat("yyyy-MM-DD'T'HH24:mm:ss"));
+        serializer.setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH24:mm:ss"));
+        serializer.enable(DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT);
 
         LOG.trace(String.format("Serializing string to %1s", jsonClass.getTypeName()));
         return serializer.readValue(jsonString, jsonClass);
+    }
 
+    public static <T> T UpdateObject(T jsonObj, String jsonData) throws IOException
+    {
+        ObjectMapper serializer = new ObjectMapper();
+        serializer.setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH24:mm:ss"));
+        return serializer.readerForUpdating(jsonObj).readValue(jsonData);
     }
 }

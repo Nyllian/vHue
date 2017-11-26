@@ -13,25 +13,25 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class LightState implements IJSon
 {
     @JsonProperty
-    private String alert;
+    private String alert = "select";
     @JsonProperty("bri")
-    private int brightness;
+    private int brightness = 18;
     @JsonProperty("colormode")
-    private String colorMode;
+    private String colorMode = "ct";
     @JsonProperty("ct")
-    private int colorTemp;
+    private int colorTemp = 461;
     @JsonProperty
-    private String effect;
+    private String effect = "none";
     @JsonProperty
-    private int hue;
+    private int hue = 0;
     @JsonProperty
-    private boolean on;
+    private boolean on = false;
     @JsonProperty
-    private boolean reachable;
+    private boolean reachable = false;
     @JsonProperty("sat")
-    private int saturation;
+    private int saturation = 0;
     @JsonProperty
-    private double[] xy;
+    private double[] xy = new double[] { 0.310669, 0.323961 };
 
     public String getAlert()
     {

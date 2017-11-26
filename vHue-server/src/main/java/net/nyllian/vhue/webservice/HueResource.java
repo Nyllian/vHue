@@ -3,6 +3,7 @@ package net.nyllian.vhue.webservice;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import net.nyllian.vhue.util.ResourceManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,11 +27,11 @@ public class HueResource
     private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
     private StringBuilder template = new StringBuilder();
-    private Application application;
+    private ResourceManager manager;
 
     public HueResource(@Context Application application)
     {
-        this.application = application;
+        manager = (ResourceManager)application.getProperties().get("manager");
     }
 
     @GET
@@ -47,6 +48,15 @@ public class HueResource
                 .header("Access-Control-Allow-Origin", "*")
                 .build();
     }
+
+    @DELETE
+    public Response cleanBridge(@Context HttpServletRequest request)
+    {
+        LOG.debug(String.format("%1s (%2s)", request.getRequestURI(), request.getMethod()));
+        // Clean entire bridge...
+        return Response.ok().build();
+    }
+
 
     @GET
     @Path("/{default: .*}")
@@ -75,7 +85,7 @@ public class HueResource
             config.setClassForTemplateLoading(this.getClass(), "/ftl/");
             Template tpl = config.getTemplate("description.xml");
 
-            Map<String, String> tplMap = (Map<String, String>) application.getProperties().get("tplMap");
+            Map<String, String> tplMap = (Map<String, String>) manager.getResource("tplMap");
 
             StringWriter templateStringWriter = new StringWriter();
             tpl.process(tplMap, templateStringWriter);

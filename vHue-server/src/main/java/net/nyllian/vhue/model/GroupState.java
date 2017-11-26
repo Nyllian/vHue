@@ -1,6 +1,7 @@
 package net.nyllian.vhue.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
@@ -15,17 +16,16 @@ import java.util.Date;
 public class GroupState implements IJSon
 {
     @JsonProperty
-    private boolean on;
+    private boolean on = false;
     @JsonProperty("all_on")
-    private boolean allOn;
+    private boolean allOn = false;
     @JsonProperty("any_on")
-    private boolean anyOn;
+    private boolean anyOn = false;
     @JsonProperty
-    private int brightness;
+    private int brightness = 0;
     @JsonProperty("lastupdated")
-    private Date lastUpdated;
-
-
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private Date lastUpdated = new Date();
 
     public boolean isOn()
     {

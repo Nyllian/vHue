@@ -1,8 +1,14 @@
 package net.nyllian.vhue.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Nyllian on 20/11/2017.
@@ -13,17 +19,20 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class Group implements IJSon
 {
     @JsonProperty
-    private String name;
+    private String name = "newGroup";
     @JsonProperty
-    private String type;
+    private String type = "Room";
     @JsonProperty("class")
-    private String groupClass;
+    private String groupClass = "Living room";
     @JsonProperty("lights")
     private String[] lightIds = new String[]{};
     @JsonProperty("action")
-    private GroupAction groupAction;
+    private GroupAction groupAction = new GroupAction();
     @JsonProperty("state")
-    private GroupState groupState;
+    private GroupState groupState = new GroupState();
+
+    @JsonIgnore
+    private Map<String, Light> lights = new LinkedHashMap<>();
 
     public String getName()
     {
@@ -63,9 +72,26 @@ public class Group implements IJSon
         return lightIds;
     }
 
+    public Group addLight(Light light)
+    {
+        lightIds = lights.keySet().toArray(new String[lights.keySet().size()]);
+        return this;
+    }
+
     public Group setLightIds(String[] lightIds)
     {
         this.lightIds = lightIds;
+        return this;
+    }
+
+    public Map<String, Light> getLights()
+    {
+        return lights;
+    }
+
+    public Group setLights(Map<String, Light> lights)
+    {
+        this.lights = lights;
         return this;
     }
 

@@ -3,27 +3,35 @@ package net.nyllian.vhue.model;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import net.nyllian.vhue.util.Randomizer;
 
 /**
  * Created by Nyllian on 20/11/2017.
  *
  */
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.PROTECTED_AND_PUBLIC)
-@JsonPropertyOrder({"modelid", "name", "state", "swversion", "type", "uniqueid"})
+@JsonPropertyOrder({"modelid", "name", "lightState", "swversion", "type", "uniqueid"})
 public class Light implements IJSon
 {
     @JsonProperty("modelid")
-    private String modelId;
-    @JsonProperty
-    private String name;
+    private String modelId = "DUM001";
+    @JsonProperty("name")
+    private String name = "Dummy Light";
     @JsonProperty("swversion")
-    private String switchVersion;
-    @JsonProperty
-    private String type;
+    private String switchVersion = "66009461";
+    @JsonProperty("type")
+    private String type = "Dummy color Light";
     @JsonProperty("uniqueid")
-    private String uniqueId;
-    @JsonProperty
-    private LightState state;
+    private String uniqueId = Randomizer.generateUniqueId();
+    @JsonProperty("state")
+    private LightState lightState = new LightState();
+    @JsonProperty("manufacturername")
+    private String manufacturerName = "Nyllian";
+
+    public Light()
+    {
+        // Default constructor for Json
+    }
 
     public String getModelId()
     {
@@ -80,14 +88,24 @@ public class Light implements IJSon
         return this;
     }
 
-    public LightState getState()
+    public LightState getLightState()
     {
-        return state;
+        return lightState;
     }
 
-    public Light setState(LightState state)
+    public Light setLightState(LightState lightState)
     {
-        this.state = state;
+        this.lightState = lightState;
         return this;
+    }
+
+    public String getManufacturerName()
+    {
+        return manufacturerName;
+    }
+
+    public void setManufacturerName(String manufacturerName)
+    {
+        this.manufacturerName = manufacturerName;
     }
 }

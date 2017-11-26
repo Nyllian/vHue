@@ -1,6 +1,6 @@
 package net.nyllian.vhue;
 
-import net.nyllian.vhue.model.DeviceConfig;
+import net.nyllian.vhue.model.BridgeConfig;
 import net.nyllian.vhue.util.Serializer;
 
 /**
@@ -17,7 +17,7 @@ public class DeviceConfigTest
     {
         System.out.println(
                 Serializer.SerializeJson(
-                        new DeviceConfig()
+                        new BridgeConfig()
                                 .setSwitchUpdate(false)
                                 .addToWhitelist("12345678901234567890", "vHue-Test")
                                 .addToWhitelist("98798798798798798799", "vHue-Test2")

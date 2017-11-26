@@ -39,7 +39,7 @@ public class LightsTest
                 .setSwitchVersion("66009461")
                 .setType("Extended color light")
                 .setUniqueId("1a2b3c465")
-                .setState(lightState1);
+                .setLightState(lightState1);
 
         ObjectMapper serializer = new ObjectMapper();
         String serializedString = serializer.writeValueAsString(light1);
