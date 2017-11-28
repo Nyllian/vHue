@@ -63,6 +63,7 @@ public class Bridge implements IJSon
 
         Light discoveredLight = new Light();
         discoveredLight.getLightState().setReachable(true);
+        discoveredLight.getLightState().setColorMode("xy");
         // Add direct to the list to keep the 'id' synced
         lights.put(id, discoveredLight);
     }

@@ -2,6 +2,7 @@ package net.nyllian.vhue.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.nyllian.vhue.model.IJSon;
 import org.slf4j.Logger;
@@ -50,6 +51,7 @@ public class Serializer
     {
         ObjectMapper serializer = new ObjectMapper();
         serializer.setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH24:mm:ss"));
+        serializer.enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES);
         return serializer.readerForUpdating(jsonObj).readValue(jsonData);
     }
 }

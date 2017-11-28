@@ -72,12 +72,6 @@ public class Group implements IJSon
         return lightIds;
     }
 
-    public Group addLight(Light light)
-    {
-        lightIds = lights.keySet().toArray(new String[lights.keySet().size()]);
-        return this;
-    }
-
     public Group setLightIds(String[] lightIds)
     {
         this.lightIds = lightIds;

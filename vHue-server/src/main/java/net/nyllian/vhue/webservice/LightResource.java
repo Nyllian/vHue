@@ -26,6 +26,7 @@ import java.util.HashMap;
  */
 @Path("/api/{user}/lights")
 @Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class LightResource
 {
     private final Logger LOG = LoggerFactory.getLogger(LightResource.class);
@@ -55,7 +56,7 @@ public class LightResource
 
         // TODO: Start a new LightScan
         LOG.warn("newLights size => " + bridge.getDiscoveredLights().size());
-        if (bridge.getDiscoveredLights().size() < 3)
+        if (bridge.getDiscoveredLights().size() < 5)
         {
             // Add a new dummy light
             bridge.addDiscoveredLight(new DiscoveredLight().setName("NewDummyLight"));

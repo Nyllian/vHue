@@ -23,6 +23,7 @@ import java.nio.charset.Charset;
  */
 @Path("/api/{user}/sensors")
 @Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class SensorResource
 {
     private final Logger LOG = LoggerFactory.getLogger(SensorResource.class);

@@ -1,6 +1,7 @@
 package net.nyllian.vhue.webservice;
 
 import net.nyllian.vhue.model.Bridge;
+import net.nyllian.vhue.model.Light;
 import net.nyllian.vhue.model.Scene;
 import net.nyllian.vhue.util.ResourceManager;
 import net.nyllian.vhue.util.Serializer;
@@ -23,6 +24,7 @@ import java.nio.charset.Charset;
  */
 @Path("/api/{user}/scenes")
 @Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class SceneResource
 {
     private final Logger LOG = LoggerFactory.getLogger(SceneResource.class);
@@ -54,21 +56,22 @@ public class SceneResource
         try
         {
             String postData = IOUtils.toString(request.getInputStream(), Charset.forName("UTF-8"));
-            LOG.warn("YYYYY => " +postData);
+            LOG.info(String.format("Received: %1s", postData));
 
             Scene newScene = Serializer.SerializeJson(postData, Scene.class);
             newScene.setOwner(username);
-            String newId = bridge.addScene(newScene);
+            String sceneId = bridge.addScene(newScene);
             bridge.writeConfig();
 
-            return Response.ok(String.format("[ {\"success\" : {\"id\" : \"%1s\"} ]", newId)).build();
+            String retval = String.format("[ {\"success\" : {\"id\" : \"%1s\"}} ]", sceneId);
+            LOG.info(String.format("Responding: %1s", retval));
+            return Response.ok(retval).build();
         }
         catch (IOException iEx)
         {
             LOG.error("Unable to read POST data!", iEx);
+            return Response.serverError().entity(iEx).build();
         }
-
-        return Response.ok(bridge.getScenes()).build();
     }
 
     @GET
@@ -79,6 +82,49 @@ public class SceneResource
         return Response.ok(bridge.getScenes().get(id)).build();
     }
 
+    @POST
+    @Path("/{id}")
+    public Response unknownSceneFeature(@Context HttpServletRequest request, @PathParam("id") String id)
+    {
+        LOG.debug(String.format("%1s (%2s)", request.getRequestURI(), request.getMethod()));
+        LOG.warn("unknownSceneFeature - Unknown feature - still needs implementation");
+        return Response.ok(bridge.getScenes().get(id)).build();
+    }
+
+    @PUT
+    @Path("/{id}")
+    public Response editScene(@Context HttpServletRequest request, @PathParam("id") String id)
+    {
+        LOG.debug(String.format("%1s (%2s)", request.getRequestURI(), request.getMethod()));
+
+        try
+        {
+            String postData = IOUtils.toString(request.getInputStream(), Charset.forName("UTF-8"));
+            LOG.info(String.format("Received: %1s", postData));
+
+            Scene currentScene = bridge.getScene(id);
+            if (postData.contains("lights"))
+            {
+                currentScene.getLights().clear();
+            }
+            Scene updatedScene = Serializer.UpdateObject(currentScene, postData);
+
+            // Update the lights
+            for (String l : updatedScene.getLightIds())
+            {
+                updatedScene.getLights().put(l, bridge.getLight(l));
+            }
+            bridge.getScenes().put(id, updatedScene);
+
+            return Response.ok(bridge.getScenes().get(id)).build();
+        }
+        catch (IOException iEx)
+        {
+            LOG.error("Unable to read POST data from groups!", iEx);
+            return Response.serverError().entity(iEx).build();
+        }
+    }
+
     @DELETE
     @Path("/{id}")
     public Response deleteScene(@Context HttpServletRequest request, @PathParam("id") String id)
@@ -86,6 +132,28 @@ public class SceneResource
         LOG.debug(String.format("%1s (%2s)", request.getRequestURI(), request.getMethod()));
         bridge.deleteScene(id);
         bridge.writeConfig();
-        return Response.ok("[{ \"success\" : { \"/scenes\" : \"Scene removed\"}}]").build();
+
+        String retval = String.format("[{ \"success\" : \"/scenes/%1s deleted.\"}]", id);
+        return Response.ok(retval).build();
+    }
+
+    @PUT
+    @Path("/{id}/lightstates/{lid}")
+    public Response editSceneLights(@Context HttpServletRequest request, @PathParam("id") String id, @PathParam("lid") String lid)
+    {
+        LOG.debug(String.format("%1s (%2s)", request.getRequestURI(), request.getMethod()));
+
+        try
+        {
+            String postData = IOUtils.toString(request.getInputStream(), Charset.forName("UTF-8"));
+            LOG.info(String.format("Received: %1s", postData));
+
+            return Response.ok(bridge.getScenes().get(id)).build();
+        }
+        catch (IOException iEx)
+        {
+            LOG.error("Unable to read POST data from groups!", iEx);
+            return Response.serverError().entity(iEx).build();
+        }
     }
 }

@@ -13,6 +13,7 @@ import java.util.Map;
 
 /**
  * Created by Nyllian on 20/11/2017.
+ *
  */
 public class GroupsTest
 {

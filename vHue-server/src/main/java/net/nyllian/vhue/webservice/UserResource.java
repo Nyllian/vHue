@@ -21,6 +21,7 @@ import java.util.*;
  */
 @Path("/api/{user}")
 @Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class UserResource
 {
     private final Logger LOG = LoggerFactory.getLogger(UserResource.class);
@@ -79,6 +80,65 @@ public class UserResource
         return Response.ok().build();
     }
 
+    @GET
+    @Path("/config")
+    @SuppressWarnings("unchecked")
+    public Response getUserConfig(@Context HttpServletRequest request)
+    {
+        LOG.debug(String.format("%1s (%2s)", request.getRequestURI(), request.getMethod()));
+
+        try
+        {
+            if (username.equals("nouser"))
+            {
+                return getUsername(request);
+            }
+            else
+            {
+                // TODO: Check authentication
+                return Response.ok(bridge.getBridgeConfig()).build();
+            }
+        }
+        catch (Exception ex) // (JsonProcessingException jEx)
+        {
+            LOG.error("Unable to serialize the object", ex);
+            return Response.status(400).entity(ex).build();
+        }
+    }
+
+    @PUT
+    @Path("/config")
+    @SuppressWarnings("unchecked")
+    public Response editConfig(@Context HttpServletRequest request)
+    {
+        LOG.debug(String.format("%1s (%2s)", request.getRequestURI(), request.getMethod()));
+
+        try
+        {
+            String postData = IOUtils.toString(request.getInputStream(), Charset.forName("UTF-8"));
+            // Update the current bridge config
+            BridgeConfig currentConfig = bridge.getBridgeConfig();
+            BridgeConfig newConfig = Serializer.UpdateObject(currentConfig, postData);
+            bridge.setBridgeConfig(newConfig);
+            bridge.writeConfig();
+
+            // Construct the response message
+            Map<String, String> dataMap = Serializer.SerializeJson(postData, Map.class);
+            StringBuilder retval = new StringBuilder();
+            for (String key : dataMap.keySet())
+            {
+                retval.append(String.format("\"/config/%1s\" : \"%2s\"", key.toLowerCase(), dataMap.get(key)));
+            }
+
+            return Response.ok(String.format("[{\"success\" : { %1s }}]", retval.toString())).build();
+        }
+        catch (IOException iEx)
+        {
+            LOG.error("Unable to read POST data!", iEx);
+            return Response.serverError().entity(iEx).build();
+        }
+    }
+
     @POST
     @Path("/config")
     public Response newConfig(@Context HttpServletRequest request)
@@ -98,33 +158,6 @@ public class UserResource
         return Response.ok().build();
     }
 
-    @GET
-    @Path("/config")
-    @SuppressWarnings("unchecked")
-    public Response getUserConfig(@Context HttpServletRequest request)
-    {
-        LOG.debug(String.format("%1s (%2s)", request.getRequestURI(), request.getMethod()));
-
-        try
-        {
-            if (username.equals("nouser"))
-            {
-                return getUsername(request);
-            }
-            else
-            {
-                // Check authentication
-                String retval = "{\"proxyport\": 0, \"UTC\": \"2017-11-22T21:53:40\", \"factorynew\": false, \"swupdate\": {\"checkforupdate\": true}, \"whitelist\": {\"a7161538be80d40b3de98dece6e91f904dc96170\": {\"last use date\": \"2017-11-22T19:30:34\", \"create date\": \"2017-11-22T19:30:34\", \"name\": \"Hue 2#Samsung SM-G925F\"}, \"243b9a9757506e2e54dfbc10fc0e699f6f3d128a\": {\"last use date\": \"2017-11-11T11:14:35\", \"create date\": \"2017-11-11T11:14:35\", \"name\": \"55PUS6432/12\"}}, \"apiversion\": \"1.19.0\", \"zigbeechannel\": 15, \"linkbutton\": true, \"bridgeid\": \"AF9634FFFE4E5EF0\", \"timezone\": \"Europe/Brussels\", \"ipaddress\": \"192.168.0.129\", \"gateway\": \"192.168.0.129\", \"modelid\": \"BSB002\", \"portalservices\": true, \"name\": \"VM-Hue\", \"swversion\": \"1709131301\", \"proxyaddress\": \"none\", \"netmask\": \"255.255.255.0\", \"mac\": \"af:96:34:4e:5e:f0\", \"datastoreversion\": 59, \"dhcp\": false, \"localtime\": \"2017-11-22T22:53:40\"}";
-
-                return Response.ok(bridge.getBridgeConfig()).build();
-            }
-        }
-        catch (Exception ex) // (JsonProcessingException jEx)
-        {
-            LOG.error("Unable to serialize the object", ex);
-            return Response.status(400).entity(ex).build();
-        }
-    }
     @GET
     @Path("/{default: .*}")
     @Produces(MediaType.APPLICATION_JSON)

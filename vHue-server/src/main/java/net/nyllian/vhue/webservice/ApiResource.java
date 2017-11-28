@@ -21,16 +21,16 @@ import javax.ws.rs.core.Response;
 @Path("/api")
 @Singleton
 @Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class ApiResource
 {
     private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
-    private ResourceManager manager;
     private Bridge bridge;
 
     public ApiResource(@Context Application application)
     {
-        manager = (ResourceManager)application.getProperties().get("manager");
+        ResourceManager manager = (ResourceManager)application.getProperties().get("manager");
         bridge = (Bridge) manager.getResource("bridge");
     }
 

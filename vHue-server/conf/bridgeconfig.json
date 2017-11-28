@@ -5,15 +5,15 @@
       "name" : "Dummy Light",
       "state" : {
         "alert" : "select",
-        "bri" : 254,
+        "bri" : 66,
         "colormode" : "ct",
-        "ct" : 156,
+        "ct" : 447,
         "effect" : "none",
         "hue" : 0,
-        "on" : true,
+        "on" : false,
         "reachable" : true,
         "sat" : 0,
-        "xy" : [ 0.616569, 0.260722 ]
+        "xy" : [ 0.171597, 0.675751 ]
       },
       "swversion" : "66009461",
       "type" : "Dummy color Light",
@@ -25,19 +25,19 @@
       "name" : "Dummy Light",
       "state" : {
         "alert" : "select",
-        "bri" : 103,
-        "colormode" : "ct",
-        "ct" : 153,
+        "bri" : 18,
+        "colormode" : "xy",
+        "ct" : 461,
         "effect" : "none",
         "hue" : 0,
-        "on" : true,
+        "on" : false,
         "reachable" : true,
         "sat" : 0,
-        "xy" : [ 0.681578, 0.29119 ]
+        "xy" : [ 0.310669, 0.323961 ]
       },
       "swversion" : "66009461",
       "type" : "Dummy color Light",
-      "uniqueid" : "d84f9d0455",
+      "uniqueid" : "9e00e5282c",
       "manufacturername" : "Nyllian"
     }
   },
@@ -50,17 +50,65 @@
         "ct" : 461,
         "effect" : "none",
         "hue" : 0,
-        "on" : true,
+        "on" : false,
+        "sat" : 0,
+        "xy" : [ 0.310669, 0.323961 ]
+      },
+      "class" : "Hallway",
+      "lights" : [ ],
+      "name" : "Hal",
+      "state" : {
+        "all_on" : false,
+        "any_on" : false,
+        "lastupdated" : "2017-11-28T16:14:59",
+        "on" : false,
+        "brightness" : 0
+      },
+      "type" : "Room"
+    },
+    "2" : {
+      "action" : {
+        "alert" : "select",
+        "bri" : 20,
+        "colormode" : "ct",
+        "ct" : 461,
+        "effect" : "none",
+        "hue" : 0,
+        "on" : false,
         "sat" : 0,
         "xy" : [ 0.310669, 0.323961 ]
       },
       "class" : "Living room",
-      "lights" : [ "5", "3", "2" ],
+      "lights" : [ "2" ],
       "name" : "Woonkamer",
       "state" : {
         "all_on" : false,
         "any_on" : false,
-        "lastupdated" : "2017-11-26T18:56:51",
+        "lastupdated" : "2017-11-28T16:21:54",
+        "on" : false,
+        "brightness" : 0
+      },
+      "type" : "Room"
+    },
+    "3" : {
+      "action" : {
+        "alert" : "select",
+        "bri" : 20,
+        "colormode" : "ct",
+        "ct" : 461,
+        "effect" : "none",
+        "hue" : 0,
+        "on" : false,
+        "sat" : 0,
+        "xy" : [ 0.310669, 0.323961 ]
+      },
+      "class" : "Bedroom",
+      "lights" : [ "3" ],
+      "name" : "Slaapkamer",
+      "state" : {
+        "all_on" : false,
+        "any_on" : false,
+        "lastupdated" : "2017-11-28T16:22:08",
         "on" : false,
         "brightness" : 0
       },
@@ -71,18 +119,18 @@
   "rules" : { },
   "sensors" : { },
   "config" : {
-    "ipaddress" : "192.168.0.14",
-    "gateway" : "192.168.0.14",
+    "ipaddress" : "192.168.254.94",
+    "gateway" : "192.168.254.94",
     "netmask" : "255.255.255.0",
     "proxyaddress" : "none",
     "proxyport" : 0,
     "dhcp" : true,
     "linkbutton" : true,
     "portalservices" : true,
-    "zigbeechannel" : 1,
-    "utc" : "2017-11-26T16:31:09",
+    "zigbeechannel" : 15,
+    "utc" : "2017-11-28T16:29:56",
     "localtime" : "2017-11-26T16:31:09",
-    "timezone" : "Brussels/Europe",
+    "timezone" : "Europe/Brussels",
     "mac" : "F0:1F:AF:43:BC:AE",
     "name" : "vHue",
     "bridgeid" : "1234657890123456",
@@ -92,25 +140,55 @@
     "swversion" : "1709131301",
     "apiversion" : "1.19.0",
     "whitelist" : {
-      "e340f21123c1493580ff9bb8e91a79a1" : {
-        "last use date" : "2017-11-26T18:21:18",
-        "create date" : "2017-11-26T18:21:18",
-        "name" : "192.168.0.248"
+      "a910e180fd58423281c63f96f823c6d3" : {
+        "last use date" : "2017-11-27T10:56:45",
+        "create date" : "2017-11-27T10:56:45",
+        "name" : "192.168.254.92"
       },
-      "41153ef933344a38ae497026903d4e25" : {
-        "last use date" : "2017-11-26T18:24:11",
-        "create date" : "2017-11-26T18:24:11",
-        "name" : "192.168.0.101"
+      "51c0cc89f03b43f99f09c8a6d00658da" : {
+        "last use date" : "2017-11-27T12:04:59",
+        "create date" : "2017-11-27T12:04:59",
+        "name" : "192.168.254.92"
       },
-      "078845c0d8914b779c3e6be5950868bd" : {
-        "last use date" : "2017-11-26T18:32:30",
-        "create date" : "2017-11-26T18:32:30",
-        "name" : "192.168.0.248"
+      "fda5c3f0bbe2495f8b979098760f9fb8" : {
+        "last use date" : "2017-11-27T12:07:43",
+        "create date" : "2017-11-27T12:07:43",
+        "name" : "192.168.254.92"
       },
-      "35da553442584ab1aba21509ed37fe3b" : {
-        "last use date" : "2017-11-26T18:34:43",
-        "create date" : "2017-11-26T18:34:43",
-        "name" : "192.168.0.248"
+      "c24d918ab72e4e249f60bcd832c060cf" : {
+        "last use date" : "2017-11-27T12:09:20",
+        "create date" : "2017-11-27T12:09:20",
+        "name" : "192.168.254.92"
+      },
+      "fe20f2c8ee5d4f2ab8078077f6f99ab2" : {
+        "last use date" : "2017-11-27T12:10:03",
+        "create date" : "2017-11-27T12:10:03",
+        "name" : "192.168.254.92"
+      },
+      "8eda36d0bca54b4a8294594500c8ff88" : {
+        "last use date" : "2017-11-27T12:36:31",
+        "create date" : "2017-11-27T12:36:31",
+        "name" : "192.168.254.92"
+      },
+      "f4d79cc2c5e74b7d91ca1dad7677ff4d" : {
+        "last use date" : "2017-11-27T12:51:04",
+        "create date" : "2017-11-27T12:51:04",
+        "name" : "192.168.254.92"
+      },
+      "b615801a4b0048d88777fe33910f08e4" : {
+        "last use date" : "2017-11-27T13:40:22",
+        "create date" : "2017-11-27T13:40:22",
+        "name" : "192.168.254.92"
+      },
+      "49db048bf20e44c0ba4a3f32981b9baa" : {
+        "last use date" : "2017-11-28T15:49:24",
+        "create date" : "2017-11-28T15:49:24",
+        "name" : "192.168.254.150"
+      },
+      "fd102e97e92644e28cfc16072e4d504e" : {
+        "last use date" : "2017-11-28T15:53:54",
+        "create date" : "2017-11-28T15:53:54",
+        "name" : "192.168.254.150"
       }
     },
     "swupdate" : {
@@ -121,14 +199,14 @@
     "1" : {
       "picture" : "",
       "locked" : false,
-      "name" : "Helder",
-      "owner" : "35da553442584ab1aba21509ed37fe3b",
+      "name" : "Arctische dageraad",
+      "owner" : "fd102e97e92644e28cfc16072e4d504e",
       "version" : 2,
-      "lastupdated" : "2017-11-26T18:56:33",
+      "lastupdated" : "2017-11-28T16:21:58",
       "recycle" : false,
       "appdata" : {
         "version" : 1,
-        "data" : "aoDDO_r01_d05"
+        "data" : "wN0Au_r02_d17"
       },
       "lightstates" : { },
       "lights" : [ "2" ]
@@ -136,14 +214,14 @@
     "2" : {
       "picture" : "",
       "locked" : false,
-      "name" : "Gedimd",
-      "owner" : "35da553442584ab1aba21509ed37fe3b",
+      "name" : "Tropische schemering",
+      "owner" : "fd102e97e92644e28cfc16072e4d504e",
       "version" : 2,
-      "lastupdated" : "2017-11-26T18:56:33",
+      "lastupdated" : "2017-11-28T16:21:58",
       "recycle" : false,
       "appdata" : {
         "version" : 1,
-        "data" : "ZTGDt_r01_d06"
+        "data" : "VdJky_r02_d16"
       },
       "lightstates" : { },
       "lights" : [ "2" ]
@@ -151,14 +229,14 @@
     "3" : {
       "picture" : "",
       "locked" : false,
-      "name" : "Energie",
-      "owner" : "35da553442584ab1aba21509ed37fe3b",
+      "name" : "Savanne zonsondergang",
+      "owner" : "fd102e97e92644e28cfc16072e4d504e",
       "version" : 2,
-      "lastupdated" : "2017-11-26T18:56:33",
+      "lastupdated" : "2017-11-28T16:21:58",
       "recycle" : false,
       "appdata" : {
         "version" : 1,
-        "data" : "5jSLx_r01_d04"
+        "data" : "Ra2Yf_r02_d15"
       },
       "lightstates" : { },
       "lights" : [ "2" ]
@@ -166,14 +244,14 @@
     "4" : {
       "picture" : "",
       "locked" : false,
-      "name" : "Lezen",
-      "owner" : "35da553442584ab1aba21509ed37fe3b",
+      "name" : "Lentebloesem",
+      "owner" : "fd102e97e92644e28cfc16072e4d504e",
       "version" : 2,
-      "lastupdated" : "2017-11-26T18:56:33",
+      "lastupdated" : "2017-11-28T16:21:58",
       "recycle" : false,
       "appdata" : {
         "version" : 1,
-        "data" : "5rvnf_r01_d02"
+        "data" : "yJ7se_r02_d18"
       },
       "lightstates" : { },
       "lights" : [ "2" ]
@@ -182,13 +260,13 @@
       "picture" : "",
       "locked" : false,
       "name" : "Ontspannen",
-      "owner" : "35da553442584ab1aba21509ed37fe3b",
+      "owner" : "fd102e97e92644e28cfc16072e4d504e",
       "version" : 2,
-      "lastupdated" : "2017-11-26T18:56:33",
+      "lastupdated" : "2017-11-28T16:21:59",
       "recycle" : false,
       "appdata" : {
         "version" : 1,
-        "data" : "UrXNL_r01_d01"
+        "data" : "Ttbhz_r02_d01"
       },
       "lightstates" : { },
       "lights" : [ "2" ]
@@ -196,14 +274,14 @@
     "6" : {
       "picture" : "",
       "locked" : false,
-      "name" : "Savanne zonsondergang",
-      "owner" : "35da553442584ab1aba21509ed37fe3b",
+      "name" : "Lezen",
+      "owner" : "fd102e97e92644e28cfc16072e4d504e",
       "version" : 2,
-      "lastupdated" : "2017-11-26T18:56:33",
+      "lastupdated" : "2017-11-28T16:21:59",
       "recycle" : false,
       "appdata" : {
         "version" : 1,
-        "data" : "Oczor_r01_d15"
+        "data" : "VhJ1D_r02_d02"
       },
       "lightstates" : { },
       "lights" : [ "2" ]
@@ -211,14 +289,14 @@
     "7" : {
       "picture" : "",
       "locked" : false,
-      "name" : "Nachtlampje",
-      "owner" : "35da553442584ab1aba21509ed37fe3b",
+      "name" : "Helder",
+      "owner" : "fd102e97e92644e28cfc16072e4d504e",
       "version" : 2,
-      "lastupdated" : "2017-11-26T18:56:33",
+      "lastupdated" : "2017-11-28T16:21:59",
       "recycle" : false,
       "appdata" : {
         "version" : 1,
-        "data" : "iqGIn_r01_d07"
+        "data" : "hiV92_r02_d05"
       },
       "lightstates" : { },
       "lights" : [ "2" ]
@@ -226,14 +304,14 @@
     "8" : {
       "picture" : "",
       "locked" : false,
-      "name" : "Concentreren",
-      "owner" : "35da553442584ab1aba21509ed37fe3b",
+      "name" : "Gedimd",
+      "owner" : "fd102e97e92644e28cfc16072e4d504e",
       "version" : 2,
-      "lastupdated" : "2017-11-26T18:56:33",
+      "lastupdated" : "2017-11-28T16:21:59",
       "recycle" : false,
       "appdata" : {
         "version" : 1,
-        "data" : "ofsu8_r01_d03"
+        "data" : "ywQEb_r02_d06"
       },
       "lightstates" : { },
       "lights" : [ "2" ]
@@ -241,14 +319,14 @@
     "9" : {
       "picture" : "",
       "locked" : false,
-      "name" : "Arctische dageraad",
-      "owner" : "35da553442584ab1aba21509ed37fe3b",
+      "name" : "Energie",
+      "owner" : "fd102e97e92644e28cfc16072e4d504e",
       "version" : 2,
-      "lastupdated" : "2017-11-26T18:56:33",
+      "lastupdated" : "2017-11-28T16:21:59",
       "recycle" : false,
       "appdata" : {
         "version" : 1,
-        "data" : "2M7fb_r01_d17"
+        "data" : "vqCnU_r02_d04"
       },
       "lightstates" : { },
       "lights" : [ "2" ]
@@ -256,14 +334,14 @@
     "10" : {
       "picture" : "",
       "locked" : false,
-      "name" : "Tropische schemering",
-      "owner" : "35da553442584ab1aba21509ed37fe3b",
+      "name" : "Nachtlampje",
+      "owner" : "fd102e97e92644e28cfc16072e4d504e",
       "version" : 2,
-      "lastupdated" : "2017-11-26T18:56:33",
+      "lastupdated" : "2017-11-28T16:21:59",
       "recycle" : false,
       "appdata" : {
         "version" : 1,
-        "data" : "vEvMK_r01_d16"
+        "data" : "4DYBN_r02_d07"
       },
       "lightstates" : { },
       "lights" : [ "2" ]
@@ -271,17 +349,182 @@
     "11" : {
       "picture" : "",
       "locked" : false,
-      "name" : "Lentebloesem",
-      "owner" : "35da553442584ab1aba21509ed37fe3b",
+      "name" : "Concentreren",
+      "owner" : "fd102e97e92644e28cfc16072e4d504e",
       "version" : 2,
-      "lastupdated" : "2017-11-26T18:56:33",
+      "lastupdated" : "2017-11-28T16:21:59",
       "recycle" : false,
       "appdata" : {
         "version" : 1,
-        "data" : "Wa6H1_r01_d18"
+        "data" : "ALM3x_r02_d03"
       },
       "lightstates" : { },
       "lights" : [ "2" ]
+    },
+    "12" : {
+      "picture" : "",
+      "locked" : false,
+      "name" : "Savanne zonsondergang",
+      "owner" : "fd102e97e92644e28cfc16072e4d504e",
+      "version" : 2,
+      "lastupdated" : "2017-11-28T16:22:13",
+      "recycle" : false,
+      "appdata" : {
+        "version" : 1,
+        "data" : "ZmwXX_r03_d15"
+      },
+      "lightstates" : { },
+      "lights" : [ "3" ]
+    },
+    "13" : {
+      "picture" : "",
+      "locked" : false,
+      "name" : "Tropische schemering",
+      "owner" : "fd102e97e92644e28cfc16072e4d504e",
+      "version" : 2,
+      "lastupdated" : "2017-11-28T16:22:13",
+      "recycle" : false,
+      "appdata" : {
+        "version" : 1,
+        "data" : "HfSdM_r03_d16"
+      },
+      "lightstates" : { },
+      "lights" : [ "3" ]
+    },
+    "14" : {
+      "picture" : "",
+      "locked" : false,
+      "name" : "Arctische dageraad",
+      "owner" : "fd102e97e92644e28cfc16072e4d504e",
+      "version" : 2,
+      "lastupdated" : "2017-11-28T16:22:13",
+      "recycle" : false,
+      "appdata" : {
+        "version" : 1,
+        "data" : "2yc15_r03_d17"
+      },
+      "lightstates" : { },
+      "lights" : [ "3" ]
+    },
+    "15" : {
+      "picture" : "",
+      "locked" : false,
+      "name" : "Lezen",
+      "owner" : "fd102e97e92644e28cfc16072e4d504e",
+      "version" : 2,
+      "lastupdated" : "2017-11-28T16:22:13",
+      "recycle" : false,
+      "appdata" : {
+        "version" : 1,
+        "data" : "MGECU_r03_d02"
+      },
+      "lightstates" : { },
+      "lights" : [ "3" ]
+    },
+    "16" : {
+      "picture" : "",
+      "locked" : false,
+      "name" : "Ontspannen",
+      "owner" : "fd102e97e92644e28cfc16072e4d504e",
+      "version" : 2,
+      "lastupdated" : "2017-11-28T16:22:13",
+      "recycle" : false,
+      "appdata" : {
+        "version" : 1,
+        "data" : "UQY5a_r03_d01"
+      },
+      "lightstates" : { },
+      "lights" : [ "3" ]
+    },
+    "17" : {
+      "picture" : "",
+      "locked" : false,
+      "name" : "Lentebloesem",
+      "owner" : "fd102e97e92644e28cfc16072e4d504e",
+      "version" : 2,
+      "lastupdated" : "2017-11-28T16:22:13",
+      "recycle" : false,
+      "appdata" : {
+        "version" : 1,
+        "data" : "kPxZz_r03_d18"
+      },
+      "lightstates" : { },
+      "lights" : [ "3" ]
+    },
+    "18" : {
+      "picture" : "",
+      "locked" : false,
+      "name" : "Energie",
+      "owner" : "fd102e97e92644e28cfc16072e4d504e",
+      "version" : 2,
+      "lastupdated" : "2017-11-28T16:22:13",
+      "recycle" : false,
+      "appdata" : {
+        "version" : 1,
+        "data" : "c1ZsU_r03_d04"
+      },
+      "lightstates" : { },
+      "lights" : [ "3" ]
+    },
+    "19" : {
+      "picture" : "",
+      "locked" : false,
+      "name" : "Helder",
+      "owner" : "fd102e97e92644e28cfc16072e4d504e",
+      "version" : 2,
+      "lastupdated" : "2017-11-28T16:22:13",
+      "recycle" : false,
+      "appdata" : {
+        "version" : 1,
+        "data" : "ZUpW9_r03_d05"
+      },
+      "lightstates" : { },
+      "lights" : [ "3" ]
+    },
+    "20" : {
+      "picture" : "",
+      "locked" : false,
+      "name" : "Concentreren",
+      "owner" : "fd102e97e92644e28cfc16072e4d504e",
+      "version" : 2,
+      "lastupdated" : "2017-11-28T16:22:13",
+      "recycle" : false,
+      "appdata" : {
+        "version" : 1,
+        "data" : "aTItp_r03_d03"
+      },
+      "lightstates" : { },
+      "lights" : [ "3" ]
+    },
+    "21" : {
+      "picture" : "",
+      "locked" : false,
+      "name" : "Gedimd",
+      "owner" : "fd102e97e92644e28cfc16072e4d504e",
+      "version" : 2,
+      "lastupdated" : "2017-11-28T16:22:13",
+      "recycle" : false,
+      "appdata" : {
+        "version" : 1,
+        "data" : "hsVOa_r03_d06"
+      },
+      "lightstates" : { },
+      "lights" : [ "3" ]
+    },
+    "22" : {
+      "picture" : "",
+      "locked" : false,
+      "name" : "Nachtlampje",
+      "owner" : "fd102e97e92644e28cfc16072e4d504e",
+      "version" : 2,
+      "lastupdated" : "2017-11-28T16:22:13",
+      "recycle" : false,
+      "appdata" : {
+        "version" : 1,
+        "data" : "zGwpL_r03_d07"
+      },
+      "lightstates" : { },
+      "lights" : [ "3" ]
     }
   },
   "resourceLinks" : { }

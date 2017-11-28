@@ -188,12 +188,6 @@ public class Scene implements IJSon
         return this;
     }
 
-    public Scene addLight(Light light)
-    {
-        lightIds = lights.keySet().toArray(new String[lights.keySet().size()]);
-        return this;
-    }
-
     public Map<String, Light> getLights()
     {
         return lights;
