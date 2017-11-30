@@ -33,7 +33,7 @@ public class Serializer
                 .writerWithDefaultPrettyPrinter()
                 .writeValueAsString(jsonObject);
 
-        LOG.trace(String.format("Serializing object: \n%1s", serializedString));
+        LOG.trace(String.format("Serializing object: \n%s", serializedString));
         return serializedString;
     }
 
@@ -43,7 +43,7 @@ public class Serializer
         serializer.setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH24:mm:ss"));
         serializer.enable(DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT);
 
-        LOG.trace(String.format("Serializing string to %1s", jsonClass.getTypeName()));
+        LOG.trace(String.format("Serializing string to %s", jsonClass.getTypeName()));
         return serializer.readValue(jsonString, jsonClass);
     }
 

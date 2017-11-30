@@ -40,11 +40,11 @@
     <logger name="net.nyllian.vhue.util">
         <level value="WARN"/>
     </logger>
+    <logger name="net.nyllian.vhue.server">
+        <level value="WARN"/>
+    </logger>
     <logger name="net.nyllian.vhue.server.HueServer">
         <level value="DEBUG"/>
-    </logger>
-    <logger name="net.nyllian.vhue.server.SSDPServer">
-        <level value="WARN"/>
     </logger>
     <root>
         <level value="TRACE"/>

@@ -42,13 +42,14 @@ public class UserResource
     @SuppressWarnings("unchecked")
     public Response getUsername(@Context HttpServletRequest request)
     {
-        LOG.debug(String.format("%1s (%2s)", request.getRequestURI(), request.getMethod()));
+        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
 
         try
         {
             if (username.equals("nouser"))
             {
-                return Response.ok(Serializer.SerializeJson(bridge)).build();
+                return Response.ok().build();
+                // return Response.ok(Serializer.SerializeJson(bridge)).build();
             }
             else
             {
@@ -65,7 +66,7 @@ public class UserResource
     @POST
     public Response newForm(@Context HttpServletRequest request)
     {
-        LOG.debug(String.format("%1s (%2s)", request.getRequestURI(), request.getMethod()));
+        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
 
         try
         {
@@ -85,19 +86,50 @@ public class UserResource
     @SuppressWarnings("unchecked")
     public Response getUserConfig(@Context HttpServletRequest request)
     {
-        LOG.debug(String.format("%1s (%2s)", request.getRequestURI(), request.getMethod()));
+        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
 
         try
         {
+            if (bridge.getBridgeConfig().getWhiteList().containsKey(username))
+            {
+                return Response.ok(Serializer.SerializeJson(bridge.getBridgeConfig())).build();
+            }
+            else
+            {
+
+                return Response.ok(bridge.getBridgeConfig()).build();
+                /*
+                -- This seemed to work
+                if (username.equals("nouser"))
+                {
+
+                    String newUserToken = Randomizer.generateUserToken();
+                    String retval = String.format("[{\"success\": {\"username\": \"%s\"}}]", newUserToken);
+                    LOG.info(String.format("Responding: %s", retval));
+                    return Response.ok(retval).build();
+                }
+                else
+                {
+                    LOG.warn(String.format("Unauthorized user requesting access! (%s)", username));
+                    return getUnauthorizedUser(request.getRequestURI());
+                }
+                */
+            }
+
+            /*
             if (username.equals("nouser"))
             {
-                return getUsername(request);
+                String newUserToken = Randomizer.generateUserToken();
+                String retval = String.format("[{\"success\": {\"username\": \"%s\"}}]", newUserToken);
+                LOG.info(String.format("Responding: %s", retval));
+                return Response.ok(retval).build();
             }
             else
             {
                 // TODO: Check authentication
                 return Response.ok(bridge.getBridgeConfig()).build();
             }
+            */
         }
         catch (Exception ex) // (JsonProcessingException jEx)
         {
@@ -111,7 +143,7 @@ public class UserResource
     @SuppressWarnings("unchecked")
     public Response editConfig(@Context HttpServletRequest request)
     {
-        LOG.debug(String.format("%1s (%2s)", request.getRequestURI(), request.getMethod()));
+        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
 
         try
         {
@@ -127,10 +159,10 @@ public class UserResource
             StringBuilder retval = new StringBuilder();
             for (String key : dataMap.keySet())
             {
-                retval.append(String.format("\"/config/%1s\" : \"%2s\"", key.toLowerCase(), dataMap.get(key)));
+                retval.append(String.format("\"/config/%s\" : \"%s\"", key.toLowerCase(), dataMap.get(key)));
             }
 
-            return Response.ok(String.format("[{\"success\" : { %1s }}]", retval.toString())).build();
+            return Response.ok(String.format("[{\"success\" : { %s }}]", retval.toString())).build();
         }
         catch (IOException iEx)
         {
@@ -143,7 +175,7 @@ public class UserResource
     @Path("/config")
     public Response newConfig(@Context HttpServletRequest request)
     {
-        LOG.debug(String.format("%1s (%2s)", request.getRequestURI(), request.getMethod()));
+        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
 
         try
         {
@@ -165,7 +197,7 @@ public class UserResource
     {
         if (!request.getRequestURI().endsWith("favicon.ico"))
         {
-            LOG.warn(String.format("Unmapped request received [%1s]: %2s (%3s)", request.getRemoteHost(), request.getRequestURL(), request.getMethod()));
+            LOG.warn(String.format("Unmapped request received [%s]: %s (%s)", request.getRemoteHost(), request.getRequestURL(), request.getMethod()));
 
             return getUnauthorizedUser(request.getRequestURI());
         }

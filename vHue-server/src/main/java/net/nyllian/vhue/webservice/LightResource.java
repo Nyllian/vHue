@@ -45,14 +45,14 @@ public class LightResource
     @GET
     public Response getAllLights(@Context HttpServletRequest request)
     {
-        LOG.debug(String.format("%1s (%2s)", request.getRequestURI(), request.getMethod()));
+        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
         return Response.ok(bridge.getLights()).build();
     }
 
     @POST
     public Response searchNewLights(@Context HttpServletRequest request)
     {
-        LOG.debug(String.format("%1s (%2s)", request.getRequestURI(), request.getMethod()));
+        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
 
         // TODO: Start a new LightScan
         LOG.warn("newLights size => " + bridge.getDiscoveredLights().size());
@@ -69,7 +69,7 @@ public class LightResource
     @DELETE
     public Response deleteAllLights(@Context HttpServletRequest request)
     {
-        LOG.debug(String.format("%1s (%2s)", request.getRequestURI(), request.getMethod()));
+        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
         // TODO: Delete all lights?
         return Response.ok().build();
     }
@@ -78,7 +78,7 @@ public class LightResource
     @Path("/{id}")
     public Response getLight(@Context HttpServletRequest request, @PathParam("id") String id)
     {
-        LOG.debug(String.format("%1s (%2s)", request.getRequestURI(), request.getMethod()));
+        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
 
         try
         {
@@ -100,7 +100,7 @@ public class LightResource
     @Path("/{id}")
     public Response editLight(@Context HttpServletRequest request, @PathParam("id") String id)
     {
-        LOG.debug(String.format("%1s (%2s)", request.getRequestURI(), request.getMethod()));
+        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
 
         try
         {
@@ -111,7 +111,7 @@ public class LightResource
             Light updatedLight = Serializer.UpdateObject(currentLight, postData);
             bridge.getLights().put(id, updatedLight);
 
-            return Response.ok(String.format("[{ \"success\" : { \"/lights/%1s\" : \"Device Edited\"}}]", id)).build();
+            return Response.ok(String.format("[{ \"success\" : { \"/lights/%s\" : \"Device Edited\"}}]", id)).build();
         }
         catch (IOException iEx)
         {
@@ -124,7 +124,7 @@ public class LightResource
     @Path("/{id}/state")
     public Response changeLightState(@Context HttpServletRequest request, @PathParam("id") String id)
     {
-        LOG.debug(String.format("%1s (%2s)", request.getRequestURI(), request.getMethod()));
+        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
 
         try
         {
@@ -133,7 +133,7 @@ public class LightResource
             LightState newLightState = Serializer.UpdateObject(currentLightState, postData);
             bridge.getLight(id).setLightState(newLightState);
 
-            return Response.ok(String.format("[{ \"success\" : { \"/lights/%1s/state\" : \"Device state changed.\" }}]", id)).build();
+            return Response.ok(String.format("[{ \"success\" : { \"/lights/%s/state\" : \"Device state changed.\" }}]", id)).build();
         }
         catch (IOException iEx)
         {
@@ -146,7 +146,7 @@ public class LightResource
     @Path("/{id}")
     public Response deleteLight(@Context HttpServletRequest request, @PathParam("id") String id)
     {
-        LOG.debug(String.format("%1s (%2s)", request.getRequestURI(), request.getMethod()));
+        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
         bridge.deleteLight(id);
         bridge.writeConfig();
         return Response.ok("[{ \"success\" : { \"/lights\" : \"Device removed\"}}]").build();

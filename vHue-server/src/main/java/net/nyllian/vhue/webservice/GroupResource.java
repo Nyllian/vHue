@@ -46,19 +46,19 @@ public class GroupResource
     @GET
     public Response getAllGroups(@Context HttpServletRequest request)
     {
-        LOG.debug(String.format("%1s (%2s)", request.getRequestURI(), request.getMethod()));
+        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
         return Response.ok(bridge.getGroups()).build();
     }
 
     @POST
     public Response newGroup(@Context HttpServletRequest request)
     {
-        LOG.debug(String.format("%1s (%2s)", request.getRequestURI(), request.getMethod()));
+        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
 
         try
         {
             String postData = IOUtils.toString(request.getInputStream(), Charset.forName("UTF-8"));
-            LOG.info(String.format("Received: %1s", postData));
+            LOG.info(String.format("Received: %s", postData));
 
             // The app does not recognize rooms without assigned devices
             String groupId = bridge.addGroup(Serializer.SerializeJson(postData, Group.class));
@@ -71,8 +71,8 @@ public class GroupResource
             }
             bridge.writeConfig();
 
-            String retval = String.format("[ {\"success\" : {\"id\" : \"%1s\"}} ]", groupId);
-            LOG.info(String.format("Responding: %1s", retval));
+            String retval = String.format("[ {\"success\" : {\"id\" : \"%s\"}} ]", groupId);
+            LOG.info(String.format("Responding: %s", retval));
             return Response.ok(retval).build();
         }
         catch (IOException iEx)
@@ -85,7 +85,7 @@ public class GroupResource
     @DELETE
     public Response deleteAllGroups(@Context HttpServletRequest request)
     {
-        LOG.debug(String.format("%1s (%2s)", request.getRequestURI(), request.getMethod()));
+        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
         // TODO: Delete all Groups?
         return Response.ok().build();
     }
@@ -94,7 +94,7 @@ public class GroupResource
     @Path("/{id}")
     public Response getGroup(@Context HttpServletRequest request, @PathParam("id") String id)
     {
-        LOG.debug(String.format("%1s (%2s)", request.getRequestURI(), request.getMethod()));
+        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
         return Response.ok(bridge.getGroups().get(id)).build();
     }
 
@@ -103,12 +103,12 @@ public class GroupResource
     @SuppressWarnings("unchecked")
     public Response editGroup(@Context HttpServletRequest request, @PathParam("id") String id)
     {
-        LOG.debug(String.format("%1s (%2s)", request.getRequestURI(), request.getMethod()));
+        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
 
         try
         {
             String postData = IOUtils.toString(request.getInputStream(), Charset.forName("UTF-8"));
-            LOG.info(String.format("Received: %1s", postData));
+            LOG.info(String.format("Received: %s", postData));
 
             Group currentGroup = bridge.getGroup(id);
             if (postData.contains("lights"))
@@ -132,7 +132,7 @@ public class GroupResource
             {
                 if (dataMap.get(key) instanceof String)
                 {
-                    sb.append(String.format("{\"/groups/%1s/%2s\":\"%3s\"},", id, key, dataMap.get(key)));
+                    sb.append(String.format("{\"/groups/%s/%s\":\"%s\"},", id, key, dataMap.get(key)));
                 }
                 else if (dataMap.get(key) instanceof ArrayList)
                 {
@@ -144,14 +144,14 @@ public class GroupResource
                     {
                         for (String tmp : tmpArray)
                         {
-                            val += String.format("\"%1s\",", tmp);
+                            val += String.format("\"%s\",", tmp);
                         }
 
-                        sb.append(String.format("{\"/groups/%1s/%2s\": [%3s]},", id, key, val.substring(0, val.length() - 1)));
+                        sb.append(String.format("{\"/groups/%s/%s\": [%s]},", id, key, val.substring(0, val.length() - 1)));
                     }
                     else
                     {
-                        sb.append(String.format("{\"/groups/%1s/%2s\": [%3s]},", id, key, val));
+                        sb.append(String.format("{\"/groups/%s/%s\": [%s]},", id, key, val));
                     }
                 }
                 else
@@ -160,8 +160,8 @@ public class GroupResource
                 }
             }
 
-            String retval = String.format("[{ \"success\" : %1s }]", sb.toString().substring(0, sb.toString().length() - 1));
-            LOG.info(String.format("Responding: %1s", retval));
+            String retval = String.format("[{ \"success\" : %s }]", sb.toString().substring(0, sb.toString().length() - 1));
+            LOG.info(String.format("Responding: %s", retval));
             return Response.ok(retval).build();
         }
         catch (IOException iEx)
@@ -176,12 +176,12 @@ public class GroupResource
     @SuppressWarnings("unchecked")
     public Response changeGroupState(@Context HttpServletRequest request, @PathParam("id") String id)
     {
-        LOG.debug(String.format("%1s (%2s)", request.getRequestURI(), request.getMethod()));
+        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
 
         try
         {
             String postData = IOUtils.toString(request.getInputStream(), Charset.forName("UTF-8"));
-            LOG.info(String.format("Received: %1s", postData));
+            LOG.info(String.format("Received: %s", postData));
 
             if (id.equals("0"))
             {
@@ -221,25 +221,25 @@ public class GroupResource
                 if (dataMap.get(key) instanceof String)
                 {
                     String value = (String)dataMap.get(key);
-                    sb.append(String.format("{\"address\": \"/groups/%1s/action/%2s\", \"value\":\"%3s\"},", id, key, value));
+                    sb.append(String.format("{\"address\": \"/groups/%s/action/%s\", \"value\":\"%s\"},", id, key, value));
                 }
                 else if (dataMap.get(key) instanceof Boolean)
                 {
                     Boolean value = (Boolean)dataMap.get(key);
-                    sb.append(String.format("{\"address\": \"/groups/%1s/action/%2s\", \"value\":%3s},", id, key, value));
+                    sb.append(String.format("{\"address\": \"/groups/%s/action/%s\", \"value\":%s},", id, key, value));
                 }
                 else if (dataMap.get(key) instanceof ArrayList)
                 {
-                    sb.append(String.format("{\"address\": \"/groups/%1s/action/%2s\", \"value\":%3s},", id, key, dataMap.get(key)));
+                    sb.append(String.format("{\"address\": \"/groups/%s/action/%s\", \"value\":%s},", id, key, dataMap.get(key)));
 
                     ArrayList<String> value = (ArrayList)dataMap.get(key);
                     String val = "";
                     for (String tmp : value)
                     {
-                        val += String.format("\"%1s\",", tmp);
+                        val += String.format("\"%s\",", tmp);
                     }
 
-                    sb.append(String.format("{\"address\": \"/groups/%1s/action/%2s\", \"value\":[%3s]},", id, key, val.substring(0, val.length() - 1)));
+                    sb.append(String.format("{\"address\": \"/groups/%s/action/%s\", \"value\":[%s]},", id, key, val.substring(0, val.length() - 1)));
                 }
                 else
                 {
@@ -247,8 +247,8 @@ public class GroupResource
                 }
             }
 
-            String retval = String.format("[{ \"success\" : %1s }]", sb.toString().substring(0, sb.toString().length()-1));
-            LOG.info(String.format("Responding: %1s", retval));
+            String retval = String.format("[{ \"success\" : %s }]", sb.toString().substring(0, sb.toString().length()-1));
+            LOG.info(String.format("Responding: %s", retval));
             return Response.ok(retval).build();
         }
         catch (IOException iEx)
@@ -262,13 +262,13 @@ public class GroupResource
     @Path("/{id}")
     public Response deleteGroup(@Context HttpServletRequest request, @PathParam("id") String id)
     {
-        LOG.debug(String.format("%1s (%2s)", request.getRequestURI(), request.getMethod()));
+        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
 
         bridge.deleteGroup(id);
         bridge.writeConfig();
 
-        // return Response.ok(String.format("[{\"success\" : \"/groups/%1s\" deleted. }]", id)).build();
-        return Response.ok(String.format("[{ \"success\" : \"/groups/%1s deleted\" }]", id)).build();
+        // return Response.ok(String.format("[{\"success\" : \"/groups/%s\" deleted. }]", id)).build();
+        return Response.ok(String.format("[{ \"success\" : \"/groups/%s deleted\" }]", id)).build();
     }
 
 }

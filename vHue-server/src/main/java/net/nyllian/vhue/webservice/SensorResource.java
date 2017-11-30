@@ -42,14 +42,14 @@ public class SensorResource
     @GET
     public Response getSensors(@Context HttpServletRequest request)
     {
-        LOG.debug(String.format("%1s (%2s)", request.getRequestURI(), request.getMethod()));
+        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
         return Response.ok(bridge.getSensors()).build();
     }
 
     @POST
     public Response newSensor(@Context HttpServletRequest request)
     {
-        LOG.debug(String.format("%1s (%2s)", request.getRequestURI(), request.getMethod()));
+        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
 
         try
         {
@@ -72,7 +72,7 @@ public class SensorResource
     @Path("/{id}")
     public Response getSensor(@Context HttpServletRequest request, @PathParam("id") String id)
     {
-        LOG.debug(String.format("%1s (%2s)", request.getRequestURI(), request.getMethod()));
+        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
         return Response.ok(bridge.getSensors().get(id)).build();
     }
 

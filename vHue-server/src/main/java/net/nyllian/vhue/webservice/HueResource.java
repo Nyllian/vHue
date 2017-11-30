@@ -52,8 +52,8 @@ public class HueResource
     @DELETE
     public Response cleanBridge(@Context HttpServletRequest request)
     {
-        LOG.debug(String.format("%1s (%2s)", request.getRequestURI(), request.getMethod()));
-        // Clean entire bridge...
+        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
+        // Clean entire bridge?
         return Response.ok().build();
     }
 
@@ -65,7 +65,7 @@ public class HueResource
     {
         if (!request.getRequestURI().endsWith("favicon.ico"))
         {
-            LOG.warn(String.format("Unmapped request received (%1s): %2s", request.getRemoteHost(), request.getRequestURL()));
+            LOG.warn(String.format("Unmapped request received (%s): %s", request.getRemoteHost(), request.getRequestURL()));
         }
 
         return Response.status(404).build();

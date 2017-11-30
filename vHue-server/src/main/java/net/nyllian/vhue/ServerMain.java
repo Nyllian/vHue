@@ -41,7 +41,7 @@ public class ServerMain
 
             Context ctx = tomcatServer.addWebapp("", new File(webappDir).getAbsolutePath());
             File configFile = new File(webappDir + "WEB-INF/web.xml");
-            LOG.trace(String.format("Following config file is used for context: %1s", configFile.getAbsolutePath()));
+            LOG.trace(String.format("Following config file is used for context: %s", configFile.getAbsolutePath()));
             try
             {
                 ctx.setConfigFile(configFile.toURI().toURL());

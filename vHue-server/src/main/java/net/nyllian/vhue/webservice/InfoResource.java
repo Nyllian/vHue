@@ -39,10 +39,13 @@ public class InfoResource
 
         for (String tz : TimeZone.getAvailableIDs())
         {
+            timezones.add(tz);
+            /*
             if (tz.toLowerCase().startsWith("europe"))
             {
                 timezones.add(tz);
             }
+            */
         }
     }
 

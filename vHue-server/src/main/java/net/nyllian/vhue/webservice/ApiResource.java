@@ -3,6 +3,8 @@ package net.nyllian.vhue.webservice;
 import net.nyllian.vhue.model.Bridge;
 import net.nyllian.vhue.util.Randomizer;
 import net.nyllian.vhue.util.ResourceManager;
+import net.nyllian.vhue.util.Serializer;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,6 +15,9 @@ import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.Map;
 
 /**
  * Created by Nyllian on 16/11/2017.
@@ -35,13 +40,31 @@ public class ApiResource
     }
 
     @POST
+    @SuppressWarnings("unchecked")
     public Response newUser(@Context HttpServletRequest request)
     {
-        String newUserToken = Randomizer.generateUserToken();
-        bridge.getBridgeConfig().addToWhitelist(newUserToken, request.getRemoteHost());
-        bridge.writeConfig();
+        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
 
-        return Response.ok(String.format("[{\"success\": {\"username\": \"%1s\"}}]", newUserToken)).build();
+        try
+        {
+            String postData = IOUtils.toString(request.getInputStream(), Charset.forName("UTF-8"));
+            LOG.info(String.format("Received: %s", postData));
+
+            Map<String, Object> dataMap = Serializer.SerializeJson(postData, Map.class);
+
+            String newUserToken = Randomizer.generateUserToken();
+            bridge.getBridgeConfig().addToWhitelist(newUserToken, dataMap.get("devicetype").toString());
+            bridge.writeConfig();
+
+            String retval = String.format("[{\"success\": {\"username\": \"%s\"}}]", newUserToken);
+            LOG.info(String.format("Responding: %s", retval));
+            return Response.ok(retval).build();
+        }
+        catch (IOException ioEx)
+        {
+            LOG.error("Error occurred while creating newUser!", ioEx);
+            return Response.serverError().entity(ioEx).build();
+        }
     }
 
     @GET
@@ -51,7 +74,7 @@ public class ApiResource
     {
         if (!request.getRequestURI().endsWith("favicon.ico"))
         {
-            LOG.warn(String.format("Unmapped request received (%1s): %2s", request.getRemoteHost(), request.getRequestURL()));
+            LOG.warn(String.format("Unmapped request received (%s): %s", request.getRemoteHost(), request.getRequestURL()));
         }
 
         return Response.status(404).build();

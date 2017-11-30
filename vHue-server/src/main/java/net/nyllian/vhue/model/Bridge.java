@@ -58,8 +58,8 @@ public class Bridge implements IJSon
 
         Set<String> keys = new HashSet<>(discoveredLights.keySet());
         keys.addAll(lights.keySet());
-        String id = String.format("%1s", keys.size());
-        discoveredLights.put(String.format("%1s", id), light);
+        String id = String.format("%s", keys.size());
+        discoveredLights.put(String.format("%s", id), light);
 
         Light discoveredLight = new Light();
         discoveredLight.getLightState().setReachable(true);
@@ -81,7 +81,7 @@ public class Bridge implements IJSon
     public String addLight(Light light)
     {
         // exclude '0' index
-        String newId = String.format("%1s", lights.size()+1);
+        String newId = String.format("%s", lights.size()+1);
         lights.put(newId, light);
 
         return newId;
@@ -100,7 +100,7 @@ public class Bridge implements IJSon
 
     public String addGroup(Group group)
     {
-        String newId = String.format("%1s", groups.size()+1);
+        String newId = String.format("%s", groups.size()+1);
         LOG.info("Creating new group with id: " + newId);
         groups.put(newId, group);
 
@@ -119,7 +119,7 @@ public class Bridge implements IJSon
 
     public String addScene(Scene scene)
     {
-        String newId = String.format("%1s", scenes.size()+1);
+        String newId = String.format("%s", scenes.size()+1);
         scenes.put(newId, scene);
 
         return newId;
@@ -132,25 +132,25 @@ public class Bridge implements IJSon
 
     public void addSensor(Sensor sensor)
     {
-        String newId = String.format("%1s", sensors.size()+1);
+        String newId = String.format("%s", sensors.size()+1);
         sensors.put(newId, sensor);
     }
 
     public void addSchedule(Schedule schedule)
     {
-        String newId = String.format("%1s", schedules.size()+1);
+        String newId = String.format("%s", schedules.size()+1);
         schedules.put(newId, schedule);
     }
 
     public void addRule(Rule rule)
     {
-        String newId = String.format("%1s", rules.size()+1);
+        String newId = String.format("%s", rules.size()+1);
         rules.put(newId, rule);
     }
 
     public void addResourceLink(ResourceLink resourceLink)
     {
-        String newId = String.format("%1s", resourceLinks.size()+1);
+        String newId = String.format("%s", resourceLinks.size()+1);
         resourceLinks.put(newId, resourceLink);
     }
 

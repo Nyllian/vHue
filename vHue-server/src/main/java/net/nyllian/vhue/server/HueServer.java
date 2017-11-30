@@ -27,7 +27,6 @@ public class HueServer extends ResourceConfig
     private static final Logger LOG = LoggerFactory.getLogger(HueServer.class);
 
     private Properties properties = new Properties();
-    //private Map<String, Object> resourceMap;
     private ResourceManager<Object> manager;
 
     public HueServer()
@@ -40,7 +39,8 @@ public class HueServer extends ResourceConfig
             InitializeTemplateMap();
             InitializeResources();
             InitializeBridgeConfig();
-            startSsdpServer();
+            // startSsdpServer();
+            startUpnpServer();
         }
         catch (Exception ex)
         {
@@ -64,6 +64,16 @@ public class HueServer extends ResourceConfig
         // resourceMap.put("ssdp", ssdpThread);
     }
 
+    private void startUpnpServer()
+    {
+        LOG.info("Starting Upnp Server...");
+
+        Thread upnpThread = new Thread(new UpnpServer(manager.getResourceMap()));
+        upnpThread.start();
+
+        LOG.info("Upnp server started successfully!");
+    }
+
     /**
      * Initialize the server configuration
      * When no configurations was found, save the configuration
@@ -79,14 +89,14 @@ public class HueServer extends ResourceConfig
 
             if (!configFile.exists())
             {
-                LOG.warn(String.format("Properties file could not be found on location %1s", configFile.getAbsolutePath()));
+                LOG.warn(String.format("Properties file could not be found on location %s", configFile.getAbsolutePath()));
                 if (configFile.createNewFile())
                 {
-                    LOG.info(String.format("New properties file created [%1s]", configFile.getAbsolutePath()));
+                    LOG.info(String.format("New properties file created [%s]", configFile.getAbsolutePath()));
                 }
                 else
                 {
-                    throw new IOException(String.format("New properties file could not be created [%1s]", configFile.getAbsolutePath()));
+                    throw new IOException(String.format("New properties file could not be created [%s]", configFile.getAbsolutePath()));
                 }
             }
 
@@ -96,9 +106,11 @@ public class HueServer extends ResourceConfig
             fis.close();
 
             // Always set these properties
-            String urlBase = String.format("http://%1s:%2d", Inet4Address.getLocalHost().getHostAddress(), 80);
+            String urlBase = String.format("http://%s:%d", Inet4Address.getLocalHost().getHostAddress(), 80);
+            // String urlBase = String.format("http://%s:%d", "192.168.254.64", 80);
 
-            LOG.trace(String.format("Setting property of URLBase to %1s", urlBase));
+
+            LOG.trace(String.format("Setting property of URLBase to %s", urlBase));
             properties.setProperty("URLBase", urlBase);
 
             // Always get these properties
@@ -110,7 +122,7 @@ public class HueServer extends ResourceConfig
                 properties.setProperty("serialNumber", serialNumber);
                 writeConfig = true;
             }
-            LOG.trace(String.format("Property serialNumber = %1s", serialNumber));
+            LOG.trace(String.format("Property serialNumber = %s", serialNumber));
             LOG.trace("Getting property of UDN...");
             String udn = properties.getProperty("UDN");
             if (udn == null)
@@ -119,7 +131,7 @@ public class HueServer extends ResourceConfig
                 properties.setProperty("UDN", udn);
                 writeConfig = true;
             }
-            LOG.trace(String.format("Property UDN = %1s", udn));
+            LOG.trace(String.format("Property UDN = %s", udn));
             LOG.trace("Getting property of bridgeId...");
             String bridgeId = properties.getProperty("bridgeId");
             LOG.trace("property of bridgeId ==> " + bridgeId);
@@ -129,7 +141,7 @@ public class HueServer extends ResourceConfig
                 properties.setProperty("bridgeId", bridgeId);
                 writeConfig = true;
             }
-            LOG.trace(String.format("Property bridgeId = %1s", bridgeId));
+            LOG.trace(String.format("Property bridgeId = %s", bridgeId));
 
             // Save the configurations
             if (properties != null && writeConfig)
@@ -153,14 +165,14 @@ public class HueServer extends ResourceConfig
         {
             if (!configFile.exists())
             {
-                LOG.warn(String.format("Config file could not be found on location %1s", configFile.getAbsolutePath()));
+                LOG.warn(String.format("Config file could not be found on location %s", configFile.getAbsolutePath()));
                 if (configFile.createNewFile())
                 {
-                    LOG.info(String.format("New config file created [%1s]", configFile.getAbsolutePath()));
+                    LOG.info(String.format("New config file created [%s]", configFile.getAbsolutePath()));
                 }
                 else
                 {
-                    throw new IOException(String.format("New properties file could not be created [%1s]", configFile.getAbsolutePath()));
+                    throw new IOException(String.format("New properties file could not be created [%s]", configFile.getAbsolutePath()));
                 }
             }
         }

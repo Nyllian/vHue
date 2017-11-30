@@ -43,7 +43,7 @@ public class SceneResource
     @GET
     public Response getScenes(@Context HttpServletRequest request)
     {
-        LOG.debug(String.format("%1s (%2s)", request.getRequestURI(), request.getMethod()));
+        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
 
         return Response.ok(bridge.getScenes()).build();
     }
@@ -51,20 +51,20 @@ public class SceneResource
     @POST
     public Response newScene(@Context HttpServletRequest request)
     {
-        LOG.debug(String.format("%1s (%2s)", request.getRequestURI(), request.getMethod()));
+        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
 
         try
         {
             String postData = IOUtils.toString(request.getInputStream(), Charset.forName("UTF-8"));
-            LOG.info(String.format("Received: %1s", postData));
+            LOG.info(String.format("Received: %s", postData));
 
             Scene newScene = Serializer.SerializeJson(postData, Scene.class);
             newScene.setOwner(username);
             String sceneId = bridge.addScene(newScene);
             bridge.writeConfig();
 
-            String retval = String.format("[ {\"success\" : {\"id\" : \"%1s\"}} ]", sceneId);
-            LOG.info(String.format("Responding: %1s", retval));
+            String retval = String.format("[ {\"success\" : {\"id\" : \"%s\"}} ]", sceneId);
+            LOG.info(String.format("Responding: %s", retval));
             return Response.ok(retval).build();
         }
         catch (IOException iEx)
@@ -78,7 +78,7 @@ public class SceneResource
     @Path("/{id}")
     public Response getScene(@Context HttpServletRequest request, @PathParam("id") String id)
     {
-        LOG.debug(String.format("%1s (%2s)", request.getRequestURI(), request.getMethod()));
+        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
         return Response.ok(bridge.getScenes().get(id)).build();
     }
 
@@ -86,7 +86,7 @@ public class SceneResource
     @Path("/{id}")
     public Response unknownSceneFeature(@Context HttpServletRequest request, @PathParam("id") String id)
     {
-        LOG.debug(String.format("%1s (%2s)", request.getRequestURI(), request.getMethod()));
+        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
         LOG.warn("unknownSceneFeature - Unknown feature - still needs implementation");
         return Response.ok(bridge.getScenes().get(id)).build();
     }
@@ -95,12 +95,12 @@ public class SceneResource
     @Path("/{id}")
     public Response editScene(@Context HttpServletRequest request, @PathParam("id") String id)
     {
-        LOG.debug(String.format("%1s (%2s)", request.getRequestURI(), request.getMethod()));
+        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
 
         try
         {
             String postData = IOUtils.toString(request.getInputStream(), Charset.forName("UTF-8"));
-            LOG.info(String.format("Received: %1s", postData));
+            LOG.info(String.format("Received: %s", postData));
 
             Scene currentScene = bridge.getScene(id);
             if (postData.contains("lights"))
@@ -129,11 +129,11 @@ public class SceneResource
     @Path("/{id}")
     public Response deleteScene(@Context HttpServletRequest request, @PathParam("id") String id)
     {
-        LOG.debug(String.format("%1s (%2s)", request.getRequestURI(), request.getMethod()));
+        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
         bridge.deleteScene(id);
         bridge.writeConfig();
 
-        String retval = String.format("[{ \"success\" : \"/scenes/%1s deleted.\"}]", id);
+        String retval = String.format("[{ \"success\" : \"/scenes/%s deleted.\"}]", id);
         return Response.ok(retval).build();
     }
 
@@ -141,12 +141,12 @@ public class SceneResource
     @Path("/{id}/lightstates/{lid}")
     public Response editSceneLights(@Context HttpServletRequest request, @PathParam("id") String id, @PathParam("lid") String lid)
     {
-        LOG.debug(String.format("%1s (%2s)", request.getRequestURI(), request.getMethod()));
+        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
 
         try
         {
             String postData = IOUtils.toString(request.getInputStream(), Charset.forName("UTF-8"));
-            LOG.info(String.format("Received: %1s", postData));
+            LOG.info(String.format("Received: %s", postData));
 
             return Response.ok(bridge.getScenes().get(id)).build();
         }

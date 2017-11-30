@@ -39,7 +39,7 @@ public class SSDPServer implements Runnable
                 MulticastSocket ssdpSocket = new MulticastSocket(ssdpPort);
                 ssdpSocket.joinGroup(ssdpAddress);
                 LOG.debug("SSDP Protocol service is running!");
-                LOG.trace(String.format("Listening for SSDP messages on %1s:%2d", Inet4Address.getLocalHost().getHostAddress(), ssdpPort));
+                LOG.trace(String.format("Listening for SSDP messages on %s:%2d", Inet4Address.getLocalHost().getHostAddress(), ssdpPort));
                 while (!ssdpMatch.get())
                 {
                     // Retrieve the request package
@@ -49,11 +49,11 @@ public class SSDPServer implements Runnable
                     InetAddress responseAddress = requestPacket.getAddress();
                     String requestData = new String(requestPacket.getData());
 
-                    // LOG.trace(String.format("SSDP packet received from %1s!\n", responseAddress.getHostAddress()) + requestData);
+                    // LOG.trace(String.format("SSDP packet received from %s!\n", responseAddress.getHostAddress()) + requestData);
                     ssdpMatch.set(requestData.regionMatches(0, mSearch, 0, mSearch.length()));
 
                     // Send the response
-                    if (ssdpMatch.get() && (!Inet4Address.getLocalHost().getHostAddress().equals(responseAddress.getHostAddress())))
+                    if (ssdpMatch.get() && requestData.contains("\"ssdp:discover\"") && (!Inet4Address.getLocalHost().getHostAddress().equals(responseAddress.getHostAddress())))
                     {
                         LOG.debug("host: " + Inet4Address.getLocalHost().getHostAddress() + " -- client: " + responseAddress.getHostAddress());
                         Map<String, String> tplMap = (Map<String, String>) resourceMap.get("tplMap");
@@ -61,15 +61,15 @@ public class SSDPServer implements Runnable
                         byte[] responseData = ("NOTIFY * HTTP/1.1\r\n" +
                                 "HOST: 239.255.255.250:1900\r\n" +
                                 "CACHE-CONTROL: max-age=100\r\n" +
-                                String.format("LOCATION: %1s/description.xml", tplMap.get("URLBase")) + "\r\n" +
+                                String.format("LOCATION: %s/description.xml", tplMap.get("URLBase")) + "\r\n" +
                                 "SERVER: Linux/3.14.0 UPnP/1.0 IpBridge/1.20.0\r\n" +
                                 "NTS: ssdp:alive\r\n" +
-                                String.format("HUE-BRIDGEID: %1s", tplMap.get("bridgeId")) + "\r\n" +
-                                String.format("ST: uuid:%1s", tplMap.get("UDN"))
+                                String.format("HUE-BRIDGEID: %s", tplMap.get("bridgeId")) + "\r\n" +
+                                String.format("ST: uuid:%s", tplMap.get("UDN"))
                         ).getBytes();
 
                         DatagramPacket responsePacket = new DatagramPacket(responseData, responseData.length, responseAddress, ssdpPort);
-                        LOG.trace(String.format("Responding to SSDP request from %1s!\n", responseAddress.getHostAddress()) + new String(responseData));
+                        LOG.trace(String.format("Responding to SSDP request from %s!\n", responseAddress.getHostAddress()) + new String(responseData));
                         ssdpSocket.send(responsePacket);
 
                         ssdpMatch.set(false);
