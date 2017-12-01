@@ -48,8 +48,10 @@ public class UserResource
         {
             if (username.equals("nouser"))
             {
-                return Response.ok().build();
-                // return Response.ok(Serializer.SerializeJson(bridge)).build();
+                // {"datastoreversion": 59, "mac": "e9:30:d0:10:fe:08", "name": "VM-Hue", "bridgeid": "E930D0FFFE10FE08", "swversion": "1709131301", "factorynew": false, "apiversion": "1.19.0", "modelid": "BSB002"}
+                String retval = Serializer.SerializeJson(bridge.getBridgeConfig());
+                LOG.debug("Responding: {}", retval);
+                return Response.ok(retval).build();
             }
             else
             {

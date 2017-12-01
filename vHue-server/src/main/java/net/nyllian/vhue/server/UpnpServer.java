@@ -58,7 +58,7 @@ public class UpnpServer implements Runnable
                     // Only ipv4 and not on loopback interface
                     if (iNetAddress instanceof Inet4Address && !iNetName.equalsIgnoreCase("lo"))
                     {
-                        LOG.trace(String.format("Interface %s has address %s", iNetName, iNetAddress));
+                        LOG.trace(String.format("Interface %s has address %s", iNetName, iNetAddress.getHostAddress()));
                         try
                         {
                             broadcastSocket.joinGroup(broadcastSocketAddress, iFace);
@@ -175,6 +175,8 @@ public class UpnpServer implements Runnable
     @SuppressWarnings("unchecked")
     private void sendUpnpResponse(InetAddress socketAddress, int port) throws IOException
     {
+        LOG.info("Sending response to {}:{}", socketAddress.getHostAddress(), port);
+
         Map<String, String> tplMap = (Map<String, String>) resourceMap.get("tplMap");
 
         // Send response 1
@@ -257,7 +259,7 @@ public class UpnpServer implements Runnable
         traceupnp = theSettings.isTraceupnp();
         useUpnpIface = theSettings.isUseupnpiface();
         bridgeControl = theControl;
-        aHueConfig = HuePublicConfig.createConfig("temp", responseAddress, HueConstants.HUB_VERSION, theSettings.getHubmac());
+        aHueConfig = HuePublicConfig.createConfig("temp", responseAddress, HueUtils.HUB_VERSION, theSettings.getHubmac());
         bridgeId = aHueConfig.getBridgeid();
         bridgeSNUUID = aHueConfig.getSNUUIDFromMac();
         try {

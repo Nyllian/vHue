@@ -45,6 +45,14 @@ public class Bridge implements IJSon
 
     @JsonIgnore
     private Map<String, Object> discoveredLights = new TreeMap<>();
+    @JsonIgnore
+    private Map<String, Object> capabilities = new TreeMap<>();
+
+    public Map<String, Object> getCapabilities()
+    {
+        // TODO
+        return capabilities;
+    }
 
     public Map<String, Object> getDiscoveredLights()
     {
@@ -53,12 +61,23 @@ public class Bridge implements IJSon
 
     public void addDiscoveredLight(DiscoveredLight light)
     {
-        // TODO: An actual light object should be passed!
         discoveredLights.put("lastscan", new Date());
 
+        // 3 || 2 & 3
         Set<String> keys = new HashSet<>(discoveredLights.keySet());
         keys.addAll(lights.keySet());
-        String id = String.format("%s", keys.size());
+        String id = "1";
+        if (!keys.contains(keys.size() + ""))
+        {
+            id = String.format("%s", keys.size());
+        }
+        else
+        {
+            String lastId = (String) keys.toArray()[keys.size()-1];
+            id = Integer.toString(Integer.valueOf(lastId)+1);
+        }
+
+        LOG.info("addDiscoveredLight ==> " + id);
         discoveredLights.put(String.format("%s", id), light);
 
         Light discoveredLight = new Light();

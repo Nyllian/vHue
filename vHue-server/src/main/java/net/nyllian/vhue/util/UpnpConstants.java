@@ -21,7 +21,7 @@ public class UpnpConstants
             "CACHE-CONTROL: max-age=100\r\n" +
             "EXT:\r\n" +
             "LOCATION: %s/description.xml\r\n" +
-            "SERVER: Linux/3.14.0 UPnP/1.0 IpBridge/" + HueConstants.API_VERSION + "\r\n" +
+            "SERVER: Linux/3.14.0 UPnP/1.0 IpBridge/" + HueUtils.API_VERSION + "\r\n" +
             "hue-bridgeid: %s\r\n" +
             "ST: upnp:rootdevice\r\n" +
             "USN: uuid:%s::upnp:rootdevice\r\n\r\n";
@@ -30,7 +30,7 @@ public class UpnpConstants
             "CACHE-CONTROL: max-age=100\r\n" +
             "EXT:\r\n" +
             "LOCATION: %s/description.xml\r\n" +
-            "SERVER: Linux/3.14.0 UPnP/1.0 IpBridge/" + HueConstants.API_VERSION + "\r\n" +
+            "SERVER: Linux/3.14.0 UPnP/1.0 IpBridge/" + HueUtils.API_VERSION + "\r\n" +
             "hue-bridgeid: %s\r\n" +
             "ST: uuid:%s\r\n" +
             "USN: uuid:%s\r\n\r\n";
@@ -39,7 +39,7 @@ public class UpnpConstants
             "CACHE-CONTROL: max-age=100\r\n" +
             "EXT:\r\n" +
             "LOCATION: %s/description.xml\r\n" +
-            "SERVER: Linux/3.14.0 UPnP/1.0 IpBridge/" + HueConstants.API_VERSION + "\r\n" +
+            "SERVER: Linux/3.14.0 UPnP/1.0 IpBridge/" + HueUtils.API_VERSION + "\r\n" +
             "hue-bridgeid: %s\r\n" +
             "ST: urn:schemas-upnp-org:device:basic:1\r\n" +
             "USN: uuid:%s\r\n\r\n";
@@ -48,7 +48,7 @@ public class UpnpConstants
             "HOST: %s:%s\r\n" +
             "CACHE-CONTROL: max-age=100\r\n" +
             "LOCATION: %s/description.xml\r\n" +
-            "SERVER: Linux/3.14.0 UPnP/1.0 IpBridge/" + HueConstants.API_VERSION + "\r\n" +
+            "SERVER: Linux/3.14.0 UPnP/1.0 IpBridge/" + HueUtils.API_VERSION + "\r\n" +
             "NTS: ssdp:alive\r\n" +
             "hue-bridgeid: %s\r\n" +
             "NT: uuid:%s\r\n" +

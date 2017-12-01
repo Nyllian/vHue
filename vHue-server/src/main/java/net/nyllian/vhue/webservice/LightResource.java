@@ -66,14 +66,6 @@ public class LightResource
         return Response.ok("[{ \"success\" : { \"/lights\" : \"Searching for new devices\"}}]").build();
     }
 
-    @DELETE
-    public Response deleteAllLights(@Context HttpServletRequest request)
-    {
-        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
-        // TODO: Delete all lights?
-        return Response.ok().build();
-    }
-
     @GET
     @Path("/{id}")
     public Response getLight(@Context HttpServletRequest request, @PathParam("id") String id)
@@ -105,13 +97,16 @@ public class LightResource
         try
         {
             String postData = IOUtils.toString(request.getInputStream(), Charset.forName("UTF-8"));
-            LOG.warn("SetLightAttributes ==>\n" + postData);
+            LOG.info(String.format("Received: %s", postData));
 
             Light currentLight = bridge.getLight(id);
             Light updatedLight = Serializer.UpdateObject(currentLight, postData);
             bridge.getLights().put(id, updatedLight);
+            bridge.writeConfig();
 
-            return Response.ok(String.format("[{ \"success\" : { \"/lights/%s\" : \"Device Edited\"}}]", id)).build();
+            String retval = String.format("[{ \"success\" : { \"/lights/%s\" : \"Device Edited\"}}]", id);
+            LOG.info(String.format("Responding: %s", retval));
+            return Response.ok(retval).build();
         }
         catch (IOException iEx)
         {
@@ -129,11 +124,17 @@ public class LightResource
         try
         {
             String postData = IOUtils.toString(request.getInputStream(), Charset.forName("UTF-8"));
+            LOG.info(String.format("Received: %s", postData));
+
             LightState currentLightState = bridge.getLight(id).getLightState();
             LightState newLightState = Serializer.UpdateObject(currentLightState, postData);
             bridge.getLight(id).setLightState(newLightState);
+            // TODO: when the server powers down -- turn all devices in the off state -- otherwise, upon start all lights will turn on
+            bridge.writeConfig();
 
-            return Response.ok(String.format("[{ \"success\" : { \"/lights/%s/state\" : \"Device state changed.\" }}]", id)).build();
+            String retval = String.format("[{ \"success\" : { \"/lights/%s/state\" : \"Device state changed.\" }}]", id);
+            LOG.info(String.format("Responding: %s", retval));
+            return Response.ok(retval).build();
         }
         catch (IOException iEx)
         {
@@ -149,6 +150,7 @@ public class LightResource
         LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
         bridge.deleteLight(id);
         bridge.writeConfig();
+
         return Response.ok("[{ \"success\" : { \"/lights\" : \"Device removed\"}}]").build();
     }
 

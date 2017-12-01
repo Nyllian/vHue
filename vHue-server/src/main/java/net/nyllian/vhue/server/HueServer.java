@@ -2,6 +2,7 @@ package net.nyllian.vhue.server;
 
 import net.nyllian.vhue.model.Bridge;
 import net.nyllian.vhue.model.BridgeConfig;
+import net.nyllian.vhue.util.HueUtils;
 import net.nyllian.vhue.util.Randomizer;
 import net.nyllian.vhue.util.ResourceManager;
 import net.nyllian.vhue.util.Serializer;
@@ -10,10 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
-import java.net.Inet4Address;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.net.UnknownHostException;
+import java.net.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -106,7 +104,7 @@ public class HueServer extends ResourceConfig
             fis.close();
 
             // Always set these properties
-            String urlBase = String.format("http://%s:%d", Inet4Address.getLocalHost().getHostAddress(), 80);
+            String urlBase = String.format("http://%s:%d", HueUtils.getListeningAddress(), 80);
             // String urlBase = String.format("http://%s:%d", "192.168.254.64", 80);
 
 

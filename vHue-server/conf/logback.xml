@@ -43,9 +43,6 @@
     <logger name="net.nyllian.vhue.server">
         <level value="WARN"/>
     </logger>
-    <logger name="net.nyllian.vhue.server.HueServer">
-        <level value="DEBUG"/>
-    </logger>
     <root>
         <level value="TRACE"/>
         <appender-ref ref="STDOUT"/>
