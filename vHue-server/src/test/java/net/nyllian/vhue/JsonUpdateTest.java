@@ -1,8 +1,6 @@
 package net.nyllian.vhue;
 
-import net.nyllian.vhue.model.Light;
-import net.nyllian.vhue.model.LightState;
-import net.nyllian.vhue.util.Serializer;
+import net.nyllian.vhue.util.HueUtils;
 
 /**
  * Created by Nyllian on 26/11/2017.
@@ -12,14 +10,10 @@ public class JsonUpdateTest
 {
     public static void main(String[] args) throws Exception
     {
-        Light l = new Light();
-        l.getLightState().setOn(true);
-//        System.err.println(Serializer.SerializeJson(l));
+        String postData = "{\"name\":\"1onsondergang\",\"lights\":[\"7\",\"3\"],\"picture\":\"\",\"appdata\":{\"version\":1,\"data\":\"HasOS_r01_d15\"}}";
+        String lightState = "{\"on\":false,\"bri\":18,\"xy\":[0.310669,0.323961]}";
 
-        String jsonData = "{\"bri\":90,\"xy\":[0.624511,0.264368]}";
-
-        LightState newLightState = Serializer.UpdateObject(l.getLightState(), jsonData);
-        Light updatedLight = l.setLightState(newLightState);
-        System.out.println(Serializer.SerializeJson(updatedLight));
+        System.out.println(HueUtils.getResponsePropertiesSuccess(postData, "/scenes/1"));
+        System.out.println(HueUtils.getResponseAttributesSuccess(lightState, "/lights/3/state"));
     }
 }

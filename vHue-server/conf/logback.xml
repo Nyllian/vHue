@@ -7,18 +7,16 @@
             <pattern>%d{yyyy/MM/dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
-<!--
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>../log/devcenter-swing.log</file>
+        <file>./log/vHue.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>../log/%d{yyyy-MM-dd}-devcenter-swing.log</fileNamePattern>
+            <fileNamePattern>./log/%d{yyyy-MM-dd}-vHue.log</fileNamePattern>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>
-            <pattern>%d{yyyy/MM/dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <pattern>%d{yyyy/MM/dd HH:mm:ss.SSS} [%-5level] %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
--->
     <logger name="org.apache.tomcat">
         <level value="ERROR"/>
     </logger>
@@ -41,14 +39,18 @@
         <level value="WARN"/>
     </logger>
     <logger name="net.nyllian.vhue.server">
+        <level value="TRACE"/>
+    </logger>
+    <logger name="net.nyllian.vhue.server.UpnpServer">
         <level value="WARN"/>
+    </logger>
+    <logger name="net.nyllian.vhue.webservice">
+        <level value="DEBUG"/>
     </logger>
     <root>
         <level value="TRACE"/>
         <appender-ref ref="STDOUT"/>
-<!--
         <appender-ref ref="FILE"/>
--->
     </root>
 
 </configuration>

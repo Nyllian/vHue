@@ -2,7 +2,7 @@ package net.nyllian.vhue.webservice;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import net.nyllian.vhue.model.*;
-import net.nyllian.vhue.util.ResourceManager;
+import net.nyllian.vhue.server.ResourceManager;
 import net.nyllian.vhue.util.Serializer;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;

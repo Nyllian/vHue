@@ -64,7 +64,7 @@ public class SSDPServer implements Runnable
                                 String.format("LOCATION: %s/description.xml", tplMap.get("URLBase")) + "\r\n" +
                                 "SERVER: Linux/3.14.0 UPnP/1.0 IpBridge/1.20.0\r\n" +
                                 "NTS: ssdp:alive\r\n" +
-                                String.format("HUE-BRIDGEID: %s", tplMap.get("bridgeId")) + "\r\n" +
+                                String.format("hue-bridgeid: %s", tplMap.get("bridgeId")) + "\r\n" +
                                 String.format("ST: uuid:%s", tplMap.get("UDN"))
                         ).getBytes();
 

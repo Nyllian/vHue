@@ -20,18 +20,20 @@ public class LightState implements IJSon
     private String colorMode = "ct";
     @JsonProperty("ct")
     private int colorTemp = 461;
-    @JsonProperty
+    @JsonProperty("effect")
     private String effect = "none";
-    @JsonProperty
+    @JsonProperty("hue")
     private int hue = 0;
-    @JsonProperty
+    @JsonProperty("on")
     private boolean on = false;
-    @JsonProperty
+    @JsonProperty("reachable")
     private boolean reachable = false;
     @JsonProperty("sat")
     private int saturation = 0;
-    @JsonProperty
+    @JsonProperty("xy")
     private double[] xy = new double[] { 0.310669, 0.323961 };
+    @JsonProperty("transitiontime")
+    private int transitionTime = 5;
 
     public String getAlert()
     {
@@ -140,6 +142,17 @@ public class LightState implements IJSon
     public LightState setXy(double[] xy)
     {
         this.xy = xy;
+        return this;
+    }
+
+    public int getTransitionTime()
+    {
+        return transitionTime;
+    }
+
+    public LightState setTransitionTime(int transitionTime)
+    {
+        this.transitionTime = transitionTime;
         return this;
     }
 }

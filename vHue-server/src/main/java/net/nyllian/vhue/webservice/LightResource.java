@@ -4,7 +4,7 @@ import net.nyllian.vhue.model.Bridge;
 import net.nyllian.vhue.model.DiscoveredLight;
 import net.nyllian.vhue.model.Light;
 import net.nyllian.vhue.model.LightState;
-import net.nyllian.vhue.util.ResourceManager;
+import net.nyllian.vhue.server.ResourceManager;
 import net.nyllian.vhue.util.Serializer;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -18,7 +18,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.HashMap;
 
 /**
  * Created by Nyllian on 26/11/2017.
@@ -66,6 +65,14 @@ public class LightResource
         return Response.ok("[{ \"success\" : { \"/lights\" : \"Searching for new devices\"}}]").build();
     }
 
+    @DELETE
+    public Response deleteAllLights(@Context HttpServletRequest request)
+    {
+        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
+        // TODO: Delete all lights?
+        return Response.ok().build();
+    }
+
     @GET
     @Path("/{id}")
     public Response getLight(@Context HttpServletRequest request, @PathParam("id") String id)
@@ -82,7 +89,7 @@ public class LightResource
         }
         catch (IOException iEx)
         {
-            LOG.error("Unable to read POST data from groups!", iEx);
+            LOG.error("Unable to read POST data!", iEx);
         }
 
         return Response.ok(bridge.getLights().get(id)).build();
@@ -110,35 +117,7 @@ public class LightResource
         }
         catch (IOException iEx)
         {
-            LOG.error("Unable to read POST data from lights!", iEx);
-            return Response.serverError().entity(iEx).build();
-        }
-    }
-
-    @PUT
-    @Path("/{id}/state")
-    public Response changeLightState(@Context HttpServletRequest request, @PathParam("id") String id)
-    {
-        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
-
-        try
-        {
-            String postData = IOUtils.toString(request.getInputStream(), Charset.forName("UTF-8"));
-            LOG.info(String.format("Received: %s", postData));
-
-            LightState currentLightState = bridge.getLight(id).getLightState();
-            LightState newLightState = Serializer.UpdateObject(currentLightState, postData);
-            bridge.getLight(id).setLightState(newLightState);
-            // TODO: when the server powers down -- turn all devices in the off state -- otherwise, upon start all lights will turn on
-            bridge.writeConfig();
-
-            String retval = String.format("[{ \"success\" : { \"/lights/%s/state\" : \"Device state changed.\" }}]", id);
-            LOG.info(String.format("Responding: %s", retval));
-            return Response.ok(retval).build();
-        }
-        catch (IOException iEx)
-        {
-            LOG.error("Unable to read POST data from groups!", iEx);
+            LOG.error("Unable to read POST data!", iEx);
             return Response.serverError().entity(iEx).build();
         }
     }
@@ -152,6 +131,46 @@ public class LightResource
         bridge.writeConfig();
 
         return Response.ok("[{ \"success\" : { \"/lights\" : \"Device removed\"}}]").build();
+    }
+
+    @PUT
+    @Path("/{id}/state")
+    public Response changeLightState(@Context HttpServletRequest request, @PathParam("id") String id)
+    {
+        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
+
+        try
+        {
+            String postData = IOUtils.toString(request.getInputStream(), Charset.forName("UTF-8"));
+            LOG.info(String.format("Received: %s", postData));
+
+            // TODO: When selecting a light...
+            // Received: {"alert":"select"}
+            // Received: {"alert":"1select"}
+            // TODO: When un-selecting the light...
+            // Received: {"alert":"none"}
+
+            // TODO: add transitiontime
+            // Received: {"bri":127,"transitiontime":5,"xy":[0.6457210183143616,0.2752789855003357]}
+
+            // TODO: Put a timer to check if the lights must go out
+            // TODO: When the TV turns off, no 'off' signal will be sent
+
+            LightState currentLightState = bridge.getLight(id).getLightState();
+            LightState newLightState = Serializer.UpdateObject(currentLightState, postData);
+            bridge.getLight(id).setLightState(newLightState);
+            // TODO: when the server powers down -- turn all devices in the off state -- otherwise, upon start all lights will turn on
+            bridge.writeConfig();
+
+            String retval = String.format("[{ \"success\" : { \"/lights/%s/state\" : \"Device state changed.\" }}]", id);
+            LOG.info(String.format("Responding: %s", retval));
+            return Response.ok(retval).build();
+        }
+        catch (IOException iEx)
+        {
+            LOG.error("Unable to read POST data!", iEx);
+            return Response.serverError().entity(iEx).build();
+        }
     }
 
 }

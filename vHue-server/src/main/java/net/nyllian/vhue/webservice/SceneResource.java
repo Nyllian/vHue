@@ -2,8 +2,10 @@ package net.nyllian.vhue.webservice;
 
 import net.nyllian.vhue.model.Bridge;
 import net.nyllian.vhue.model.Light;
+import net.nyllian.vhue.model.LightState;
 import net.nyllian.vhue.model.Scene;
-import net.nyllian.vhue.util.ResourceManager;
+import net.nyllian.vhue.server.ResourceManager;
+import net.nyllian.vhue.util.HueUtils;
 import net.nyllian.vhue.util.Serializer;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -60,6 +62,13 @@ public class SceneResource
 
             Scene newScene = Serializer.SerializeJson(postData, Scene.class);
             newScene.setOwner(username);
+            // Get the respective lights
+            for (String lid : newScene.getLightIds())
+            {
+                Light respectiveLight = bridge.getLight(lid);
+                newScene.getLights().put(lid, respectiveLight);
+                newScene.getLightStates().put(lid, respectiveLight.getLightState());
+            }
             String sceneId = bridge.addScene(newScene);
             bridge.writeConfig();
 
@@ -93,6 +102,7 @@ public class SceneResource
 
     @PUT
     @Path("/{id}")
+    @SuppressWarnings("unchecked")
     public Response editScene(@Context HttpServletRequest request, @PathParam("id") String id)
     {
         LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
@@ -102,6 +112,20 @@ public class SceneResource
             String postData = IOUtils.toString(request.getInputStream(), Charset.forName("UTF-8"));
             LOG.info(String.format("Received: %s", postData));
 
+            // Received: {"name":"1onsondergang","lights":["7","3"],"picture":"","appdata":{"version":1,"data":"HasOS_r01_d15"}}
+            Scene currentScene = bridge.getScene(id);
+            Scene updatedScene = Serializer.UpdateObject(currentScene, postData);
+            bridge.getScenes().put(id, updatedScene);
+            bridge.writeConfig();
+
+            // Construct the response message
+            String retval = HueUtils.getResponsePropertiesSuccess(postData, String.format("/scenes/%s", id));
+            LOG.info(String.format("Responding: %s", retval));
+            return Response.ok(retval).build();
+
+
+/*
+// TODO: This code works regarding lights
             Scene currentScene = bridge.getScene(id);
             if (postData.contains("lights"))
             {
@@ -117,10 +141,11 @@ public class SceneResource
             bridge.getScenes().put(id, updatedScene);
 
             return Response.ok(bridge.getScenes().get(id)).build();
+*/
         }
         catch (IOException iEx)
         {
-            LOG.error("Unable to read POST data from groups!", iEx);
+            LOG.error("Unable to read POST data!", iEx);
             return Response.serverError().entity(iEx).build();
         }
     }
@@ -148,11 +173,24 @@ public class SceneResource
             String postData = IOUtils.toString(request.getInputStream(), Charset.forName("UTF-8"));
             LOG.info(String.format("Received: %s", postData));
 
-            return Response.ok(bridge.getScenes().get(id)).build();
+            // TODO: Change the lightstate of the lights of the scene...
+            // TODO: Go via the light.lightstate and not via the scene.lightstate...
+            // bridge.getScene(id).getLights().get(lid).getLightState();
+
+            // The lightstate under the Scene must be detached from the actual light
+            LightState sceneLightState = bridge.getScene(id).getLightStates().get(lid);
+            LightState updatedSceneLightState = Serializer.UpdateObject(sceneLightState, postData);
+            bridge.getLight(lid).setLightState(updatedSceneLightState);
+            bridge.writeConfig();
+
+            String retval = HueUtils.getResponseAttributesSuccess(postData, String.format("/scenes/%s/lights/%s/state", id, lid));
+            // String retval = String.format("[{ \"success\" : { \"/scenes/%s/lights/%s/state\" : \"Device state changed.\" }}]", id, lid);
+            LOG.debug(String.format("Responding: %s", retval));
+            return Response.ok(retval).build();
         }
         catch (IOException iEx)
         {
-            LOG.error("Unable to read POST data from groups!", iEx);
+            LOG.error("Unable to read POST data!", iEx);
             return Response.serverError().entity(iEx).build();
         }
     }

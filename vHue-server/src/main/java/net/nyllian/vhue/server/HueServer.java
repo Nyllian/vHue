@@ -4,7 +4,6 @@ import net.nyllian.vhue.model.Bridge;
 import net.nyllian.vhue.model.BridgeConfig;
 import net.nyllian.vhue.util.HueUtils;
 import net.nyllian.vhue.util.Randomizer;
-import net.nyllian.vhue.util.ResourceManager;
 import net.nyllian.vhue.util.Serializer;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.slf4j.Logger;
@@ -59,7 +58,6 @@ public class HueServer extends ResourceConfig
         ssdpThread.start();
 
         LOG.info("SSDP server started successfully!");
-        // resourceMap.put("ssdp", ssdpThread);
     }
 
     private void startUpnpServer()
@@ -104,7 +102,7 @@ public class HueServer extends ResourceConfig
             fis.close();
 
             // Always set these properties
-            String urlBase = String.format("http://%s:%d", HueUtils.getListeningAddress(), 80);
+            String urlBase = String.format("http://%s:%d", HueUtils.getListeningAddress().getHostAddress(), 80);
             // String urlBase = String.format("http://%s:%d", "192.168.254.64", 80);
 
 
@@ -189,6 +187,11 @@ public class HueServer extends ResourceConfig
 
             LOG.debug(String.format("Number of bytes read: %1d", bytesRead));
             bridge = Serializer.SerializeJson(new String(jsonData), Bridge.class);
+            // sync the properties with the bridge
+            bridge.getBridgeConfig().setBridgeId(properties.get("bridgeId").toString());
+            bridge.getBridgeConfig().setIpAddress(manager.getResource("ipAddress").toString());
+            bridge.getBridgeConfig().setGateway(manager.getResource("ipAddress").toString());
+            bridge.getBridgeConfig().setMacAddress(manager.getResource("macAddress").toString());
             manager.addResource("bridge", bridge);
         }
         catch (IOException ioEx)
@@ -197,8 +200,8 @@ public class HueServer extends ResourceConfig
 
             // Create a new Bridge
             BridgeConfig bridgeConfig = new BridgeConfig()
-                    .setIpAddress(Inet4Address.getLocalHost().getHostAddress())
-                    .setGateway(Inet4Address.getLocalHost().getHostAddress())
+                    .setIpAddress(HueUtils.getListeningAddress().getHostAddress())
+                    .setGateway(HueUtils.getListeningAddress().getHostAddress())
                     .setNetmask("255.255.255.0")
                     .setProxyAddress("none")
                     .setProxyPort(0)
@@ -215,9 +218,9 @@ public class HueServer extends ResourceConfig
                     .setBridgeId("1234657890123456")
                     .setFactoryNew(false)
                     .setDatastoreVersion(1)
-                    .setSwitchVersion("1709131301")
-                    .setApiVersion("1.19.0")
-                    .setModelId("vHUE-001");
+                    .setSwitchVersion(HueUtils.HUB_VERSION)
+                    .setApiVersion(HueUtils.API_VERSION)
+                    .setModelId(HueUtils.MODEL_ID);
 
             bridge.setBridgeConfig(bridgeConfig);
             manager.addResource("bridge", bridge);
@@ -237,6 +240,7 @@ public class HueServer extends ResourceConfig
         manager.addResource("macAddress", sb.toString());
 
         // Get the ipAddress
+        manager.addResource("ipAddress", HueUtils.getListeningAddress().getHostAddress());
 
     }
 

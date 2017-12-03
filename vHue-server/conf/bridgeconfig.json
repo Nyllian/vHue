@@ -1,11 +1,11 @@
 {
   "lights" : {
-    "3" : {
+    "1" : {
       "modelid" : "DUM001",
-      "name" : "Dummy Light",
+      "name" : "DLight 1",
       "state" : {
         "alert" : "select",
-        "bri" : 120,
+        "bri" : 127,
         "colormode" : "xy",
         "ct" : 461,
         "effect" : "none",
@@ -13,71 +13,33 @@
         "on" : true,
         "reachable" : true,
         "sat" : 0,
-        "xy" : [ 0.533603, 0.38684 ]
+        "xy" : [ 0.31299999356269836, 0.32899999618530273 ],
+        "transitiontime" : 5
       },
       "swversion" : "66009461",
       "type" : "Dummy color Light",
-      "uniqueid" : "b06fb989c1",
+      "uniqueid" : "bc7b1fe6ca",
       "manufacturername" : "Nyllian"
     },
-    "4" : {
+    "2" : {
       "modelid" : "DUM001",
-      "name" : "Dummy Light",
+      "name" : "DLight 2",
       "state" : {
         "alert" : "select",
-        "bri" : 18,
+        "bri" : 127,
         "colormode" : "xy",
         "ct" : 461,
         "effect" : "none",
         "hue" : 0,
-        "on" : false,
+        "on" : true,
         "reachable" : true,
         "sat" : 0,
-        "xy" : [ 0.310669, 0.323961 ]
+        "xy" : [ 0.31299999356269836, 0.32899999618530273 ],
+        "transitiontime" : 5
       },
       "swversion" : "66009461",
       "type" : "Dummy color Light",
-      "uniqueid" : "01fea17711",
-      "manufacturername" : "Nyllian"
-    },
-    "5" : {
-      "modelid" : "DUM001",
-      "name" : "Dummy Light",
-      "state" : {
-        "alert" : "select",
-        "bri" : 18,
-        "colormode" : "xy",
-        "ct" : 461,
-        "effect" : "none",
-        "hue" : 0,
-        "on" : false,
-        "reachable" : true,
-        "sat" : 0,
-        "xy" : [ 0.310669, 0.323961 ]
-      },
-      "swversion" : "66009461",
-      "type" : "Dummy color Light",
-      "uniqueid" : "4e9db65abf",
-      "manufacturername" : "Nyllian"
-    },
-    "7" : {
-      "modelid" : "DUM001",
-      "name" : "Dummy Light",
-      "state" : {
-        "alert" : "select",
-        "bri" : 18,
-        "colormode" : "xy",
-        "ct" : 461,
-        "effect" : "none",
-        "hue" : 0,
-        "on" : false,
-        "reachable" : true,
-        "sat" : 0,
-        "xy" : [ 0.310669, 0.323961 ]
-      },
-      "swversion" : "66009461",
-      "type" : "Dummy color Light",
-      "uniqueid" : "59a2f0897b",
+      "uniqueid" : "44dc59cd6f",
       "manufacturername" : "Nyllian"
     }
   },
@@ -95,12 +57,12 @@
         "xy" : [ 0.310669, 0.323961 ]
       },
       "class" : "Living room",
-      "lights" : [ "3" ],
+      "lights" : [ "1", "2" ],
       "name" : "Woonkamer",
       "state" : {
         "all_on" : false,
         "any_on" : false,
-        "lastupdated" : "2017-12-01T09:39:44",
+        "lastupdated" : "2017-12-02T16:40:32",
         "on" : false,
         "brightness" : 0
       },
@@ -111,8 +73,8 @@
   "rules" : { },
   "sensors" : { },
   "config" : {
-    "ipaddress" : "192.168.254.94",
-    "gateway" : "192.168.254.94",
+    "ipaddress" : "192.168.0.14",
+    "gateway" : "192.168.0.14",
     "netmask" : "255.255.255.0",
     "proxyaddress" : "none",
     "proxyport" : 0,
@@ -120,92 +82,37 @@
     "linkbutton" : true,
     "portalservices" : true,
     "zigbeechannel" : 15,
-    "utc" : "2017-12-01T10:05:48",
+    "utc" : "2017-12-03T19:11:54",
     "localtime" : "2017-11-26T16:31:09",
     "timezone" : "Europe/Brussels",
     "mac" : "F0:1F:AF:43:BC:AE",
     "name" : "vHue",
-    "bridgeid" : "1234657890123456",
+    "bridgeid" : "847EFBE2E12B0E89",
     "modelid" : "vHUE-001",
     "factorynew" : false,
     "datastoreversion" : 1,
     "swversion" : "1709131301",
     "apiversion" : "1.19.0",
     "whitelist" : {
-      "a910e180fd58423281c63f96f823c6d3" : {
-        "last use date" : "2017-11-27T10:56:45",
-        "create date" : "2017-11-27T10:56:45",
-        "name" : "192.168.254.92"
-      },
-      "51c0cc89f03b43f99f09c8a6d00658da" : {
-        "last use date" : "2017-11-27T12:04:59",
-        "create date" : "2017-11-27T12:04:59",
-        "name" : "192.168.254.92"
-      },
-      "fda5c3f0bbe2495f8b979098760f9fb8" : {
-        "last use date" : "2017-11-27T12:07:43",
-        "create date" : "2017-11-27T12:07:43",
-        "name" : "192.168.254.92"
-      },
-      "c24d918ab72e4e249f60bcd832c060cf" : {
-        "last use date" : "2017-11-27T12:09:20",
-        "create date" : "2017-11-27T12:09:20",
-        "name" : "192.168.254.92"
-      },
-      "fe20f2c8ee5d4f2ab8078077f6f99ab2" : {
-        "last use date" : "2017-11-27T12:10:03",
-        "create date" : "2017-11-27T12:10:03",
-        "name" : "192.168.254.92"
-      },
-      "8eda36d0bca54b4a8294594500c8ff88" : {
-        "last use date" : "2017-11-27T12:36:31",
-        "create date" : "2017-11-27T12:36:31",
-        "name" : "192.168.254.92"
-      },
-      "f4d79cc2c5e74b7d91ca1dad7677ff4d" : {
-        "last use date" : "2017-11-27T12:51:04",
-        "create date" : "2017-11-27T12:51:04",
-        "name" : "192.168.254.92"
-      },
-      "b615801a4b0048d88777fe33910f08e4" : {
-        "last use date" : "2017-11-27T13:40:22",
-        "create date" : "2017-11-27T13:40:22",
-        "name" : "192.168.254.92"
-      },
-      "49db048bf20e44c0ba4a3f32981b9baa" : {
-        "last use date" : "2017-11-28T15:49:24",
-        "create date" : "2017-11-28T15:49:24",
-        "name" : "192.168.254.150"
-      },
-      "fd102e97e92644e28cfc16072e4d504e" : {
-        "last use date" : "2017-11-28T15:53:54",
-        "create date" : "2017-11-28T15:53:54",
-        "name" : "192.168.254.150"
-      },
-      "2abf20ae47f34537974852ecf1f0329e" : {
-        "last use date" : "2017-11-29T12:59:21",
-        "create date" : "2017-11-29T12:59:21",
+      "08650659109445fe9c4a37dd87c814b5" : {
+        "last use date" : "2017-12-02T12:23:50",
+        "create date" : "2017-12-02T12:23:50",
         "name" : "Hue 2#Samsung SM-G925F"
       },
-      "954f8116dd164371ad8a77c06f648bac" : {
-        "last use date" : "2017-11-29T13:00:04",
-        "create date" : "2017-11-29T13:00:04",
+      "83e9dbc3998141d58783fdc015533b05" : {
+        "last use date" : "2017-12-02T12:28:21",
+        "create date" : "2017-12-02T12:28:21",
         "name" : "Hue 2#Samsung SM-G925F"
       },
-      "95088a796c5447df98895d3458b30372" : {
-        "last use date" : "2017-11-29T13:01:05",
-        "create date" : "2017-11-29T13:01:05",
-        "name" : "Hue 2#Samsung SM-G925F"
+      "0cb57572cc2041bab2333e63d5d29238" : {
+        "last use date" : "2017-12-02T14:46:56",
+        "create date" : "2017-12-02T14:46:56",
+        "name" : "hue_ios_app#IP-Nyllian"
       },
-      "c0bbe69a0a15479c9bd3d79ddb89a9b6" : {
-        "last use date" : "2017-11-30T15:27:30",
-        "create date" : "2017-11-30T15:27:30",
-        "name" : "Hue 2#Samsung SM-G925F"
-      },
-      "127b35138e9d4c6293c4da5254a9560e" : {
-        "last use date" : "2017-12-01T09:39:23",
-        "create date" : "2017-12-01T09:39:23",
-        "name" : "Hue 2#Samsung SM-G925F"
+      "1b6a79720ebd4c3f924346ef5566ab93" : {
+        "last use date" : "2017-12-03T17:29:30",
+        "create date" : "2017-12-03T17:29:30",
+        "name" : "55PUS6432/12"
       }
     },
     "swupdate" : {
@@ -216,167 +123,44 @@
     "1" : {
       "picture" : "",
       "locked" : false,
-      "name" : "Lezen",
-      "owner" : "127b35138e9d4c6293c4da5254a9560e",
+      "name" : "S1",
+      "owner" : "83e9dbc3998141d58783fdc015533b05",
       "version" : 2,
-      "lastupdated" : "2017-12-01T09:39:49",
+      "lastupdated" : "2017-12-02T16:41:01",
       "recycle" : false,
       "appdata" : {
         "version" : 1,
-        "data" : "n2WZc_r01_d02"
+        "data" : "VKeJJ_r01"
       },
-      "lightstates" : { },
-      "lights" : [ "3" ]
-    },
-    "2" : {
-      "picture" : "",
-      "locked" : false,
-      "name" : "Concentreren",
-      "owner" : "127b35138e9d4c6293c4da5254a9560e",
-      "version" : 2,
-      "lastupdated" : "2017-12-01T09:39:49",
-      "recycle" : false,
-      "appdata" : {
-        "version" : 1,
-        "data" : "v9kNB_r01_d03"
+      "lightstates" : {
+        "1" : {
+          "alert" : "select",
+          "bri" : 36,
+          "colormode" : "xy",
+          "ct" : 461,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : true,
+          "sat" : 0,
+          "xy" : [ 0.136244, 0.051715 ],
+          "transitiontime" : 5
+        },
+        "2" : {
+          "alert" : "select",
+          "bri" : 246,
+          "colormode" : "xy",
+          "ct" : 461,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : true,
+          "sat" : 0,
+          "xy" : [ 0.645721, 0.275279 ],
+          "transitiontime" : 5
+        }
       },
-      "lightstates" : { },
-      "lights" : [ "3" ]
-    },
-    "3" : {
-      "picture" : "",
-      "locked" : false,
-      "name" : "Energie",
-      "owner" : "127b35138e9d4c6293c4da5254a9560e",
-      "version" : 2,
-      "lastupdated" : "2017-12-01T09:39:49",
-      "recycle" : false,
-      "appdata" : {
-        "version" : 1,
-        "data" : "so6KJ_r01_d04"
-      },
-      "lightstates" : { },
-      "lights" : [ "3" ]
-    },
-    "4" : {
-      "picture" : "",
-      "locked" : false,
-      "name" : "Ontspannen",
-      "owner" : "127b35138e9d4c6293c4da5254a9560e",
-      "version" : 2,
-      "lastupdated" : "2017-12-01T09:39:49",
-      "recycle" : false,
-      "appdata" : {
-        "version" : 1,
-        "data" : "ukiSy_r01_d01"
-      },
-      "lightstates" : { },
-      "lights" : [ "3" ]
-    },
-    "5" : {
-      "picture" : "",
-      "locked" : false,
-      "name" : "Helder",
-      "owner" : "127b35138e9d4c6293c4da5254a9560e",
-      "version" : 2,
-      "lastupdated" : "2017-12-01T09:39:49",
-      "recycle" : false,
-      "appdata" : {
-        "version" : 1,
-        "data" : "xJXOX_r01_d05"
-      },
-      "lightstates" : { },
-      "lights" : [ "3" ]
-    },
-    "6" : {
-      "picture" : "",
-      "locked" : false,
-      "name" : "Gedimd",
-      "owner" : "127b35138e9d4c6293c4da5254a9560e",
-      "version" : 2,
-      "lastupdated" : "2017-12-01T09:39:49",
-      "recycle" : false,
-      "appdata" : {
-        "version" : 1,
-        "data" : "GVPE0_r01_d06"
-      },
-      "lightstates" : { },
-      "lights" : [ "3" ]
-    },
-    "7" : {
-      "picture" : "",
-      "locked" : false,
-      "name" : "Arctische dageraad",
-      "owner" : "127b35138e9d4c6293c4da5254a9560e",
-      "version" : 2,
-      "lastupdated" : "2017-12-01T09:39:49",
-      "recycle" : false,
-      "appdata" : {
-        "version" : 1,
-        "data" : "Lzdsa_r01_d17"
-      },
-      "lightstates" : { },
-      "lights" : [ "3" ]
-    },
-    "8" : {
-      "picture" : "",
-      "locked" : false,
-      "name" : "Tropische schemering",
-      "owner" : "127b35138e9d4c6293c4da5254a9560e",
-      "version" : 2,
-      "lastupdated" : "2017-12-01T09:39:49",
-      "recycle" : false,
-      "appdata" : {
-        "version" : 1,
-        "data" : "2QuqK_r01_d16"
-      },
-      "lightstates" : { },
-      "lights" : [ "3" ]
-    },
-    "9" : {
-      "picture" : "",
-      "locked" : false,
-      "name" : "Nachtlampje",
-      "owner" : "127b35138e9d4c6293c4da5254a9560e",
-      "version" : 2,
-      "lastupdated" : "2017-12-01T09:39:49",
-      "recycle" : false,
-      "appdata" : {
-        "version" : 1,
-        "data" : "sA48d_r01_d07"
-      },
-      "lightstates" : { },
-      "lights" : [ "3" ]
-    },
-    "10" : {
-      "picture" : "",
-      "locked" : false,
-      "name" : "Lentebloesem",
-      "owner" : "127b35138e9d4c6293c4da5254a9560e",
-      "version" : 2,
-      "lastupdated" : "2017-12-01T09:39:49",
-      "recycle" : false,
-      "appdata" : {
-        "version" : 1,
-        "data" : "fVl6h_r01_d18"
-      },
-      "lightstates" : { },
-      "lights" : [ "3" ]
-    },
-    "11" : {
-      "picture" : "",
-      "locked" : false,
-      "name" : "Savanne zonsondergang",
-      "owner" : "127b35138e9d4c6293c4da5254a9560e",
-      "version" : 2,
-      "lastupdated" : "2017-12-01T09:39:49",
-      "recycle" : false,
-      "appdata" : {
-        "version" : 1,
-        "data" : "X6JZt_r01_d15"
-      },
-      "lightstates" : { },
-      "lights" : [ "3" ]
+      "lights" : [ "1", "2" ]
     }
   },
   "resourceLinks" : { }

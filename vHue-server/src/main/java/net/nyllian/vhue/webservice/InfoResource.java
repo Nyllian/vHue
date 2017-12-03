@@ -1,7 +1,7 @@
 package net.nyllian.vhue.webservice;
 
 import net.nyllian.vhue.model.Bridge;
-import net.nyllian.vhue.util.ResourceManager;
+import net.nyllian.vhue.server.ResourceManager;
 import net.nyllian.vhue.util.Serializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

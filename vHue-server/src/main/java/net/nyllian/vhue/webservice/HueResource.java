@@ -3,7 +3,7 @@ package net.nyllian.vhue.webservice;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import net.nyllian.vhue.util.ResourceManager;
+import net.nyllian.vhue.server.ResourceManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

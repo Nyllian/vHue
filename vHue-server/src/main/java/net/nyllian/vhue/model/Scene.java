@@ -197,4 +197,9 @@ public class Scene implements IJSon
     {
         this.lights = lights;
     }
+
+    public Light getLight(String id)
+    {
+        return lights.get(id);
+    }
 }

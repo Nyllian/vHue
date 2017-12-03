@@ -1,5 +1,6 @@
 package net.nyllian.vhue.util;
 
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
@@ -42,6 +43,7 @@ public class Serializer
         ObjectMapper serializer = new ObjectMapper();
         serializer.setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH24:mm:ss"));
         serializer.enable(DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT);
+        serializer.enable(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES);
 
         LOG.trace(String.format("Serializing string to %s", jsonClass.getTypeName()));
         return serializer.readValue(jsonString, jsonClass);

@@ -31,9 +31,6 @@ public class Group implements IJSon
     @JsonProperty("state")
     private GroupState groupState = new GroupState();
 
-    @JsonIgnore
-    private Map<String, Light> lights = new LinkedHashMap<>();
-
     public String getName()
     {
         return name;
@@ -75,17 +72,6 @@ public class Group implements IJSon
     public Group setLightIds(String[] lightIds)
     {
         this.lightIds = lightIds;
-        return this;
-    }
-
-    public Map<String, Light> getLights()
-    {
-        return lights;
-    }
-
-    public Group setLights(Map<String, Light> lights)
-    {
-        this.lights = lights;
         return this;
     }
 

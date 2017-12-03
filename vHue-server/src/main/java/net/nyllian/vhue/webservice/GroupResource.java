@@ -1,9 +1,8 @@
 package net.nyllian.vhue.webservice;
 
-import net.nyllian.vhue.model.Bridge;
-import net.nyllian.vhue.model.Group;
-import net.nyllian.vhue.model.GroupAction;
-import net.nyllian.vhue.util.ResourceManager;
+import net.nyllian.vhue.model.*;
+import net.nyllian.vhue.server.ResourceManager;
+import net.nyllian.vhue.util.HueUtils;
 import net.nyllian.vhue.util.Serializer;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -18,6 +17,7 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -114,59 +114,19 @@ public class GroupResource
             if (postData.contains("lights"))
             {
                 LOG.warn("Clearing all lights!");
-                currentGroup.getLights().clear();
+                currentGroup.setLightIds(new String[]{});
             }
             Group updatedGroup = Serializer.UpdateObject(currentGroup, postData);
-            // Update the lights
-            for (String l : updatedGroup.getLightIds())
-            {
-                LOG.warn("Adding light " + l);
-                updatedGroup.getLights().put(l, bridge.getLight(l));
-            }
             bridge.getGroups().put(id, updatedGroup);
 
             // Construct the response message
-            Map<String, Object> dataMap = Serializer.SerializeJson(postData, Map.class);
-            StringBuilder sb = new StringBuilder();
-            for (String key : dataMap.keySet())
-            {
-                if (dataMap.get(key) instanceof String)
-                {
-                    sb.append(String.format("{\"/groups/%s/%s\":\"%s\"},", id, key, dataMap.get(key)));
-                }
-                else if (dataMap.get(key) instanceof ArrayList)
-                {
-                    // Assumption: The lights are processed here
-                    ArrayList<String> tmpArray = (ArrayList)dataMap.get(key);
-                    String val = "";
-                    LOG.info("tmpArray.size() ==> " + tmpArray.size());
-                    if (tmpArray.size() > 0)
-                    {
-                        for (String tmp : tmpArray)
-                        {
-                            val += String.format("\"%s\",", tmp);
-                        }
-
-                        sb.append(String.format("{\"/groups/%s/%s\": [%s]},", id, key, val.substring(0, val.length() - 1)));
-                    }
-                    else
-                    {
-                        sb.append(String.format("{\"/groups/%s/%s\": [%s]},", id, key, val));
-                    }
-                }
-                else
-                {
-                    LOG.warn("Unknown object passed in editGroup()! ==> " + dataMap.get(key).getClass());
-                }
-            }
-
-            String retval = String.format("[{ \"success\" : %s }]", sb.toString().substring(0, sb.toString().length() - 1));
+            String retval = String.format("[ %s ]", HueUtils.getResponsePropertiesSuccess(postData, String.format("/groups/%s", id)));
             LOG.info(String.format("Responding: %s", retval));
             return Response.ok(retval).build();
         }
         catch (IOException iEx)
         {
-            LOG.error("Unable to read POST data from lights!", iEx);
+            LOG.error("Unable to read POST data!", iEx);
             return Response.serverError().entity(iEx).build();
         }
     }
@@ -188,11 +148,38 @@ public class GroupResource
                 Map<String, Object> dataMap = Serializer.SerializeJson(postData, HashMap.class);
                 if (dataMap.containsKey("scene"))
                 {
-                    // TODO: If the data is a scene, retrieve the scene lights (id)
-                    // TODO: Compare the light_ids with the groups
-                    // TODO: accordingly, change the group state???
+                    // Get the scene
+                    Scene groupScene = bridge.getScene(dataMap.get("scene").toString());
+                    // Based on the lights of the scene, find the group
+                    String groupKey = id;
+                    sceneLightsLoop:
+                    for (String sceneLightId : groupScene.getLightIds())
+                    {
+                        // Check all groups for respective lights
+                        for (String gKey : bridge.getGroups().keySet())
+                        {
+                            if (Arrays.asList(bridge.getGroup(gKey).getLightIds()).contains(sceneLightId))
+                            {
+                                groupKey = gKey;
+                                break sceneLightsLoop;
+                            }
 
-                    LOG.warn("This feature still has to be developed!");
+                        }
+                    }
+
+                    // TODO: Remove the actual lights from the group
+                    // TODO: Always get the lights based on the lightId
+                    for (String lKey : bridge.getGroup(groupKey).getLightIds())
+                    {
+                        // Dirty clone
+                        String originalState = Serializer.SerializeJson(groupScene.getLightStates().get(lKey));
+                        LightState clonedLightState = Serializer.SerializeJson(originalState, LightState.class);
+                        bridge.getLight(lKey).setLightState(clonedLightState);
+                    }
+
+                    String retval = HueUtils.getResponseAttributesSuccess(postData, String.format("/groups/%s/action", id));
+                    LOG.info(String.format("Responding: %s", retval));
+                    return Response.ok(retval).build();
                 }
                 else
                 {
@@ -213,6 +200,11 @@ public class GroupResource
             }
 
             // TODO: Split for 'all groups'
+            // TODO: Check this code!!!
+
+            // Construct response
+            String retval = HueUtils.getResponseAttributesSuccess(postData, String.format("/groups/%s/action", id));
+            /*
 
             Map<String, Object> dataMap = Serializer.SerializeJson(postData, Map.class);
             StringBuilder sb = new StringBuilder();
@@ -246,14 +238,15 @@ public class GroupResource
                     LOG.warn("Unknown object passed in editGroup()! ==> " + dataMap.get(key).getClass());
                 }
             }
+            */
 
-            String retval = String.format("[{ \"success\" : %s }]", sb.toString().substring(0, sb.toString().length()-1));
+            // String retval = String.format("[{ \"success\" : %s }]", sb.toString().substring(0, sb.toString().length()-1));
             LOG.info(String.format("Responding: %s", retval));
             return Response.ok(retval).build();
         }
         catch (IOException iEx)
         {
-            LOG.error("Unable to read POST data from groups!", iEx);
+            LOG.error("Unable to read POST data!", iEx);
             return Response.serverError().entity(iEx).build();
         }
     }

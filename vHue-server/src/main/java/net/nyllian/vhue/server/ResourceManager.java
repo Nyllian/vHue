@@ -1,4 +1,4 @@
-package net.nyllian.vhue.util;
+package net.nyllian.vhue.server;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

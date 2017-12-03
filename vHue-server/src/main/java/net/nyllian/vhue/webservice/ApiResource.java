@@ -1,8 +1,9 @@
 package net.nyllian.vhue.webservice;
 
 import net.nyllian.vhue.model.Bridge;
+import net.nyllian.vhue.model.UnauthorizedUser;
 import net.nyllian.vhue.util.Randomizer;
-import net.nyllian.vhue.util.ResourceManager;
+import net.nyllian.vhue.server.ResourceManager;
 import net.nyllian.vhue.util.Serializer;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -52,6 +53,8 @@ public class ApiResource
 
             Map<String, Object> dataMap = Serializer.SerializeJson(postData, Map.class);
 
+            Thread.sleep(5000);
+
             String newUserToken = Randomizer.generateUserToken();
             bridge.getBridgeConfig().addToWhitelist(newUserToken, dataMap.get("devicetype").toString());
             bridge.writeConfig();
@@ -59,8 +62,35 @@ public class ApiResource
             String retval = String.format("[{\"success\": {\"username\": \"%s\"}}]", newUserToken);
             LOG.info(String.format("Responding: %s", retval));
             return Response.ok(retval).build();
+
+            /*
+            // This is only applicable with the App
+            // Not on a Philips TV
+            if (dataMap.get("generateclientkey") instanceof Boolean)
+            {
+                boolean generateKey = (boolean)dataMap.get("generateclientkey");
+                if (generateKey)
+                {
+                    String newUserToken = Randomizer.generateUserToken();
+                    bridge.getBridgeConfig().addToWhitelist(newUserToken, dataMap.get("devicetype").toString());
+                    bridge.writeConfig();
+
+                    String retval = String.format("[{\"success\": {\"username\": \"%s\"}}]", newUserToken);
+                    LOG.info(String.format("Responding: %s", retval));
+                    return Response.ok(retval).build();
+                }
+                else
+                {
+                    return Response.ok(new UnauthorizedUser(request.getRequestURI())).build();
+                }
+            }
+            else
+            {
+                return Response.ok(new UnauthorizedUser(request.getRequestURI())).build();
+            }
+            */
         }
-        catch (IOException ioEx)
+        catch (IOException | InterruptedException ioEx)
         {
             LOG.error("Error occurred while creating newUser!", ioEx);
             return Response.serverError().entity(ioEx).build();

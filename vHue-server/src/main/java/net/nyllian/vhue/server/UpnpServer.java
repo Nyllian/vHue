@@ -181,21 +181,21 @@ public class UpnpServer implements Runnable
 
         // Send response 1
         String responseData = String.format(UpnpConstants.RESPONSE_TEMPLATE1, UpnpConstants.BROADCAST_ADDR, UpnpConstants.BROADCAST_PORT,
-                tplMap.get("URLBase"), tplMap.get("bridgeId"), tplMap.get("UDN")
+                tplMap.get("URLBase"), tplMap.get("bridgeId").toUpperCase(), tplMap.get("UDN")
         );
         LOG.trace("sendUpnpResponse (1):\n{}", responseData);
         broadcastSocket.send(new DatagramPacket(responseData.getBytes(), responseData.length(), socketAddress, port));
 
         // Send response 2
         responseData = String.format(UpnpConstants.RESPONSE_TEMPLATE2, UpnpConstants.BROADCAST_ADDR, UpnpConstants.BROADCAST_PORT,
-                tplMap.get("URLBase"), tplMap.get("bridgeId"), tplMap.get("UDN"), tplMap.get("UDN")
+                tplMap.get("URLBase"), tplMap.get("bridgeId").toUpperCase(), tplMap.get("UDN"), tplMap.get("UDN")
         );
         LOG.trace("sendUpnpResponse (2):\n{}", responseData);
         broadcastSocket.send(new DatagramPacket(responseData.getBytes(), responseData.length(), socketAddress, port));
 
         // Send response3
         responseData = String.format(UpnpConstants.RESPONSE_TEMPLATE3, UpnpConstants.BROADCAST_ADDR, UpnpConstants.BROADCAST_PORT,
-                tplMap.get("URLBase"), tplMap.get("bridgeId"), tplMap.get("UDN")
+                tplMap.get("URLBase"), tplMap.get("bridgeId").toUpperCase(), tplMap.get("UDN")
         );
         LOG.trace("sendUpnpResponse (3):\n{}", responseData);
         broadcastSocket.send(new DatagramPacket(responseData.getBytes(), responseData.length(), socketAddress, port));
