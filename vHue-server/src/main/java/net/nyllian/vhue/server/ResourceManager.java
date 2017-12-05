@@ -1,5 +1,8 @@
 package net.nyllian.vhue.server;
 
+import net.nyllian.vhue.model.Bridge;
+import net.nyllian.vhue.model.Capabilities;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -9,6 +12,10 @@ import java.util.Map;
  */
 public class ResourceManager<T>
 {
+    public static final String MANAGER = "manager";
+    public static final String RESOURCE_BRIDGE = "bridge";
+    public static final String RESOURCE_CAPABILITIES = "capabilities";
+
     private Map<String, T> resourceMap;
 
     public ResourceManager()
@@ -29,5 +36,15 @@ public class ResourceManager<T>
     public T getResource(String key)
     {
         return resourceMap.get(key);
+    }
+
+    public Bridge getBridge()
+    {
+        return (Bridge) resourceMap.get(RESOURCE_BRIDGE);
+    }
+
+    public Capabilities getCapabilities()
+    {
+        return (Capabilities) resourceMap.get(RESOURCE_CAPABILITIES);
     }
 }

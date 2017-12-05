@@ -37,7 +37,7 @@ public class ApiResource
     public ApiResource(@Context Application application)
     {
         ResourceManager manager = (ResourceManager)application.getProperties().get("manager");
-        bridge = (Bridge) manager.getResource("bridge");
+        bridge = manager.getBridge();
     }
 
     @POST
@@ -53,7 +53,9 @@ public class ApiResource
 
             Map<String, Object> dataMap = Serializer.SerializeJson(postData, Map.class);
 
-            Thread.sleep(5000);
+            // Wait 5 seconds to simulate a 'button press'
+            Thread.sleep(1000);
+            bridge.pressLinkButton();
 
             String newUserToken = Randomizer.generateUserToken();
             bridge.getBridgeConfig().addToWhitelist(newUserToken, dataMap.get("devicetype").toString());
@@ -96,6 +98,26 @@ public class ApiResource
             return Response.serverError().entity(ioEx).build();
         }
     }
+
+    @GET
+    @Path("/config}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getConfig(@Context HttpServletRequest request)
+    {
+
+        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
+
+        try
+        {
+            return Response.ok(Serializer.SerializeJson(bridge.getBridgeConfig())).build();
+        }
+        catch (Exception ex)
+        {
+            LOG.error("Unable to serialize the object", ex);
+            return Response.serverError().entity(ex).build();
+        }
+    }
+
 
     @GET
     @Path("/{default: .*}")

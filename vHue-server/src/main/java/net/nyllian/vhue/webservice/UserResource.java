@@ -35,7 +35,7 @@ public class UserResource
     public UserResource(@Context Application application)
     {
         manager = (ResourceManager)application.getProperties().get("manager");
-        bridge = (Bridge) manager.getResource("bridge");
+        bridge = manager.getBridge();
     }
 
     @GET
@@ -48,20 +48,21 @@ public class UserResource
         {
             if (username.equals("nouser"))
             {
-                // {"datastoreversion": 59, "mac": "e9:30:d0:10:fe:08", "name": "VM-Hue", "bridgeid": "E930D0FFFE10FE08", "swversion": "1709131301", "factorynew": false, "apiversion": "1.19.0", "modelid": "BSB002"}
-                String retval = Serializer.SerializeJson(bridge.getBridgeConfig());
-                LOG.debug("Responding: {}", retval);
-                return Response.ok(retval).build();
+                return Response.ok(
+                        Serializer.SerializeJson(bridge.getBridgeConfig())
+                ).build();
             }
             else
             {
-                return Response.ok(Serializer.SerializeJson(bridge)).build();
+                return Response.ok(
+                        Serializer.SerializeJson(bridge)
+                ).build();
             }
         }
-        catch (JsonProcessingException jEx)
+        catch (Exception ex)
         {
-            LOG.error("Unable to serialize the object", jEx);
-            return Response.status(400).entity(jEx).build();
+            LOG.error("Unable to serialize the object", ex);
+            return Response.serverError().entity(ex).build();
         }
     }
 
@@ -73,7 +74,7 @@ public class UserResource
         try
         {
             String postData = IOUtils.toString(request.getInputStream(), Charset.forName("UTF-8"));
-            LOG.warn("NewForm => " + postData);
+            LOG.warn("TODO: NewForm => " + postData);
         }
         catch (IOException iEx)
         {
@@ -94,17 +95,22 @@ public class UserResource
         {
             if (bridge.getBridgeConfig().getWhiteList().containsKey(username))
             {
-                return Response.ok(Serializer.SerializeJson(bridge.getBridgeConfig())).build();
+                return Response.ok(
+                        Serializer.SerializeJson(bridge.getBridgeConfig())
+                ).build();
             }
             else
             {
+                return Response.ok(
+                        Serializer.SerializeJson(bridge.getBridgeConfig())
+                ).build();
 
-                return Response.ok(bridge.getBridgeConfig()).build();
+
+
                 /*
                 -- This seemed to work
                 if (username.equals("nouser"))
                 {
-
                     String newUserToken = Randomizer.generateUserToken();
                     String retval = String.format("[{\"success\": {\"username\": \"%s\"}}]", newUserToken);
                     LOG.info(String.format("Responding: %s", retval));
@@ -133,10 +139,10 @@ public class UserResource
             }
             */
         }
-        catch (Exception ex) // (JsonProcessingException jEx)
+        catch (Exception ex)
         {
             LOG.error("Unable to serialize the object", ex);
-            return Response.status(400).entity(ex).build();
+            return Response.serverError().entity(ex).build();
         }
     }
 
@@ -157,6 +163,7 @@ public class UserResource
             bridge.writeConfig();
 
             // Construct the response message
+            // TODO: Check if this can be done with the HueUtils
             Map<String, String> dataMap = Serializer.SerializeJson(postData, Map.class);
             StringBuilder retval = new StringBuilder();
             for (String key : dataMap.keySet())
@@ -182,7 +189,7 @@ public class UserResource
         try
         {
             String postData = IOUtils.toString(request.getInputStream(), Charset.forName("UTF-8"));
-            LOG.warn("NewConfig => " + postData);
+            LOG.warn("TODO: NewConfig => " + postData);
         }
         catch (IOException iEx)
         {

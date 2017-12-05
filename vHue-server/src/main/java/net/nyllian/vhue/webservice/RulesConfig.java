@@ -2,6 +2,7 @@ package net.nyllian.vhue.webservice;
 
 import net.nyllian.vhue.model.Bridge;
 import net.nyllian.vhue.server.ResourceManager;
+import net.nyllian.vhue.util.Serializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +32,7 @@ public class RulesConfig
     public RulesConfig(@Context Application application)
     {
         ResourceManager manager = (ResourceManager)application.getProperties().get("manager");
-        bridge = (Bridge) manager.getResource("bridge");
+        bridge = manager.getBridge();
     }
 
     @GET
@@ -39,7 +40,17 @@ public class RulesConfig
     {
         LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
 
-        return Response.ok(bridge.getRules()).build();
+        try
+        {
+            return Response.ok(
+                    Serializer.SerializeJson(bridge.getRules())
+            ).build();
+        }
+        catch (Exception ex)
+        {
+            LOG.error("Unable to serialize the object", ex);
+            return Response.serverError().entity(ex).build();
+        }
     }
 
 

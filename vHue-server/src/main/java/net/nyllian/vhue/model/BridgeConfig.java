@@ -2,6 +2,7 @@ package net.nyllian.vhue.model;
 
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import net.nyllian.vhue.util.HueUtils;
 import net.nyllian.vhue.util.Serializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,11 +32,11 @@ public class BridgeConfig implements IJSon
     @JsonProperty("proxyport")
     private int proxyPort;
     @JsonProperty("dhcp")
-    private boolean dhcp;
+    private boolean dhcp = true;
     @JsonProperty("linkbutton")
-    private boolean linkButton;
+    private boolean linkButton = false;
     @JsonProperty("portalservices")
-    private boolean portalServices;
+    private boolean portalServices = true;
     @JsonProperty("zigbeechannel")
     private int zigbeeChannel;
     @JsonProperty("utc")
@@ -54,15 +55,15 @@ public class BridgeConfig implements IJSon
     @JsonProperty("bridgeid")
     private String bridgeId;
     @JsonProperty("modelid")
-    private String modelId;
+    private String modelId = HueUtils.MODEL_ID;
     @JsonProperty("factorynew")
     private boolean factoryNew;
     @JsonProperty("datastoreversion")
     private int datastoreVersion = 59;
     @JsonProperty("swversion")
-    private String switchVersion = "1709131301";
+    private String switchVersion = HueUtils.HUB_VERSION;  //"1709131301";
     @JsonProperty("apiversion")
-    private String apiVersion = "1.19.0";
+    private String apiVersion = HueUtils.API_VERSION; // "1.19.0";
 
     @JsonProperty("whitelist")
     private Map<String, Whitelist> whiteList = new LinkedHashMap<>();

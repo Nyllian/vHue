@@ -1,7 +1,10 @@
 package net.nyllian.vhue.webservice;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import net.nyllian.vhue.model.Bridge;
+import net.nyllian.vhue.model.Capabilities;
 import net.nyllian.vhue.server.ResourceManager;
+import net.nyllian.vhue.util.Serializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,7 +19,7 @@ import javax.ws.rs.core.Response;
  * Created by Nyllian on 30/11/2017.
  *
  */
-@Path("/api/{user}/capabilities")
+@Path("/api/{username}/capabilities")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class CapabilityResource
@@ -24,20 +27,71 @@ public class CapabilityResource
     private final Logger LOG = LoggerFactory.getLogger(CapabilityResource.class);
 
     private Bridge bridge;
+    private Capabilities capabilities;
 
-    @PathParam("user")
+    @PathParam("username")
     private String username;
 
     public CapabilityResource(@Context Application application)
     {
-        ResourceManager manager = (ResourceManager)application.getProperties().get("manager");
-        bridge = (Bridge) manager.getResource("bridge");
+        ResourceManager manager = (ResourceManager)application.getProperties().get(ResourceManager.MANAGER);
+        bridge = manager.getBridge();
+        capabilities = manager.getCapabilities();
     }
 
     @GET
     public Response getCapabilities(@Context HttpServletRequest request)
     {
         LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
-        return Response.ok(bridge.getCapabilities()).build();
+
+        try
+        {
+            return Response.ok(
+                    Serializer.SerializeJson(capabilities)
+            ).build();
+        }
+        catch (Exception ex)
+        {
+            LOG.error("Unable to serialize the object", ex);
+            return Response.serverError().entity(ex).build();
+        }
+    }
+
+    @GET
+    @Path("/lights")
+    public Response getAvailableLights(@Context HttpServletRequest request)
+    {
+        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
+
+        try
+        {
+            return Response.ok(
+                    Serializer.SerializeJson(capabilities.getAvailableLights())
+            ).build();
+        }
+        catch (Exception ex)
+        {
+            LOG.error("Unable to serialize the object", ex);
+            return Response.serverError().entity(ex).build();
+        }
+    }
+
+    @GET
+    @Path("/timezones")
+    public Response getTimezones(@Context HttpServletRequest request)
+    {
+        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
+
+        try
+        {
+            return Response.ok(
+                    Serializer.SerializeJson(capabilities.getTimezones())
+            ).build();
+        }
+        catch (Exception ex)
+        {
+            LOG.error("Unable to serialize the object", ex);
+            return Response.serverError().entity(ex).build();
+        }
     }
 }

@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
-import java.net.SocketException;
 import java.util.*;
 
 /**
@@ -19,8 +18,8 @@ public class HueUtils
     private static final Logger LOG = LoggerFactory.getLogger(HueUtils.class);
 
     public final static String HUB_VERSION = "1709131301";
-    public final static String API_VERSION = "1.19.0";
-    public final static String MODEL_ID = "VHUE002";
+    public final static String API_VERSION = "1.20.0";
+    public final static String MODEL_ID = "vHUE002";
 
     public static InetAddress getListeningAddress()
     {

@@ -2,6 +2,7 @@ package net.nyllian.vhue.server;
 
 import net.nyllian.vhue.model.Bridge;
 import net.nyllian.vhue.model.BridgeConfig;
+import net.nyllian.vhue.model.Capabilities;
 import net.nyllian.vhue.util.HueUtils;
 import net.nyllian.vhue.util.Randomizer;
 import net.nyllian.vhue.util.Serializer;
@@ -18,7 +19,6 @@ import java.util.stream.Collectors;
  * Created by Nyllian on 16/11/2017.
  *
  */
-// @ApplicationPath("/")
 public class HueServer extends ResourceConfig
 {
     private static final Logger LOG = LoggerFactory.getLogger(HueServer.class);
@@ -36,6 +36,7 @@ public class HueServer extends ResourceConfig
             InitializeTemplateMap();
             InitializeResources();
             InitializeBridgeConfig();
+            InitializeBridgeCapabilities();
             // startSsdpServer();
             startUpnpServer();
         }
@@ -192,7 +193,7 @@ public class HueServer extends ResourceConfig
             bridge.getBridgeConfig().setIpAddress(manager.getResource("ipAddress").toString());
             bridge.getBridgeConfig().setGateway(manager.getResource("ipAddress").toString());
             bridge.getBridgeConfig().setMacAddress(manager.getResource("macAddress").toString());
-            manager.addResource("bridge", bridge);
+            manager.addResource(ResourceManager.RESOURCE_BRIDGE, bridge);
         }
         catch (IOException ioEx)
         {
@@ -223,10 +224,15 @@ public class HueServer extends ResourceConfig
                     .setModelId(HueUtils.MODEL_ID);
 
             bridge.setBridgeConfig(bridgeConfig);
-            manager.addResource("bridge", bridge);
+            manager.addResource(ResourceManager.RESOURCE_BRIDGE, bridge);
 
             bridge.writeConfig();
         }
+    }
+
+    private void InitializeBridgeCapabilities()
+    {
+        manager.addResource(ResourceManager.RESOURCE_CAPABILITIES, new Capabilities(manager.getBridge()));
     }
 
     private void InitializeResources() throws UnknownHostException, SocketException
@@ -241,7 +247,6 @@ public class HueServer extends ResourceConfig
 
         // Get the ipAddress
         manager.addResource("ipAddress", HueUtils.getListeningAddress().getHostAddress());
-
     }
 
     /**

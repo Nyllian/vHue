@@ -36,14 +36,25 @@ public class SensorResource
     public SensorResource(@Context Application application)
     {
         ResourceManager manager = (ResourceManager)application.getProperties().get("manager");
-        bridge = (Bridge) manager.getResource("bridge");
+        bridge = manager.getBridge();
     }
 
     @GET
     public Response getSensors(@Context HttpServletRequest request)
     {
         LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
-        return Response.ok(bridge.getSensors()).build();
+
+        try
+        {
+            return Response.ok(
+                    Serializer.SerializeJson(bridge.getSensors())
+            ).build();
+        }
+        catch (Exception ex)
+        {
+            LOG.error("Unable to serialize the object", ex);
+            return Response.serverError().entity(ex).build();
+        }
     }
 
     @POST
@@ -54,7 +65,7 @@ public class SensorResource
         try
         {
             String postData = IOUtils.toString(request.getInputStream(), Charset.forName("UTF-8"));
-            LOG.warn("ZZZZZ => " + postData);
+            LOG.warn("TODO: => " + postData);
 
             Sensor newSensor = Serializer.SerializeJson(postData, Sensor.class);
             bridge.addSensor(newSensor);
@@ -65,6 +76,7 @@ public class SensorResource
             LOG.error("Unable to read POST data!", iEx);
         }
 
+        // TODO: Not proper return
         return Response.ok(bridge.getSensors()).build();
     }
 
@@ -73,7 +85,18 @@ public class SensorResource
     public Response getSensor(@Context HttpServletRequest request, @PathParam("id") String id)
     {
         LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
-        return Response.ok(bridge.getSensors().get(id)).build();
+
+        try
+        {
+            return Response.ok(
+                    Serializer.SerializeJson(bridge.getSensor(id))
+            ).build();
+        }
+        catch (Exception ex)
+        {
+            LOG.error("Unable to serialize the object", ex);
+            return Response.serverError().entity(ex).build();
+        }
     }
 
 }

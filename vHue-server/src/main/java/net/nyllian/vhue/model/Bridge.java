@@ -9,6 +9,8 @@ import net.nyllian.vhue.util.Serializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Context;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
@@ -25,6 +27,9 @@ public class Bridge implements IJSon
     private static final Logger LOG = LoggerFactory.getLogger(BridgeConfig.class);
     @JsonIgnore
     public static String configStoreLocation = "./conf/bridgeconfig.json";
+
+    @Context
+    Application application;
 
     @JsonProperty("config")
     private BridgeConfig bridgeConfig;
@@ -43,16 +48,56 @@ public class Bridge implements IJSon
     @JsonProperty("scenes")
     private Map<String, Scene> scenes = new LinkedHashMap<>();
 
+    // @JsonIgnore
+    // private Map<String, Capabilities> capabilities = new TreeMap<>();
+    // private Capabilities capabilities = new Capabilities(this);
     @JsonIgnore
     private Map<String, Object> discoveredLights = new TreeMap<>();
-    @JsonIgnore
-    private Map<String, Object> capabilities = new TreeMap<>();
 
-    public Map<String, Object> getCapabilities()
+    /**
+     * Write the bridge config
+     */
+    public void writeConfig()
     {
-        // TODO
-        return capabilities;
+        try
+        {
+            FileWriter fw = new FileWriter(configStoreLocation);
+            fw.write(Serializer.SerializeJson(this));
+            fw.close();
+        }
+        catch (JsonProcessingException jEx)
+        {
+            LOG.error("Unknown exception while serializing object", jEx);
+        }
+        catch (IOException ioEx)
+        {
+            LOG.error("Error while reading the config file.", ioEx);
+        }
     }
+
+    /**
+     * Simulate a link button press event
+     */
+    public void pressLinkButton()
+    {
+        Runnable press = () -> {
+            try
+            {
+                if (bridgeConfig.isLinkButton())
+                {
+                    Thread.sleep(10000);
+                    bridgeConfig.setLinkButton(false);
+                }
+            }
+            catch (Exception ex)
+            {
+                LOG.error("Link button could not be reset!", ex);
+            }
+        };
+
+        new Thread(press).start();
+    }
+
 
     public Map<String, Object> getDiscoveredLights()
     {
@@ -149,10 +194,20 @@ public class Bridge implements IJSon
         scenes.remove(id);
     }
 
+    public Sensor getSensor(String id)
+    {
+        return sensors.get(id);
+    }
+
     public void addSensor(Sensor sensor)
     {
         String newId = String.format("%s", sensors.size()+1);
         sensors.put(newId, sensor);
+    }
+
+    public void deleteSensor(String id)
+    {
+        sensors.remove(id);
     }
 
     public void addSchedule(Schedule schedule)
@@ -172,35 +227,16 @@ public class Bridge implements IJSon
         String newId = String.format("%s", resourceLinks.size()+1);
         resourceLinks.put(newId, resourceLink);
     }
-
-    public void writeConfig()
+/*
+    public void addCapability(Capabilities capability)
     {
-        try
-        {
-            FileWriter fw = new FileWriter(configStoreLocation);
-            fw.write(Serializer.SerializeJson(this));
-            fw.close();
-        }
-        catch (JsonProcessingException jEx)
-        {
-            LOG.error("Unknown exception while serializing object", jEx);
-        }
-        catch (IOException ioEx)
-        {
-            LOG.error("Error while reading the config file.", ioEx);
-        }
+        String newId = String.format("%s", capabilities.size()+1);
+        capabilities.put(newId, capability);
     }
-
-
+*/
     public BridgeConfig getBridgeConfig()
     {
         return bridgeConfig;
-    }
-
-    public Bridge setBridgeConfig(BridgeConfig bridgeConfig)
-    {
-        this.bridgeConfig = bridgeConfig;
-        return this;
     }
 
     public Map<String, Light> getLights()
@@ -279,4 +315,11 @@ public class Bridge implements IJSon
         this.scenes = scenes;
         return this;
     }
+
+    public Bridge setBridgeConfig(BridgeConfig bridgeConfig)
+    {
+        this.bridgeConfig = bridgeConfig;
+        return this;
+    }
+
 }

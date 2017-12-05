@@ -38,14 +38,25 @@ public class LightResource
     public LightResource(@Context Application application)
     {
         ResourceManager manager = (ResourceManager)application.getProperties().get("manager");
-        bridge = (Bridge) manager.getResource("bridge");
+        bridge = manager.getBridge();
     }
 
     @GET
     public Response getAllLights(@Context HttpServletRequest request)
     {
         LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
-        return Response.ok(bridge.getLights()).build();
+
+        try
+        {
+            return Response.ok(
+                    Serializer.SerializeJson(bridge.getLights())
+            ).build();
+        }
+        catch (Exception ex)
+        {
+            LOG.error("Unable to serialize the object", ex);
+            return Response.serverError().entity(ex).build();
+        }
     }
 
     @POST
@@ -83,16 +94,22 @@ public class LightResource
         {
             if (id.equals("new"))
             {
-                // Return list of new discovered lights
-                return Response.ok(Serializer.SerializeJson(bridge.getDiscoveredLights())).build();
+                return Response.ok(
+                        Serializer.SerializeJson(bridge.getDiscoveredLights())
+                ).build();
+            }
+            else
+            {
+                return Response.ok(
+                        Serializer.SerializeJson(bridge.getLights().get(id))
+                ).build();
             }
         }
-        catch (IOException iEx)
+        catch (Exception ex)
         {
-            LOG.error("Unable to read POST data!", iEx);
+            LOG.error("Unable to serialize the object", ex);
+            return Response.serverError().entity(ex).build();
         }
-
-        return Response.ok(bridge.getLights().get(id)).build();
     }
 
     @PUT

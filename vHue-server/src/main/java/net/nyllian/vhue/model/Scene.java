@@ -30,10 +30,9 @@ public class Scene implements IJSon
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private Date lastUpdated = new Date();
     @JsonProperty("recycle")
-    private boolean recycle = false;
+    private boolean recycle = true;
     @JsonProperty("appdata")
     private AppData appData = new AppData();
-    // private Map<String, AppData> appData = new LinkedHashMap<>();
     @JsonProperty("lightstates")
     private Map<String, LightState> lightStates = new LinkedHashMap<>();
     @JsonProperty("lights")

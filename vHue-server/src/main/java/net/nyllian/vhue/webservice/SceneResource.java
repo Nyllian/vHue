@@ -39,7 +39,7 @@ public class SceneResource
     public SceneResource(@Context Application application)
     {
         ResourceManager manager = (ResourceManager)application.getProperties().get("manager");
-        bridge = (Bridge) manager.getResource("bridge");
+        bridge = manager.getBridge();
     }
 
     @GET
@@ -47,7 +47,38 @@ public class SceneResource
     {
         LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
 
-        return Response.ok(bridge.getScenes()).build();
+        try
+        {
+            return Response.ok(
+                    Serializer.SerializeJson(bridge.getScenes())
+            ).build();
+        }
+        catch (Exception ex)
+        {
+            LOG.error("Unable to serialize the object", ex);
+            return Response.serverError().entity(ex).build();
+        }
+    }
+
+    @PUT
+    public Response putScenes(@Context HttpServletRequest request)
+    {
+        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
+
+        try
+        {
+            String postData = IOUtils.toString(request.getInputStream(), Charset.forName("UTF-8"));
+            LOG.info(String.format("Received: %s", postData));
+
+            LOG.warn("Unimplemented feature in Scenes - putScenes");
+
+            return Response.ok(bridge.getScenes()).build();
+        }
+        catch (IOException iEx)
+        {
+            LOG.error("Unable to read POST data!", iEx);
+            return Response.serverError().entity(iEx).build();
+        }
     }
 
     @POST
@@ -88,7 +119,18 @@ public class SceneResource
     public Response getScene(@Context HttpServletRequest request, @PathParam("id") String id)
     {
         LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
-        return Response.ok(bridge.getScenes().get(id)).build();
+
+        try
+        {
+            return Response.ok(
+                    Serializer.SerializeJson(bridge.getScene(id))
+            ).build();
+        }
+        catch (Exception ex)
+        {
+            LOG.error("Unable to serialize the object", ex);
+            return Response.serverError().entity(ex).build();
+        }
     }
 
     @POST
@@ -165,6 +207,39 @@ public class SceneResource
     @PUT
     @Path("/{id}/lightstates/{lid}")
     public Response editSceneLights(@Context HttpServletRequest request, @PathParam("id") String id, @PathParam("lid") String lid)
+    {
+        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
+
+        try
+        {
+            String postData = IOUtils.toString(request.getInputStream(), Charset.forName("UTF-8"));
+            LOG.info(String.format("Received: %s", postData));
+
+            // TODO: Change the lightstate of the lights of the scene...
+            // TODO: Go via the light.lightstate and not via the scene.lightstate...
+            // bridge.getScene(id).getLights().get(lid).getLightState();
+
+            // The lightstate under the Scene must be detached from the actual light
+            LightState sceneLightState = bridge.getScene(id).getLightStates().get(lid);
+            LightState updatedSceneLightState = Serializer.UpdateObject(sceneLightState, postData);
+            bridge.getLight(lid).setLightState(updatedSceneLightState);
+            bridge.writeConfig();
+
+            String retval = HueUtils.getResponseAttributesSuccess(postData, String.format("/scenes/%s/lights/%s/state", id, lid));
+            // String retval = String.format("[{ \"success\" : { \"/scenes/%s/lights/%s/state\" : \"Device state changed.\" }}]", id, lid);
+            LOG.debug(String.format("Responding: %s", retval));
+            return Response.ok(retval).build();
+        }
+        catch (IOException iEx)
+        {
+            LOG.error("Unable to read POST data!", iEx);
+            return Response.serverError().entity(iEx).build();
+        }
+    }
+
+    @POST
+    @Path("/{id}/lightstates/{lid}")
+    public Response editSceneLightsPost(@Context HttpServletRequest request, @PathParam("id") String id, @PathParam("lid") String lid)
     {
         LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
 

@@ -40,14 +40,25 @@ public class GroupResource
     public GroupResource(@Context Application application)
     {
         ResourceManager manager = (ResourceManager)application.getProperties().get("manager");
-        bridge = (Bridge) manager.getResource("bridge");
+        bridge = manager.getBridge();
     }
 
     @GET
     public Response getAllGroups(@Context HttpServletRequest request)
     {
         LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
-        return Response.ok(bridge.getGroups()).build();
+
+        try
+        {
+            return Response.ok(
+                    Serializer.SerializeJson(bridge.getGroups())
+            ).build();
+        }
+        catch (Exception ex)
+        {
+            LOG.error("Unable to serialize the object", ex);
+            return Response.serverError().entity(ex).build();
+        }
     }
 
     @POST
@@ -95,7 +106,18 @@ public class GroupResource
     public Response getGroup(@Context HttpServletRequest request, @PathParam("id") String id)
     {
         LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
-        return Response.ok(bridge.getGroups().get(id)).build();
+
+        try
+        {
+            return Response.ok(
+                    Serializer.SerializeJson(bridge.getGroups().get(id))
+            ).build();
+        }
+        catch (Exception ex)
+        {
+            LOG.error("Unable to serialize the object", ex);
+            return Response.serverError().entity(ex).build();
+        }
     }
 
     @PUT
