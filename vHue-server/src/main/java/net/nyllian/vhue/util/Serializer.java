@@ -38,6 +38,21 @@ public class Serializer
         return serializedString;
     }
 
+    public static String SerializeJsonView(Class view, Object jsonObject) throws JsonProcessingException
+    {
+        ObjectMapper serializer = new ObjectMapper();
+        serializer.setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"));
+        serializer.configure(MapperFeature.DEFAULT_VIEW_INCLUSION, false);
+
+        String serializedString = serializer
+                // .writerWithDefaultPrettyPrinter()
+                .writerWithView(view.getClass())
+                .writeValueAsString(jsonObject);
+
+        LOG.trace(String.format("Serializing object: \n%s", serializedString));
+        return serializedString;
+    }
+
     public static <T> T SerializeJson(String jsonString, Class<T> jsonClass) throws IOException
     {
         ObjectMapper serializer = new ObjectMapper();

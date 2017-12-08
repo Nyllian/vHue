@@ -1,9 +1,7 @@
 package net.nyllian.vhue.model;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
+import net.nyllian.vhue.model.views.SceneView;
 
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -16,30 +14,37 @@ import java.util.Map;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.PROTECTED_AND_PUBLIC)
 public class Scene implements IJSon
 {
+    @JsonView(SceneView.PictureOnly.class)
     @JsonProperty("picture")
     private String picture = "";
+    @JsonView(SceneView.LockedOnly.class)
     @JsonProperty("locked")
     private boolean locked = false;
+    @JsonView(SceneView.NameOnly.class)
     @JsonProperty("name")
     private String name = "";
+    @JsonView(SceneView.OwnerOnly.class)
     @JsonProperty("owner")
     private String owner = "";
+    @JsonView(SceneView.VersionOnly.class)
     @JsonProperty("version")
     private int version = 2;
+    @JsonView(SceneView.LastUpdatedOnly.class)
     @JsonProperty("lastupdated")
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private Date lastUpdated = new Date();
+    @JsonView(SceneView.RecycleOnly.class)
     @JsonProperty("recycle")
     private boolean recycle = true;
+    @JsonView(SceneView.AppDataOnly.class)
     @JsonProperty("appdata")
     private AppData appData = new AppData();
+    @JsonView(SceneView.LightScenesOnly.class)
     @JsonProperty("lightstates")
     private Map<String, LightState> lightStates = new LinkedHashMap<>();
+    @JsonView(SceneView.LightsOnly.class)
     @JsonProperty("lights")
     private String[] lightIds = new String[]{};
-
-    @JsonIgnore
-    private Map<String, Light> lights = new LinkedHashMap<>();
 
     @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.PROTECTED_AND_PUBLIC)
     private class AppData implements IJSon
@@ -185,20 +190,5 @@ public class Scene implements IJSon
     {
         this.lightIds = lightIds;
         return this;
-    }
-
-    public Map<String, Light> getLights()
-    {
-        return lights;
-    }
-
-    public void setLights(Map<String, Light> lights)
-    {
-        this.lights = lights;
-    }
-
-    public Light getLight(String id)
-    {
-        return lights.get(id);
     }
 }

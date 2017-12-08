@@ -1,9 +1,12 @@
 package net.nyllian.vhue.webservice;
 
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.nyllian.vhue.model.Bridge;
 import net.nyllian.vhue.model.Light;
 import net.nyllian.vhue.model.LightState;
 import net.nyllian.vhue.model.Scene;
+import net.nyllian.vhue.model.views.SceneView;
 import net.nyllian.vhue.server.ResourceManager;
 import net.nyllian.vhue.util.HueUtils;
 import net.nyllian.vhue.util.Serializer;
@@ -19,6 +22,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.text.SimpleDateFormat;
 
 /**
  * Created by Nyllian on 26/11/2017.
@@ -49,9 +53,25 @@ public class SceneResource
 
         try
         {
+            ObjectMapper serializer = new ObjectMapper();
+            serializer.setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"));
+            serializer.configure(MapperFeature.DEFAULT_VIEW_INCLUSION, false);
+
+            String response = serializer
+                    // .writerWithDefaultPrettyPrinter()
+                    .writerWithView(SceneView.SceneProperties.class)
+                    .writeValueAsString(bridge.getScenes());
+
+            LOG.warn("RSPONSE ==> \n" + response);
+            // TODO: Exclude the scenes
+            return Response.ok(
+                    response
+            ).build();
+            /*
             return Response.ok(
                     Serializer.SerializeJson(bridge.getScenes())
             ).build();
+            */
         }
         catch (Exception ex)
         {
@@ -97,7 +117,6 @@ public class SceneResource
             for (String lid : newScene.getLightIds())
             {
                 Light respectiveLight = bridge.getLight(lid);
-                newScene.getLights().put(lid, respectiveLight);
                 newScene.getLightStates().put(lid, respectiveLight.getLightState());
             }
             String sceneId = bridge.addScene(newScene);
