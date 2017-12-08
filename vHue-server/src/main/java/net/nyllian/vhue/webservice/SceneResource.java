@@ -1,7 +1,5 @@
 package net.nyllian.vhue.webservice;
 
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import net.nyllian.vhue.model.Bridge;
 import net.nyllian.vhue.model.Light;
 import net.nyllian.vhue.model.LightState;
@@ -22,7 +20,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.text.SimpleDateFormat;
 
 /**
  * Created by Nyllian on 26/11/2017.
@@ -53,51 +50,15 @@ public class SceneResource
 
         try
         {
-            ObjectMapper serializer = new ObjectMapper();
-            serializer.setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"));
-            serializer.configure(MapperFeature.DEFAULT_VIEW_INCLUSION, false);
-
-            String response = serializer
-                    // .writerWithDefaultPrettyPrinter()
-                    .writerWithView(SceneView.SceneProperties.class)
-                    .writeValueAsString(bridge.getScenes());
-
-            LOG.warn("RSPONSE ==> \n" + response);
-            // TODO: Exclude the scenes
             return Response.ok(
-                    response
+                    Serializer.SerializeJsonView(SceneView.AllProperties.class, bridge.getScenes())
+                    // Serializer.SerializeJson(bridge.getScenes())
             ).build();
-            /*
-            return Response.ok(
-                    Serializer.SerializeJson(bridge.getScenes())
-            ).build();
-            */
         }
         catch (Exception ex)
         {
             LOG.error("Unable to serialize the object", ex);
-            return Response.serverError().entity(ex).build();
-        }
-    }
-
-    @PUT
-    public Response putScenes(@Context HttpServletRequest request)
-    {
-        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
-
-        try
-        {
-            String postData = IOUtils.toString(request.getInputStream(), Charset.forName("UTF-8"));
-            LOG.info(String.format("Received: %s", postData));
-
-            LOG.warn("Unimplemented feature in Scenes - putScenes");
-
-            return Response.ok(bridge.getScenes()).build();
-        }
-        catch (IOException iEx)
-        {
-            LOG.error("Unable to read POST data!", iEx);
-            return Response.serverError().entity(iEx).build();
+            return Response.status(Response.Status.PAYMENT_REQUIRED).entity(ex).build();
         }
     }
 
@@ -129,7 +90,7 @@ public class SceneResource
         catch (IOException iEx)
         {
             LOG.error("Unable to read POST data!", iEx);
-            return Response.serverError().entity(iEx).build();
+            return Response.status(Response.Status.PAYMENT_REQUIRED).entity(iEx).build();
         }
     }
 
@@ -148,7 +109,7 @@ public class SceneResource
         catch (Exception ex)
         {
             LOG.error("Unable to serialize the object", ex);
-            return Response.serverError().entity(ex).build();
+            return Response.status(Response.Status.PAYMENT_REQUIRED).entity(ex).build();
         }
     }
 
@@ -158,7 +119,7 @@ public class SceneResource
     {
         LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
         LOG.warn("unknownSceneFeature - Unknown feature - still needs implementation");
-        return Response.ok(bridge.getScenes().get(id)).build();
+        return Response.status(Response.Status.PAYMENT_REQUIRED).build();
     }
 
     @PUT
@@ -180,34 +141,15 @@ public class SceneResource
             bridge.writeConfig();
 
             // Construct the response message
+            // String retval = HueUtils.getResponseAttributesSuccess(postData, String.format("/scenes/%s", id));
             String retval = HueUtils.getResponsePropertiesSuccess(postData, String.format("/scenes/%s", id));
             LOG.info(String.format("Responding: %s", retval));
             return Response.ok(retval).build();
-
-
-/*
-// TODO: This code works regarding lights
-            Scene currentScene = bridge.getScene(id);
-            if (postData.contains("lights"))
-            {
-                currentScene.getLights().clear();
-            }
-            Scene updatedScene = Serializer.UpdateObject(currentScene, postData);
-
-            // Update the lights
-            for (String l : updatedScene.getLightIds())
-            {
-                updatedScene.getLights().put(l, bridge.getLight(l));
-            }
-            bridge.getScenes().put(id, updatedScene);
-
-            return Response.ok(bridge.getScenes().get(id)).build();
-*/
         }
         catch (IOException iEx)
         {
             LOG.error("Unable to read POST data!", iEx);
-            return Response.serverError().entity(iEx).build();
+            return Response.status(Response.Status.PAYMENT_REQUIRED).entity(iEx).build();
         }
     }
 
@@ -225,7 +167,7 @@ public class SceneResource
 
     @PUT
     @Path("/{id}/lightstates/{lid}")
-    public Response editSceneLights(@Context HttpServletRequest request, @PathParam("id") String id, @PathParam("lid") String lid)
+    public Response createSceneLights(@Context HttpServletRequest request, @PathParam("id") String id, @PathParam("lid") String lid)
     {
         LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
 
@@ -234,58 +176,21 @@ public class SceneResource
             String postData = IOUtils.toString(request.getInputStream(), Charset.forName("UTF-8"));
             LOG.info(String.format("Received: %s", postData));
 
-            // TODO: Change the lightstate of the lights of the scene...
-            // TODO: Go via the light.lightstate and not via the scene.lightstate...
-            // bridge.getScene(id).getLights().get(lid).getLightState();
-
             // The lightstate under the Scene must be detached from the actual light
             LightState sceneLightState = bridge.getScene(id).getLightStates().get(lid);
             LightState updatedSceneLightState = Serializer.UpdateObject(sceneLightState, postData);
+            LOG.warn("Changing lightstate object " + sceneLightState + " -- with " + updatedSceneLightState);
             bridge.getLight(lid).setLightState(updatedSceneLightState);
             bridge.writeConfig();
 
-            String retval = HueUtils.getResponseAttributesSuccess(postData, String.format("/scenes/%s/lights/%s/state", id, lid));
-            // String retval = String.format("[{ \"success\" : { \"/scenes/%s/lights/%s/state\" : \"Device state changed.\" }}]", id, lid);
+            String retval = HueUtils.getResponsePropertiesSuccess(postData, String.format("/scenes/%s/lights/%s/state", id, lid));
             LOG.debug(String.format("Responding: %s", retval));
             return Response.ok(retval).build();
         }
         catch (IOException iEx)
         {
             LOG.error("Unable to read POST data!", iEx);
-            return Response.serverError().entity(iEx).build();
-        }
-    }
-
-    @POST
-    @Path("/{id}/lightstates/{lid}")
-    public Response editSceneLightsPost(@Context HttpServletRequest request, @PathParam("id") String id, @PathParam("lid") String lid)
-    {
-        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
-
-        try
-        {
-            String postData = IOUtils.toString(request.getInputStream(), Charset.forName("UTF-8"));
-            LOG.info(String.format("Received: %s", postData));
-
-            // TODO: Change the lightstate of the lights of the scene...
-            // TODO: Go via the light.lightstate and not via the scene.lightstate...
-            // bridge.getScene(id).getLights().get(lid).getLightState();
-
-            // The lightstate under the Scene must be detached from the actual light
-            LightState sceneLightState = bridge.getScene(id).getLightStates().get(lid);
-            LightState updatedSceneLightState = Serializer.UpdateObject(sceneLightState, postData);
-            bridge.getLight(lid).setLightState(updatedSceneLightState);
-            bridge.writeConfig();
-
-            String retval = HueUtils.getResponseAttributesSuccess(postData, String.format("/scenes/%s/lights/%s/state", id, lid));
-            // String retval = String.format("[{ \"success\" : { \"/scenes/%s/lights/%s/state\" : \"Device state changed.\" }}]", id, lid);
-            LOG.debug(String.format("Responding: %s", retval));
-            return Response.ok(retval).build();
-        }
-        catch (IOException iEx)
-        {
-            LOG.error("Unable to read POST data!", iEx);
-            return Response.serverError().entity(iEx).build();
+            return Response.status(Response.Status.PAYMENT_REQUIRED).entity(iEx).build();
         }
     }
 }

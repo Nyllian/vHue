@@ -1,6 +1,7 @@
 package net.nyllian.vhue.model;
 
 import com.fasterxml.jackson.annotation.*;
+import net.nyllian.vhue.model.views.LightStateView;
 import net.nyllian.vhue.model.views.SceneView;
 
 import java.util.Date;
@@ -39,7 +40,7 @@ public class Scene implements IJSon
     @JsonView(SceneView.AppDataOnly.class)
     @JsonProperty("appdata")
     private AppData appData = new AppData();
-    @JsonView(SceneView.LightScenesOnly.class)
+    @JsonView(SceneView.LightStatesOnly.class)
     @JsonProperty("lightstates")
     private Map<String, LightState> lightStates = new LinkedHashMap<>();
     @JsonView(SceneView.LightsOnly.class)
@@ -49,8 +50,10 @@ public class Scene implements IJSon
     @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.PROTECTED_AND_PUBLIC)
     private class AppData implements IJSon
     {
+        @JsonView(SceneView.AppDataView.VersionOnly.class)
         @JsonProperty("version")
         private int version = 1;
+        @JsonView(SceneView.AppDataView.DataOnly.class)
         @JsonProperty("data")
         private String data = "GPm4Y_r01_d17";
 

@@ -5,7 +5,7 @@
       "name" : "DLight 1",
       "state" : {
         "alert" : "select",
-        "bri" : 181,
+        "bri" : 254,
         "colormode" : "xy",
         "ct" : 461,
         "effect" : "none",
@@ -13,7 +13,7 @@
         "on" : true,
         "reachable" : true,
         "sat" : 0,
-        "xy" : [ 0.174007, 0.15431 ],
+        "xy" : [ 0.476301, 0.242898 ],
         "transitiontime" : 8
       },
       "swversion" : "66009461",
@@ -26,7 +26,7 @@
       "name" : "DLight 2",
       "state" : {
         "alert" : "select",
-        "bri" : 181,
+        "bri" : 254,
         "colormode" : "xy",
         "ct" : 461,
         "effect" : "none",
@@ -34,7 +34,7 @@
         "on" : true,
         "reachable" : true,
         "sat" : 0,
-        "xy" : [ 0.153781, 0.278455 ],
+        "xy" : [ 0.377756, 0.369776 ],
         "transitiontime" : 4
       },
       "swversion" : "66009461",
@@ -52,7 +52,7 @@
         "ct" : 461,
         "effect" : "none",
         "hue" : 0,
-        "on" : false,
+        "on" : true,
         "sat" : 0,
         "xy" : [ 0.310669, 0.323961 ]
       },
@@ -73,8 +73,8 @@
   "rules" : { },
   "sensors" : { },
   "config" : {
-    "ipaddress" : "192.168.0.14",
-    "gateway" : "192.168.0.14",
+    "ipaddress" : "192.168.254.91",
+    "gateway" : "192.168.254.91",
     "netmask" : "255.255.255.0",
     "proxyaddress" : "none",
     "proxyport" : 0,
@@ -82,10 +82,10 @@
     "linkbutton" : true,
     "portalservices" : true,
     "zigbeechannel" : 15,
-    "utc" : "2017-12-07T11:11:15",
+    "utc" : "2017-12-08T16:11:12",
     "localtime" : "2017-11-26T16:31:09",
     "timezone" : "Europe/Brussels",
-    "mac" : "F0:1F:AF:43:BC:AE",
+    "mac" : "00:05:9A:3C:7A:00",
     "name" : "vHue",
     "bridgeid" : "847EFBE2E12B0E89",
     "modelid" : "vHUE-001",
@@ -123,19 +123,19 @@
     "1" : {
       "picture" : "",
       "locked" : false,
-      "name" : "S1",
-      "owner" : "83e9dbc3998141d58783fdc015533b05",
+      "name" : "Fire",
+      "owner" : "281c23003792450586e1603414f38f18",
       "version" : 2,
-      "lastupdated" : "2017-12-02T16:41:01",
+      "lastupdated" : "2017-12-08T15:57:07",
       "recycle" : false,
       "appdata" : {
         "version" : 1,
-        "data" : "VKeJJ_r01"
+        "data" : "qF2sN_r01"
       },
       "lightstates" : {
         "1" : {
           "alert" : "select",
-          "bri" : 36,
+          "bri" : 120,
           "colormode" : "xy",
           "ct" : 461,
           "effect" : "none",
@@ -143,12 +143,12 @@
           "on" : true,
           "reachable" : true,
           "sat" : 0,
-          "xy" : [ 0.136244, 0.051715 ],
-          "transitiontime" : 5
+          "xy" : [ 0.477508, 0.430991 ],
+          "transitiontime" : 8
         },
         "2" : {
           "alert" : "select",
-          "bri" : 246,
+          "bri" : 120,
           "colormode" : "xy",
           "ct" : 461,
           "effect" : "none",
@@ -156,8 +156,8 @@
           "on" : true,
           "reachable" : true,
           "sat" : 0,
-          "xy" : [ 0.645721, 0.275279 ],
-          "transitiontime" : 5
+          "xy" : [ 0.639871, 0.334216 ],
+          "transitiontime" : 4
         }
       },
       "lights" : [ "1", "2" ]
@@ -165,19 +165,19 @@
     "2" : {
       "picture" : "",
       "locked" : false,
-      "name" : "Sa",
+      "name" : "B",
       "owner" : "281c23003792450586e1603414f38f18",
       "version" : 2,
-      "lastupdated" : "2017-12-07T11:11:40",
+      "lastupdated" : "2017-12-08T15:57:16",
       "recycle" : false,
       "appdata" : {
         "version" : 1,
-        "data" : "10vA0_r01"
+        "data" : "ZKBbR_r01"
       },
       "lightstates" : {
         "1" : {
           "alert" : "select",
-          "bri" : 181,
+          "bri" : 129,
           "colormode" : "xy",
           "ct" : 461,
           "effect" : "none",
@@ -185,12 +185,12 @@
           "on" : true,
           "reachable" : true,
           "sat" : 0,
-          "xy" : [ 0.174007, 0.15431 ],
+          "xy" : [ 0.504348, 0.268478 ],
           "transitiontime" : 8
         },
         "2" : {
           "alert" : "select",
-          "bri" : 181,
+          "bri" : 129,
           "colormode" : "xy",
           "ct" : 461,
           "effect" : "none",
@@ -198,7 +198,133 @@
           "on" : true,
           "reachable" : true,
           "sat" : 0,
-          "xy" : [ 0.153781, 0.278455 ],
+          "xy" : [ 0.392564, 0.296686 ],
+          "transitiontime" : 4
+        }
+      },
+      "lights" : [ "1", "2" ]
+    },
+    "3" : {
+      "picture" : "",
+      "locked" : false,
+      "name" : "C",
+      "owner" : "281c23003792450586e1603414f38f18",
+      "version" : 2,
+      "lastupdated" : "2017-12-08T15:57:35",
+      "recycle" : false,
+      "appdata" : {
+        "version" : 1,
+        "data" : "DFKtP_r01"
+      },
+      "lightstates" : {
+        "1" : {
+          "alert" : "select",
+          "bri" : 150,
+          "colormode" : "xy",
+          "ct" : 461,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : true,
+          "sat" : 0,
+          "xy" : [ 0.40022, 0.563434 ],
+          "transitiontime" : 8
+        },
+        "2" : {
+          "alert" : "select",
+          "bri" : 96,
+          "colormode" : "xy",
+          "ct" : 461,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : true,
+          "sat" : 0,
+          "xy" : [ 0.423427, 0.447075 ],
+          "transitiontime" : 4
+        }
+      },
+      "lights" : [ "1", "2" ]
+    },
+    "4" : {
+      "picture" : "",
+      "locked" : false,
+      "name" : "D",
+      "owner" : "281c23003792450586e1603414f38f18",
+      "version" : 2,
+      "lastupdated" : "2017-12-08T15:57:46",
+      "recycle" : false,
+      "appdata" : {
+        "version" : 1,
+        "data" : "RPlTc_r01"
+      },
+      "lightstates" : {
+        "1" : {
+          "alert" : "select",
+          "bri" : 112,
+          "colormode" : "xy",
+          "ct" : 461,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : true,
+          "sat" : 0,
+          "xy" : [ 0.380554, 0.355156 ],
+          "transitiontime" : 8
+        },
+        "2" : {
+          "alert" : "select",
+          "bri" : 112,
+          "colormode" : "xy",
+          "ct" : 461,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : true,
+          "sat" : 0,
+          "xy" : [ 0.153502, 0.064534 ],
+          "transitiontime" : 4
+        }
+      },
+      "lights" : [ "1", "2" ]
+    },
+    "5" : {
+      "picture" : "",
+      "locked" : false,
+      "name" : "Tasj",
+      "owner" : "281c23003792450586e1603414f38f18",
+      "version" : 2,
+      "lastupdated" : "2017-12-08T16:12:51",
+      "recycle" : false,
+      "appdata" : {
+        "version" : 1,
+        "data" : "LZ4OH_r01"
+      },
+      "lightstates" : {
+        "1" : {
+          "alert" : "select",
+          "bri" : 254,
+          "colormode" : "xy",
+          "ct" : 461,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : true,
+          "sat" : 0,
+          "xy" : [ 0.476301, 0.242898 ],
+          "transitiontime" : 8
+        },
+        "2" : {
+          "alert" : "select",
+          "bri" : 254,
+          "colormode" : "xy",
+          "ct" : 461,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : true,
+          "sat" : 0,
+          "xy" : [ 0.377756, 0.369776 ],
           "transitiontime" : 4
         }
       },

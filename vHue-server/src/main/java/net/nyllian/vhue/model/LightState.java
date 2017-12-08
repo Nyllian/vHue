@@ -3,6 +3,8 @@ package net.nyllian.vhue.model;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonView;
+import net.nyllian.vhue.model.views.LightStateView;
 
 /**
  * Created by Nyllian on 20/11/2017.
@@ -12,26 +14,37 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({"alert", "bri", "colormode", "ct", "effect", "hue", "on", "reachable", "sat", "xy"})
 public class LightState implements IJSon
 {
+    @JsonView(LightStateView.AlertOnly.class)
     @JsonProperty
     private String alert = "select";
+    @JsonView(LightStateView.BrightnessOnly.class)
     @JsonProperty("bri")
     private int brightness = 18;
+    @JsonView(LightStateView.ColorModeOnly.class)
     @JsonProperty("colormode")
     private String colorMode = "ct";
+    @JsonView(LightStateView.ColorTempOnly.class)
     @JsonProperty("ct")
     private int colorTemp = 461;
+    @JsonView(LightStateView.EffectOnly.class)
     @JsonProperty("effect")
     private String effect = "none";
+    @JsonView(LightStateView.HueOnly.class)
     @JsonProperty("hue")
     private int hue = 0;
+    @JsonView(LightStateView.OnOnly.class)
     @JsonProperty("on")
     private boolean on = false;
+    @JsonView(LightStateView.ReachableOnly.class)
     @JsonProperty("reachable")
     private boolean reachable = false;
+    @JsonView(LightStateView.SaturationOnly.class)
     @JsonProperty("sat")
     private int saturation = 0;
+    @JsonView(LightStateView.XYOnly.class)
     @JsonProperty("xy")
     private double[] xy = new double[] { 0.310669, 0.323961 };
+    @JsonView(LightStateView.TransitionTimeOnly.class)
     @JsonProperty("transitiontime")
     private int transitionTime = 5;
 

@@ -66,99 +66,112 @@ public class HueUtils
         return null;
     }
 
-    @SuppressWarnings("unchecked")
     public static String getResponsePropertiesSuccess(String postData, String uri) throws IOException
     {
         // Construct the response message
-        Map<String, Object> dataMap = Serializer.SerializeJson(postData, Map.class);
-        StringBuilder sb = new StringBuilder();
-        for (String key : dataMap.keySet())
-        {
-//            if (!key.equals("appdata"))
-//            {
-                if (dataMap.get(key) instanceof List)
-                {
-                    ArrayList<String> value = (ArrayList) dataMap.get(key);
-                    String val = "";
-                    for (Object tmp : value)
-                    {
-                        if (tmp instanceof String)
-                        {
-                            val += String.format("\"%s\",", tmp);
-                        }
-                        else
-                        {
-                            val += String.format("%s,", tmp);
-                        }
-                    }
-
-                    sb.append(String.format("{\"success\": {\"%s/%s\" : [%s] }},", uri, key, val.substring(0, val.length() - 1)));
-                }
-                else if (dataMap.get(key) instanceof Map)
-                {
-                    String tmp = Serializer.SerializeJson(dataMap.get(key));
-                    sb.append(getResponsePropertiesSuccess(tmp, uri + "/appdata"));
-                    // LinkedHashMap<String, String> map = Serializer.SerializeJson(tmp, LinkedHashMap.class);
-
-                }
-                else if (dataMap.get(key) instanceof String)
-                {
-                    sb.append(String.format("{\"success\": {\"%s/%s\" : \"%s\" }},", uri, key, dataMap.get(key)));
-                }
-                else
-                {
-                    sb.append(String.format("{\"success\": {\"%s/%s\" : %s }},", uri, key, dataMap.get(key)));
-                }
-//            }
-        }
-
-        return String.format("[ %s ]", sb.toString().substring(0, sb.toString().length()-1));
+        String retval = successNodeValue(postData, uri);
+        return String.format("[ %s ]", retval.substring(0, retval.length()-1));
     }
 
     @SuppressWarnings("unchecked")
-    public static String getResponseAttributesSuccess(String postData, String uri) throws IOException
+    private static String successNodeValue(String postData, String uri) throws IOException
     {
-
         Map<String, Object> dataMap = Serializer.SerializeJson(postData, Map.class);
         StringBuilder sb = new StringBuilder();
         for (String key : dataMap.keySet())
         {
-            if (!key.equals("appdata"))
+            if (dataMap.get(key) instanceof List)
             {
-                sb.append("{\"success\": ");
-
-                if (dataMap.get(key) instanceof ArrayList)
+                ArrayList<String> value = (ArrayList) dataMap.get(key);
+                String val = "";
+                for (Object tmp : value)
                 {
-                    ArrayList<String> value = (ArrayList)dataMap.get(key);
-                    String val = "";
-                    for (Object tmp : value)
+                    if (tmp instanceof String)
                     {
-                        if (tmp instanceof String)
-                        {
-                            val += String.format("\"%s\",", tmp);
-                        }
-                        else
-                        {
-                            val += String.format("%s,", tmp);
-                        }
+                        val += String.format("\"%s\",", tmp);
                     }
-
-                    sb.append(String.format("{\"address\": \"%s/%s\", \"value\":[%s]}", uri, key, val.substring(0, val.length() - 1)));
+                    else
+                    {
+                        val += String.format("%s,", tmp);
+                    }
                 }
-                else if (dataMap.get(key) instanceof String)
+
+                if (val.length() > 0)
                 {
-                    String value = (String)dataMap.get(key);
-                    sb.append(String.format("{\"address\": \"%s/%s\", \"value\":\"%s\"}", uri, key, value));
+                    sb.append(String.format("{\"success\": {\"%s/%s\" : [%s] }},", uri, key, val.substring(0, val.length() - 1)));
                 }
                 else
                 {
-                    sb.append(String.format("{\"address\": \"%s/%s\", \"value\":%s}", uri, key, dataMap.get(key)));
+                    sb.append(String.format("{\"success\": {\"%s/%s\" : [%s] }},", uri, key, val));
                 }
-                sb.append("},");
+            }
+            else if (dataMap.get(key) instanceof Map)
+            {
+                String tmp = Serializer.SerializeJson(dataMap.get(key));
+                sb.append(successNodeValue(tmp, uri + "/appdata"));
+            }
+            else if (dataMap.get(key) instanceof String)
+            {
+                sb.append(String.format("{\"success\": {\"%s/%s\" : \"%s\" }},", uri, key, dataMap.get(key)));
+            }
+            else
+            {
+                sb.append(String.format("{\"success\": {\"%s/%s\" : %s }},", uri, key, dataMap.get(key)));
             }
         }
 
-        return String.format("[ %s ]", sb.toString().substring(0, sb.toString().length()-1));
+        return sb.toString();
+    }
+
+    public static String getResponseAttributesSuccess(String postData, String uri) throws IOException
+    {
+        String retval = successAddressValue(postData, uri);
+        return String.format("[ %s ]", retval.substring(0, retval.length() - 1));
+    }
+
+    @SuppressWarnings("unchecked")
+    private static String successAddressValue(String postData, String uri) throws IOException
+    {
+        Map<String, Object> dataMap = Serializer.SerializeJson(postData, Map.class);
+        StringBuilder sb = new StringBuilder();
+        for (String key : dataMap.keySet())
+        {
+            sb.append("{\"success\": ");
+
+            if (dataMap.get(key) instanceof ArrayList)
+            {
+                ArrayList<String> value = (ArrayList)dataMap.get(key);
+                String val = "";
+                for (Object tmp : value)
+                {
+                    if (tmp instanceof String)
+                    {
+                        val += String.format("\"%s\",", tmp);
+                    }
+                    else
+                    {
+                        val += String.format("%s,", tmp);
+                    }
+                }
+
+                sb.append(String.format("{\"address\": \"%s/%s\", \"value\":[%s]},", uri, key, val.substring(0, val.length() - 1)));
+            }
+            else if (dataMap.get(key) instanceof Map)
+            {
+                String tmp = Serializer.SerializeJson(dataMap.get(key));
+                sb.append(successAddressValue(tmp, uri + "/appdata"));
+            }
+            else if (dataMap.get(key) instanceof String)
+            {
+                String value = (String)dataMap.get(key);
+                sb.append(String.format("{\"address\": \"%s/%s\", \"value\":\"%s\"},", uri, key, value));
+            }
+            else
+            {
+                sb.append(String.format("{\"address\": \"%s/%s\", \"value\":%s},", uri, key, dataMap.get(key)));
+            }
+        }
+        return sb.toString();
     }
 
 }

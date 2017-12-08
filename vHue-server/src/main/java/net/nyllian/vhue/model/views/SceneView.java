@@ -6,7 +6,6 @@ package net.nyllian.vhue.model.views;
  */
 public interface SceneView
 {
-
     interface PictureOnly {}
     interface LockedOnly {}
     interface NameOnly {}
@@ -14,10 +13,18 @@ public interface SceneView
     interface VersionOnly {}
     interface LastUpdatedOnly {}
     interface RecycleOnly {}
-    interface AppDataOnly {}
-    interface LightScenesOnly {}
+    interface AppDataOnly extends AppDataView.AllProperties {}
+    interface LightStatesOnly extends LightStateView.AllProperties {}
     interface LightsOnly {}
 
-    interface SceneProperties extends PictureOnly, LockedOnly, NameOnly, OwnerOnly, VersionOnly, LastUpdatedOnly, RecycleOnly, AppDataOnly, LightsOnly {}
-    interface AllProperties extends SceneProperties, LightScenesOnly {}
+    interface SceneOnlyProperties extends PictureOnly, LockedOnly, NameOnly, OwnerOnly, VersionOnly, LastUpdatedOnly, RecycleOnly, AppDataOnly, LightsOnly {}
+    interface AllProperties extends SceneOnlyProperties, LightStatesOnly {}
+
+    interface AppDataView
+    {
+        interface VersionOnly {}
+        interface DataOnly {}
+
+        interface AllProperties extends VersionOnly, DataOnly {}
+    }
 }

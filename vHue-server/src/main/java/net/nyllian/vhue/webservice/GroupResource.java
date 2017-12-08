@@ -189,13 +189,12 @@ public class GroupResource
                         }
                     }
 
-                    // TODO: Remove the actual lights from the group
-                    // TODO: Always get the lights based on the lightId
                     for (String lKey : bridge.getGroup(groupKey).getLightIds())
                     {
-                        // Dirty clone
+                        // TODO: Dirty clone - double check functionality
                         String originalState = Serializer.SerializeJson(groupScene.getLightStates().get(lKey));
                         LightState clonedLightState = Serializer.SerializeJson(originalState, LightState.class);
+                        // Set the corresponding light for the scene
                         bridge.getLight(lKey).setLightState(clonedLightState);
                     }
 
@@ -221,7 +220,7 @@ public class GroupResource
                 bridge.getGroup(id).setGroupAction(newGroupAction);
             }
 
-            // TODO: Split for 'all groups'
+            // TODO: Split for 'all groups'???
             // TODO: Check this code!!!
 
             // Construct response

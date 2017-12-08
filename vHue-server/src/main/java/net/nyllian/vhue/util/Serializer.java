@@ -38,7 +38,7 @@ public class Serializer
         return serializedString;
     }
 
-    public static String SerializeJsonView(Class view, Object jsonObject) throws JsonProcessingException
+    public static String SerializeJsonView(Class<?> view, Object jsonObject) throws JsonProcessingException
     {
         ObjectMapper serializer = new ObjectMapper();
         serializer.setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"));
@@ -46,7 +46,7 @@ public class Serializer
 
         String serializedString = serializer
                 // .writerWithDefaultPrettyPrinter()
-                .writerWithView(view.getClass())
+                .writerWithView(view)
                 .writeValueAsString(jsonObject);
 
         LOG.trace(String.format("Serializing object: \n%s", serializedString));
