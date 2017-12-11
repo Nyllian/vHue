@@ -22,7 +22,7 @@ public class LightState implements IJSon
     private int brightness = 18;
     @JsonView(LightStateView.ColorModeOnly.class)
     @JsonProperty("colormode")
-    private String colorMode = "ct";
+    private String colorMode = "xy";
     @JsonView(LightStateView.ColorTempOnly.class)
     @JsonProperty("ct")
     private int colorTemp = 461;

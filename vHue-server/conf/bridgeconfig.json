@@ -5,16 +5,16 @@
       "name" : "DLight 1",
       "state" : {
         "alert" : "select",
-        "bri" : 254,
-        "colormode" : "xy",
+        "bri" : 1,
+        "colormode" : "ct",
         "ct" : 461,
         "effect" : "none",
         "hue" : 0,
         "on" : true,
-        "reachable" : true,
+        "reachable" : false,
         "sat" : 0,
-        "xy" : [ 0.476301, 0.242898 ],
-        "transitiontime" : 8
+        "xy" : [ 0.561, 0.4042 ],
+        "transitiontime" : 5
       },
       "swversion" : "66009461",
       "type" : "Dummy color Light",
@@ -26,20 +26,83 @@
       "name" : "DLight 2",
       "state" : {
         "alert" : "select",
-        "bri" : 254,
-        "colormode" : "xy",
+        "bri" : 1,
+        "colormode" : "ct",
         "ct" : 461,
         "effect" : "none",
         "hue" : 0,
         "on" : true,
-        "reachable" : true,
+        "reachable" : false,
         "sat" : 0,
-        "xy" : [ 0.377756, 0.369776 ],
-        "transitiontime" : 4
+        "xy" : [ 0.561, 0.4042 ],
+        "transitiontime" : 5
       },
       "swversion" : "66009461",
       "type" : "Dummy color Light",
       "uniqueid" : "44dc59cd6f",
+      "manufacturername" : "Nyllian"
+    },
+    "5" : {
+      "modelid" : "DUM001",
+      "name" : "Dummy Light",
+      "state" : {
+        "alert" : "select",
+        "bri" : 77,
+        "colormode" : "ct",
+        "ct" : 367,
+        "effect" : "none",
+        "hue" : 0,
+        "on" : true,
+        "reachable" : false,
+        "sat" : 0,
+        "xy" : [ 0.310669, 0.323961 ],
+        "transitiontime" : 5
+      },
+      "swversion" : "66009461",
+      "type" : "Dummy color Light",
+      "uniqueid" : "2f23d6b818",
+      "manufacturername" : "Nyllian"
+    },
+    "4" : {
+      "modelid" : "DUM001",
+      "name" : "Dummy Light",
+      "state" : {
+        "alert" : "select",
+        "bri" : 77,
+        "colormode" : "ct",
+        "ct" : 367,
+        "effect" : "none",
+        "hue" : 0,
+        "on" : true,
+        "reachable" : false,
+        "sat" : 0,
+        "xy" : [ 0.310669, 0.323961 ],
+        "transitiontime" : 5
+      },
+      "swversion" : "66009461",
+      "type" : "Dummy color Light",
+      "uniqueid" : "fb93fad77c",
+      "manufacturername" : "Nyllian"
+    },
+    "6" : {
+      "modelid" : "DUM001",
+      "name" : "Dummy Light",
+      "state" : {
+        "alert" : "select",
+        "bri" : 77,
+        "colormode" : "ct",
+        "ct" : 367,
+        "effect" : "none",
+        "hue" : 0,
+        "on" : true,
+        "reachable" : false,
+        "sat" : 0,
+        "xy" : [ 0.310669, 0.323961 ],
+        "transitiontime" : 5
+      },
+      "swversion" : "66009461",
+      "type" : "Dummy color Light",
+      "uniqueid" : "3b0eed7b88",
       "manufacturername" : "Nyllian"
     }
   },
@@ -52,7 +115,7 @@
         "ct" : 461,
         "effect" : "none",
         "hue" : 0,
-        "on" : true,
+        "on" : false,
         "sat" : 0,
         "xy" : [ 0.310669, 0.323961 ]
       },
@@ -62,7 +125,31 @@
       "state" : {
         "all_on" : false,
         "any_on" : false,
-        "lastupdated" : "2017-12-02T16:40:32",
+        "lastupdated" : "2017-12-10T11:11:23",
+        "on" : false,
+        "brightness" : 0
+      },
+      "type" : "Room"
+    },
+    "2" : {
+      "action" : {
+        "alert" : "select",
+        "bri" : 20,
+        "colormode" : "ct",
+        "ct" : 461,
+        "effect" : "none",
+        "hue" : 0,
+        "on" : false,
+        "sat" : 0,
+        "xy" : [ 0.310669, 0.323961 ]
+      },
+      "class" : "Hallway",
+      "lights" : [ "4", "6", "5" ],
+      "name" : "Hal",
+      "state" : {
+        "all_on" : false,
+        "any_on" : false,
+        "lastupdated" : "2017-12-10T11:11:49",
         "on" : false,
         "brightness" : 0
       },
@@ -73,8 +160,8 @@
   "rules" : { },
   "sensors" : { },
   "config" : {
-    "ipaddress" : "192.168.254.91",
-    "gateway" : "192.168.254.91",
+    "ipaddress" : "192.168.0.14",
+    "gateway" : "192.168.0.14",
     "netmask" : "255.255.255.0",
     "proxyaddress" : "none",
     "proxyport" : 0,
@@ -82,10 +169,10 @@
     "linkbutton" : true,
     "portalservices" : true,
     "zigbeechannel" : 15,
-    "utc" : "2017-12-08T16:11:12",
+    "utc" : "2017-12-11T08:06:27",
     "localtime" : "2017-11-26T16:31:09",
     "timezone" : "Europe/Brussels",
-    "mac" : "00:05:9A:3C:7A:00",
+    "mac" : "F0:1F:AF:43:BC:AE",
     "name" : "vHue",
     "bridgeid" : "847EFBE2E12B0E89",
     "modelid" : "vHUE-001",
@@ -123,41 +210,54 @@
     "1" : {
       "picture" : "",
       "locked" : false,
-      "name" : "Fire",
+      "name" : "Tropische schemering",
       "owner" : "281c23003792450586e1603414f38f18",
       "version" : 2,
-      "lastupdated" : "2017-12-08T15:57:07",
+      "lastupdated" : "2017-12-10T11:11:27",
       "recycle" : false,
       "appdata" : {
         "version" : 1,
-        "data" : "qF2sN_r01"
+        "data" : "bdmVt_r01_d16"
       },
       "lightstates" : {
-        "1" : {
+        "5" : {
           "alert" : "select",
-          "bri" : 120,
-          "colormode" : "xy",
+          "bri" : 116,
+          "colormode" : "ct",
           "ct" : 461,
           "effect" : "none",
           "hue" : 0,
           "on" : true,
-          "reachable" : true,
+          "reachable" : false,
           "sat" : 0,
-          "xy" : [ 0.477508, 0.430991 ],
-          "transitiontime" : 8
+          "xy" : [ 0.596235, 0.383395 ],
+          "transitiontime" : 5
+        },
+        "1" : {
+          "alert" : "select",
+          "bri" : 116,
+          "colormode" : "ct",
+          "ct" : 461,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.291402, 0.223244 ],
+          "transitiontime" : 5
         },
         "2" : {
           "alert" : "select",
-          "bri" : 120,
-          "colormode" : "xy",
+          "bri" : 116,
+          "colormode" : "ct",
           "ct" : 461,
           "effect" : "none",
           "hue" : 0,
           "on" : true,
-          "reachable" : true,
+          "reachable" : false,
           "sat" : 0,
-          "xy" : [ 0.639871, 0.334216 ],
-          "transitiontime" : 4
+          "xy" : [ 0.488724, 0.375929 ],
+          "transitiontime" : 5
         }
       },
       "lights" : [ "1", "2" ]
@@ -165,41 +265,54 @@
     "2" : {
       "picture" : "",
       "locked" : false,
-      "name" : "B",
+      "name" : "Arctische dageraad",
       "owner" : "281c23003792450586e1603414f38f18",
       "version" : 2,
-      "lastupdated" : "2017-12-08T15:57:16",
+      "lastupdated" : "2017-12-10T11:11:27",
       "recycle" : false,
       "appdata" : {
         "version" : 1,
-        "data" : "ZKBbR_r01"
+        "data" : "shW31_r01_d17"
       },
       "lightstates" : {
-        "1" : {
+        "5" : {
           "alert" : "select",
-          "bri" : 129,
-          "colormode" : "xy",
+          "bri" : 144,
+          "colormode" : "ct",
           "ct" : 461,
           "effect" : "none",
           "hue" : 0,
           "on" : true,
-          "reachable" : true,
+          "reachable" : false,
           "sat" : 0,
-          "xy" : [ 0.504348, 0.268478 ],
-          "transitiontime" : 8
+          "xy" : [ 0.206744, 0.265636 ],
+          "transitiontime" : 5
+        },
+        "1" : {
+          "alert" : "select",
+          "bri" : 144,
+          "colormode" : "ct",
+          "ct" : 461,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.206744, 0.265636 ],
+          "transitiontime" : 5
         },
         "2" : {
           "alert" : "select",
-          "bri" : 129,
-          "colormode" : "xy",
+          "bri" : 144,
+          "colormode" : "ct",
           "ct" : 461,
           "effect" : "none",
           "hue" : 0,
           "on" : true,
-          "reachable" : true,
+          "reachable" : false,
           "sat" : 0,
-          "xy" : [ 0.392564, 0.296686 ],
-          "transitiontime" : 4
+          "xy" : [ 0.143624, 0.150964 ],
+          "transitiontime" : 5
         }
       },
       "lights" : [ "1", "2" ]
@@ -207,41 +320,54 @@
     "3" : {
       "picture" : "",
       "locked" : false,
-      "name" : "C",
+      "name" : "Savanne zonsondergang",
       "owner" : "281c23003792450586e1603414f38f18",
       "version" : 2,
-      "lastupdated" : "2017-12-08T15:57:35",
+      "lastupdated" : "2017-12-10T11:11:27",
       "recycle" : false,
       "appdata" : {
         "version" : 1,
-        "data" : "DFKtP_r01"
+        "data" : "qmNvS_r01_d15"
       },
       "lightstates" : {
-        "1" : {
+        "5" : {
           "alert" : "select",
-          "bri" : 150,
-          "colormode" : "xy",
+          "bri" : 206,
+          "colormode" : "ct",
           "ct" : 461,
           "effect" : "none",
           "hue" : 0,
           "on" : true,
-          "reachable" : true,
+          "reachable" : false,
           "sat" : 0,
-          "xy" : [ 0.40022, 0.563434 ],
-          "transitiontime" : 8
+          "xy" : [ 0.46389, 0.451194 ],
+          "transitiontime" : 5
+        },
+        "1" : {
+          "alert" : "select",
+          "bri" : 206,
+          "colormode" : "ct",
+          "ct" : 461,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.535848, 0.383852 ],
+          "transitiontime" : 5
         },
         "2" : {
           "alert" : "select",
-          "bri" : 96,
-          "colormode" : "xy",
+          "bri" : 206,
+          "colormode" : "ct",
           "ct" : 461,
           "effect" : "none",
           "hue" : 0,
           "on" : true,
-          "reachable" : true,
+          "reachable" : false,
           "sat" : 0,
-          "xy" : [ 0.423427, 0.447075 ],
-          "transitiontime" : 4
+          "xy" : [ 0.642095, 0.333302 ],
+          "transitiontime" : 5
         }
       },
       "lights" : [ "1", "2" ]
@@ -249,41 +375,54 @@
     "4" : {
       "picture" : "",
       "locked" : false,
-      "name" : "D",
+      "name" : "Lentebloesem",
       "owner" : "281c23003792450586e1603414f38f18",
       "version" : 2,
-      "lastupdated" : "2017-12-08T15:57:46",
+      "lastupdated" : "2017-12-10T11:11:27",
       "recycle" : false,
       "appdata" : {
         "version" : 1,
-        "data" : "RPlTc_r01"
+        "data" : "ethko_r01_d18"
       },
       "lightstates" : {
-        "1" : {
+        "5" : {
           "alert" : "select",
-          "bri" : 112,
-          "colormode" : "xy",
+          "bri" : 219,
+          "colormode" : "ct",
           "ct" : 461,
           "effect" : "none",
           "hue" : 0,
           "on" : true,
-          "reachable" : true,
+          "reachable" : false,
           "sat" : 0,
-          "xy" : [ 0.380554, 0.355156 ],
-          "transitiontime" : 8
+          "xy" : [ 0.43861, 0.28144 ],
+          "transitiontime" : 5
+        },
+        "1" : {
+          "alert" : "select",
+          "bri" : 219,
+          "colormode" : "ct",
+          "ct" : 461,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.391245, 0.295813 ],
+          "transitiontime" : 5
         },
         "2" : {
           "alert" : "select",
-          "bri" : 112,
-          "colormode" : "xy",
+          "bri" : 219,
+          "colormode" : "ct",
           "ct" : 461,
           "effect" : "none",
           "hue" : 0,
           "on" : true,
-          "reachable" : true,
+          "reachable" : false,
           "sat" : 0,
-          "xy" : [ 0.153502, 0.064534 ],
-          "transitiontime" : 4
+          "xy" : [ 0.337524, 0.315533 ],
+          "transitiontime" : 5
         }
       },
       "lights" : [ "1", "2" ]
@@ -291,44 +430,992 @@
     "5" : {
       "picture" : "",
       "locked" : false,
-      "name" : "Tasj",
+      "name" : "Concentreren",
       "owner" : "281c23003792450586e1603414f38f18",
       "version" : 2,
-      "lastupdated" : "2017-12-08T16:12:51",
+      "lastupdated" : "2017-12-10T11:11:27",
       "recycle" : false,
       "appdata" : {
         "version" : 1,
-        "data" : "LZ4OH_r01"
+        "data" : "BKl7W_r01_d03"
       },
       "lightstates" : {
-        "1" : {
+        "5" : {
           "alert" : "select",
           "bri" : 254,
-          "colormode" : "xy",
-          "ct" : 461,
+          "colormode" : "ct",
+          "ct" : 233,
           "effect" : "none",
           "hue" : 0,
           "on" : true,
-          "reachable" : true,
+          "reachable" : false,
           "sat" : 0,
-          "xy" : [ 0.476301, 0.242898 ],
-          "transitiontime" : 8
+          "xy" : [ 0.310669, 0.323961 ],
+          "transitiontime" : 5
+        },
+        "1" : {
+          "alert" : "select",
+          "bri" : 254,
+          "colormode" : "ct",
+          "ct" : 233,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.310669, 0.323961 ],
+          "transitiontime" : 5
         },
         "2" : {
           "alert" : "select",
           "bri" : 254,
-          "colormode" : "xy",
+          "colormode" : "ct",
+          "ct" : 233,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.310669, 0.323961 ],
+          "transitiontime" : 5
+        }
+      },
+      "lights" : [ "1", "2" ]
+    },
+    "6" : {
+      "picture" : "",
+      "locked" : false,
+      "name" : "Lezen",
+      "owner" : "281c23003792450586e1603414f38f18",
+      "version" : 2,
+      "lastupdated" : "2017-12-10T11:11:27",
+      "recycle" : false,
+      "appdata" : {
+        "version" : 1,
+        "data" : "YPPcm_r01_d02"
+      },
+      "lightstates" : {
+        "5" : {
+          "alert" : "select",
+          "bri" : 254,
+          "colormode" : "ct",
+          "ct" : 346,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.310669, 0.323961 ],
+          "transitiontime" : 5
+        },
+        "1" : {
+          "alert" : "select",
+          "bri" : 254,
+          "colormode" : "ct",
+          "ct" : 346,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.310669, 0.323961 ],
+          "transitiontime" : 5
+        },
+        "2" : {
+          "alert" : "select",
+          "bri" : 254,
+          "colormode" : "ct",
+          "ct" : 346,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.310669, 0.323961 ],
+          "transitiontime" : 5
+        }
+      },
+      "lights" : [ "1", "2" ]
+    },
+    "7" : {
+      "picture" : "",
+      "locked" : false,
+      "name" : "Ontspannen",
+      "owner" : "281c23003792450586e1603414f38f18",
+      "version" : 2,
+      "lastupdated" : "2017-12-10T11:11:27",
+      "recycle" : false,
+      "appdata" : {
+        "version" : 1,
+        "data" : "1HcMW_r01_d01"
+      },
+      "lightstates" : {
+        "5" : {
+          "alert" : "select",
+          "bri" : 144,
+          "colormode" : "ct",
+          "ct" : 447,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.310669, 0.323961 ],
+          "transitiontime" : 5
+        },
+        "1" : {
+          "alert" : "select",
+          "bri" : 144,
+          "colormode" : "ct",
+          "ct" : 447,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.310669, 0.323961 ],
+          "transitiontime" : 5
+        },
+        "2" : {
+          "alert" : "select",
+          "bri" : 144,
+          "colormode" : "ct",
+          "ct" : 447,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.310669, 0.323961 ],
+          "transitiontime" : 5
+        }
+      },
+      "lights" : [ "1", "2" ]
+    },
+    "8" : {
+      "picture" : "",
+      "locked" : false,
+      "name" : "Energie",
+      "owner" : "281c23003792450586e1603414f38f18",
+      "version" : 2,
+      "lastupdated" : "2017-12-10T11:11:27",
+      "recycle" : false,
+      "appdata" : {
+        "version" : 1,
+        "data" : "fhGVh_r01_d04"
+      },
+      "lightstates" : {
+        "5" : {
+          "alert" : "select",
+          "bri" : 254,
+          "colormode" : "ct",
+          "ct" : 156,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.310669, 0.323961 ],
+          "transitiontime" : 5
+        },
+        "1" : {
+          "alert" : "select",
+          "bri" : 254,
+          "colormode" : "ct",
+          "ct" : 156,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.310669, 0.323961 ],
+          "transitiontime" : 5
+        },
+        "2" : {
+          "alert" : "select",
+          "bri" : 254,
+          "colormode" : "ct",
+          "ct" : 156,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.310669, 0.323961 ],
+          "transitiontime" : 5
+        }
+      },
+      "lights" : [ "1", "2" ]
+    },
+    "9" : {
+      "picture" : "",
+      "locked" : false,
+      "name" : "Helder",
+      "owner" : "281c23003792450586e1603414f38f18",
+      "version" : 2,
+      "lastupdated" : "2017-12-10T11:11:27",
+      "recycle" : false,
+      "appdata" : {
+        "version" : 1,
+        "data" : "XIvbI_r01_d05"
+      },
+      "lightstates" : {
+        "5" : {
+          "alert" : "select",
+          "bri" : 254,
+          "colormode" : "ct",
+          "ct" : 367,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.310669, 0.323961 ],
+          "transitiontime" : 5
+        },
+        "1" : {
+          "alert" : "select",
+          "bri" : 254,
+          "colormode" : "ct",
+          "ct" : 367,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.310669, 0.323961 ],
+          "transitiontime" : 5
+        },
+        "2" : {
+          "alert" : "select",
+          "bri" : 254,
+          "colormode" : "ct",
+          "ct" : 367,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.310669, 0.323961 ],
+          "transitiontime" : 5
+        }
+      },
+      "lights" : [ "1", "2" ]
+    },
+    "10" : {
+      "picture" : "",
+      "locked" : false,
+      "name" : "Nachtlampje",
+      "owner" : "281c23003792450586e1603414f38f18",
+      "version" : 2,
+      "lastupdated" : "2017-12-10T11:11:27",
+      "recycle" : false,
+      "appdata" : {
+        "version" : 1,
+        "data" : "qPSLs_r01_d07"
+      },
+      "lightstates" : {
+        "5" : {
+          "alert" : "select",
+          "bri" : 1,
+          "colormode" : "ct",
           "ct" : 461,
           "effect" : "none",
           "hue" : 0,
           "on" : true,
-          "reachable" : true,
+          "reachable" : false,
           "sat" : 0,
-          "xy" : [ 0.377756, 0.369776 ],
-          "transitiontime" : 4
+          "xy" : [ 0.561, 0.4042 ],
+          "transitiontime" : 5
+        },
+        "1" : {
+          "alert" : "select",
+          "bri" : 1,
+          "colormode" : "ct",
+          "ct" : 461,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.561, 0.4042 ],
+          "transitiontime" : 5
+        },
+        "2" : {
+          "alert" : "select",
+          "bri" : 1,
+          "colormode" : "ct",
+          "ct" : 461,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.561, 0.4042 ],
+          "transitiontime" : 5
         }
       },
       "lights" : [ "1", "2" ]
+    },
+    "11" : {
+      "picture" : "",
+      "locked" : false,
+      "name" : "Gedimd",
+      "owner" : "281c23003792450586e1603414f38f18",
+      "version" : 2,
+      "lastupdated" : "2017-12-10T11:11:27",
+      "recycle" : false,
+      "appdata" : {
+        "version" : 1,
+        "data" : "esl7k_r01_d06"
+      },
+      "lightstates" : {
+        "5" : {
+          "alert" : "select",
+          "bri" : 77,
+          "colormode" : "ct",
+          "ct" : 367,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.310669, 0.323961 ],
+          "transitiontime" : 5
+        },
+        "1" : {
+          "alert" : "select",
+          "bri" : 77,
+          "colormode" : "ct",
+          "ct" : 367,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.310669, 0.323961 ],
+          "transitiontime" : 5
+        },
+        "2" : {
+          "alert" : "select",
+          "bri" : 77,
+          "colormode" : "ct",
+          "ct" : 367,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.310669, 0.323961 ],
+          "transitiontime" : 5
+        }
+      },
+      "lights" : [ "1", "2" ]
+    },
+    "12" : {
+      "picture" : "",
+      "locked" : false,
+      "name" : "Tropische schemering",
+      "owner" : "281c23003792450586e1603414f38f18",
+      "version" : 2,
+      "lastupdated" : "2017-12-10T11:11:54",
+      "recycle" : false,
+      "appdata" : {
+        "version" : 1,
+        "data" : "bOFnW_r02_d16"
+      },
+      "lightstates" : {
+        "4" : {
+          "alert" : "select",
+          "bri" : 116,
+          "colormode" : "ct",
+          "ct" : 461,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.542994, 0.384879 ],
+          "transitiontime" : 5
+        },
+        "6" : {
+          "alert" : "select",
+          "bri" : 116,
+          "colormode" : "ct",
+          "ct" : 461,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.596235, 0.383395 ],
+          "transitiontime" : 5
+        },
+        "5" : {
+          "alert" : "select",
+          "bri" : 116,
+          "colormode" : "ct",
+          "ct" : 461,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.596235, 0.383395 ],
+          "transitiontime" : 5
+        }
+      },
+      "lights" : [ "4", "6", "5" ]
+    },
+    "13" : {
+      "picture" : "",
+      "locked" : false,
+      "name" : "Savanne zonsondergang",
+      "owner" : "281c23003792450586e1603414f38f18",
+      "version" : 2,
+      "lastupdated" : "2017-12-10T11:11:54",
+      "recycle" : false,
+      "appdata" : {
+        "version" : 1,
+        "data" : "79CyO_r02_d15"
+      },
+      "lightstates" : {
+        "4" : {
+          "alert" : "select",
+          "bri" : 206,
+          "colormode" : "ct",
+          "ct" : 461,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.642095, 0.333302 ],
+          "transitiontime" : 5
+        },
+        "6" : {
+          "alert" : "select",
+          "bri" : 206,
+          "colormode" : "ct",
+          "ct" : 461,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.46389, 0.451194 ],
+          "transitiontime" : 5
+        },
+        "5" : {
+          "alert" : "select",
+          "bri" : 206,
+          "colormode" : "ct",
+          "ct" : 461,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.46389, 0.451194 ],
+          "transitiontime" : 5
+        }
+      },
+      "lights" : [ "4", "6", "5" ]
+    },
+    "14" : {
+      "picture" : "",
+      "locked" : false,
+      "name" : "Arctische dageraad",
+      "owner" : "281c23003792450586e1603414f38f18",
+      "version" : 2,
+      "lastupdated" : "2017-12-10T11:11:54",
+      "recycle" : false,
+      "appdata" : {
+        "version" : 1,
+        "data" : "upPev_r02_d17"
+      },
+      "lightstates" : {
+        "4" : {
+          "alert" : "select",
+          "bri" : 144,
+          "colormode" : "ct",
+          "ct" : 461,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.155312, 0.357806 ],
+          "transitiontime" : 5
+        },
+        "6" : {
+          "alert" : "select",
+          "bri" : 144,
+          "colormode" : "ct",
+          "ct" : 461,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.155312, 0.357806 ],
+          "transitiontime" : 5
+        },
+        "5" : {
+          "alert" : "select",
+          "bri" : 144,
+          "colormode" : "ct",
+          "ct" : 461,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.143624, 0.150964 ],
+          "transitiontime" : 5
+        }
+      },
+      "lights" : [ "4", "6", "5" ]
+    },
+    "15" : {
+      "picture" : "",
+      "locked" : false,
+      "name" : "Ontspannen",
+      "owner" : "281c23003792450586e1603414f38f18",
+      "version" : 2,
+      "lastupdated" : "2017-12-10T11:11:54",
+      "recycle" : false,
+      "appdata" : {
+        "version" : 1,
+        "data" : "eayWv_r02_d01"
+      },
+      "lightstates" : {
+        "4" : {
+          "alert" : "select",
+          "bri" : 144,
+          "colormode" : "ct",
+          "ct" : 447,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.310669, 0.323961 ],
+          "transitiontime" : 5
+        },
+        "6" : {
+          "alert" : "select",
+          "bri" : 144,
+          "colormode" : "ct",
+          "ct" : 447,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.310669, 0.323961 ],
+          "transitiontime" : 5
+        },
+        "5" : {
+          "alert" : "select",
+          "bri" : 144,
+          "colormode" : "ct",
+          "ct" : 447,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.310669, 0.323961 ],
+          "transitiontime" : 5
+        }
+      },
+      "lights" : [ "4", "6", "5" ]
+    },
+    "16" : {
+      "picture" : "",
+      "locked" : false,
+      "name" : "Lezen",
+      "owner" : "281c23003792450586e1603414f38f18",
+      "version" : 2,
+      "lastupdated" : "2017-12-10T11:11:54",
+      "recycle" : false,
+      "appdata" : {
+        "version" : 1,
+        "data" : "zJLrB_r02_d02"
+      },
+      "lightstates" : {
+        "4" : {
+          "alert" : "select",
+          "bri" : 254,
+          "colormode" : "ct",
+          "ct" : 346,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.310669, 0.323961 ],
+          "transitiontime" : 5
+        },
+        "6" : {
+          "alert" : "select",
+          "bri" : 254,
+          "colormode" : "ct",
+          "ct" : 346,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.310669, 0.323961 ],
+          "transitiontime" : 5
+        },
+        "5" : {
+          "alert" : "select",
+          "bri" : 254,
+          "colormode" : "ct",
+          "ct" : 346,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.310669, 0.323961 ],
+          "transitiontime" : 5
+        }
+      },
+      "lights" : [ "4", "6", "5" ]
+    },
+    "17" : {
+      "picture" : "",
+      "locked" : false,
+      "name" : "Lentebloesem",
+      "owner" : "281c23003792450586e1603414f38f18",
+      "version" : 2,
+      "lastupdated" : "2017-12-10T11:11:54",
+      "recycle" : false,
+      "appdata" : {
+        "version" : 1,
+        "data" : "6heyQ_r02_d18"
+      },
+      "lightstates" : {
+        "4" : {
+          "alert" : "select",
+          "bri" : 219,
+          "colormode" : "ct",
+          "ct" : 461,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.391245, 0.295813 ],
+          "transitiontime" : 5
+        },
+        "6" : {
+          "alert" : "select",
+          "bri" : 219,
+          "colormode" : "ct",
+          "ct" : 461,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.337524, 0.315533 ],
+          "transitiontime" : 5
+        },
+        "5" : {
+          "alert" : "select",
+          "bri" : 219,
+          "colormode" : "ct",
+          "ct" : 461,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.482255, 0.347616 ],
+          "transitiontime" : 5
+        }
+      },
+      "lights" : [ "4", "6", "5" ]
+    },
+    "18" : {
+      "picture" : "",
+      "locked" : false,
+      "name" : "Concentreren",
+      "owner" : "281c23003792450586e1603414f38f18",
+      "version" : 2,
+      "lastupdated" : "2017-12-10T11:11:54",
+      "recycle" : false,
+      "appdata" : {
+        "version" : 1,
+        "data" : "zuLqw_r02_d03"
+      },
+      "lightstates" : {
+        "4" : {
+          "alert" : "select",
+          "bri" : 254,
+          "colormode" : "ct",
+          "ct" : 233,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.310669, 0.323961 ],
+          "transitiontime" : 5
+        },
+        "6" : {
+          "alert" : "select",
+          "bri" : 254,
+          "colormode" : "ct",
+          "ct" : 233,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.310669, 0.323961 ],
+          "transitiontime" : 5
+        },
+        "5" : {
+          "alert" : "select",
+          "bri" : 254,
+          "colormode" : "ct",
+          "ct" : 233,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.310669, 0.323961 ],
+          "transitiontime" : 5
+        }
+      },
+      "lights" : [ "4", "6", "5" ]
+    },
+    "19" : {
+      "picture" : "",
+      "locked" : false,
+      "name" : "Energie",
+      "owner" : "281c23003792450586e1603414f38f18",
+      "version" : 2,
+      "lastupdated" : "2017-12-10T11:11:54",
+      "recycle" : false,
+      "appdata" : {
+        "version" : 1,
+        "data" : "YGkHL_r02_d04"
+      },
+      "lightstates" : {
+        "4" : {
+          "alert" : "select",
+          "bri" : 254,
+          "colormode" : "ct",
+          "ct" : 156,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.310669, 0.323961 ],
+          "transitiontime" : 5
+        },
+        "6" : {
+          "alert" : "select",
+          "bri" : 254,
+          "colormode" : "ct",
+          "ct" : 156,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.310669, 0.323961 ],
+          "transitiontime" : 5
+        },
+        "5" : {
+          "alert" : "select",
+          "bri" : 254,
+          "colormode" : "ct",
+          "ct" : 156,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.310669, 0.323961 ],
+          "transitiontime" : 5
+        }
+      },
+      "lights" : [ "4", "6", "5" ]
+    },
+    "20" : {
+      "picture" : "",
+      "locked" : false,
+      "name" : "Helder",
+      "owner" : "281c23003792450586e1603414f38f18",
+      "version" : 2,
+      "lastupdated" : "2017-12-10T11:11:54",
+      "recycle" : false,
+      "appdata" : {
+        "version" : 1,
+        "data" : "cGcec_r02_d05"
+      },
+      "lightstates" : {
+        "4" : {
+          "alert" : "select",
+          "bri" : 254,
+          "colormode" : "ct",
+          "ct" : 367,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.310669, 0.323961 ],
+          "transitiontime" : 5
+        },
+        "6" : {
+          "alert" : "select",
+          "bri" : 254,
+          "colormode" : "ct",
+          "ct" : 367,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.310669, 0.323961 ],
+          "transitiontime" : 5
+        },
+        "5" : {
+          "alert" : "select",
+          "bri" : 254,
+          "colormode" : "ct",
+          "ct" : 367,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.310669, 0.323961 ],
+          "transitiontime" : 5
+        }
+      },
+      "lights" : [ "4", "6", "5" ]
+    },
+    "21" : {
+      "picture" : "",
+      "locked" : false,
+      "name" : "Nachtlampje",
+      "owner" : "281c23003792450586e1603414f38f18",
+      "version" : 2,
+      "lastupdated" : "2017-12-10T11:11:54",
+      "recycle" : false,
+      "appdata" : {
+        "version" : 1,
+        "data" : "EBQs6_r02_d07"
+      },
+      "lightstates" : {
+        "4" : {
+          "alert" : "select",
+          "bri" : 1,
+          "colormode" : "ct",
+          "ct" : 461,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.561, 0.4042 ],
+          "transitiontime" : 5
+        },
+        "6" : {
+          "alert" : "select",
+          "bri" : 1,
+          "colormode" : "ct",
+          "ct" : 461,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.561, 0.4042 ],
+          "transitiontime" : 5
+        },
+        "5" : {
+          "alert" : "select",
+          "bri" : 1,
+          "colormode" : "ct",
+          "ct" : 461,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.561, 0.4042 ],
+          "transitiontime" : 5
+        }
+      },
+      "lights" : [ "4", "6", "5" ]
+    },
+    "22" : {
+      "picture" : "",
+      "locked" : false,
+      "name" : "Gedimd",
+      "owner" : "281c23003792450586e1603414f38f18",
+      "version" : 2,
+      "lastupdated" : "2017-12-10T11:11:54",
+      "recycle" : false,
+      "appdata" : {
+        "version" : 1,
+        "data" : "Ddlip_r02_d06"
+      },
+      "lightstates" : {
+        "4" : {
+          "alert" : "select",
+          "bri" : 77,
+          "colormode" : "ct",
+          "ct" : 367,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.310669, 0.323961 ],
+          "transitiontime" : 5
+        },
+        "6" : {
+          "alert" : "select",
+          "bri" : 77,
+          "colormode" : "ct",
+          "ct" : 367,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.310669, 0.323961 ],
+          "transitiontime" : 5
+        },
+        "5" : {
+          "alert" : "select",
+          "bri" : 77,
+          "colormode" : "ct",
+          "ct" : 367,
+          "effect" : "none",
+          "hue" : 0,
+          "on" : true,
+          "reachable" : false,
+          "sat" : 0,
+          "xy" : [ 0.310669, 0.323961 ],
+          "transitiontime" : 5
+        }
+      },
+      "lights" : [ "4", "6", "5" ]
     }
   },
   "resourceLinks" : { }

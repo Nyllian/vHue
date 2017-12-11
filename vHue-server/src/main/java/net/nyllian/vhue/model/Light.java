@@ -14,7 +14,7 @@ import net.nyllian.vhue.util.Randomizer;
 public class Light implements IJSon
 {
     @JsonProperty("modelid")
-    private String modelId = "DUM001";
+    private String modelId = "BSB002";
     @JsonProperty("name")
     private String name = "Dummy Light";
     @JsonProperty("swversion")

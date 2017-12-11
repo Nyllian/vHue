@@ -71,7 +71,6 @@ public class GroupResource
             String postData = IOUtils.toString(request.getInputStream(), Charset.forName("UTF-8"));
             LOG.info(String.format("Received: %s", postData));
 
-            // The app does not recognize rooms without assigned devices
             String groupId = bridge.addGroup(Serializer.SerializeJson(postData, Group.class));
 
             // All lights that were assigned to this group must be removed from the DiscoveredLights
@@ -91,14 +90,6 @@ public class GroupResource
             LOG.error("Unable to read POST data!", iEx);
             return Response.serverError().entity(iEx).build();
         }
-    }
-
-    @DELETE
-    public Response deleteAllGroups(@Context HttpServletRequest request)
-    {
-        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
-        // TODO: Delete all Groups?
-        return Response.ok().build();
     }
 
     @GET
@@ -135,10 +126,16 @@ public class GroupResource
             Group currentGroup = bridge.getGroup(id);
             if (postData.contains("lights"))
             {
-                LOG.warn("Clearing all lights!");
                 currentGroup.setLightIds(new String[]{});
             }
             Group updatedGroup = Serializer.UpdateObject(currentGroup, postData);
+
+            // Remove the lights from the discoveryList
+            for (String lightId : updatedGroup.getLightIds())
+            {
+                bridge.deleteDiscoveredLight(lightId);
+            }
+
             bridge.getGroups().put(id, updatedGroup);
 
             // Construct the response message
@@ -191,7 +188,7 @@ public class GroupResource
 
                     for (String lKey : bridge.getGroup(groupKey).getLightIds())
                     {
-                        // TODO: Dirty clone - double check functionality
+                        // TODO: Dirty clone - double check functionality ==> NullPointerException
                         String originalState = Serializer.SerializeJson(groupScene.getLightStates().get(lKey));
                         LightState clonedLightState = Serializer.SerializeJson(originalState, LightState.class);
                         // Set the corresponding light for the scene

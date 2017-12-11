@@ -77,8 +77,24 @@ public class SceneResource
             // Get the respective lights
             for (String lid : newScene.getLightIds())
             {
-                Light respectiveLight = bridge.getLight(lid);
-                newScene.getLightStates().put(lid, respectiveLight.getLightState());
+                // Check if the lightIds is used in other scenes...
+                for (String sKey : bridge.getScenes().keySet())
+                {
+                    // of this light, get the group
+                    // of the found scenes, get the group
+                    // if lightgroup != scenegroup; remove
+
+                    // This will remove the light from the correct scene...
+                    // TODO: Also take group into account
+                    // Don't delete any lightStates if the scene belongs to the same group
+                    // bridge.getScene(sKey).getLightStates().remove(lid);
+                }
+
+                // Light respectiveLight = bridge.getLight(lid);
+                // Dirty clone
+                // String lightStateJson = Serializer.SerializeJson(respectiveLight.getLightState());
+                // LightState sceneLightState = Serializer.SerializeJson(lightStateJson, LightState.class);
+                newScene.getLightStates().put(lid, new LightState());
             }
             String sceneId = bridge.addScene(newScene);
             bridge.writeConfig();
@@ -113,15 +129,6 @@ public class SceneResource
         }
     }
 
-    @POST
-    @Path("/{id}")
-    public Response unknownSceneFeature(@Context HttpServletRequest request, @PathParam("id") String id)
-    {
-        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
-        LOG.warn("unknownSceneFeature - Unknown feature - still needs implementation");
-        return Response.status(Response.Status.PAYMENT_REQUIRED).build();
-    }
-
     @PUT
     @Path("/{id}")
     @SuppressWarnings("unchecked")
@@ -134,14 +141,26 @@ public class SceneResource
             String postData = IOUtils.toString(request.getInputStream(), Charset.forName("UTF-8"));
             LOG.info(String.format("Received: %s", postData));
 
-            // Received: {"name":"1onsondergang","lights":["7","3"],"picture":"","appdata":{"version":1,"data":"HasOS_r01_d15"}}
             Scene currentScene = bridge.getScene(id);
             Scene updatedScene = Serializer.UpdateObject(currentScene, postData);
+            // It is possible that lights were added ==> add the corresponding lightStates
+            // Get the respective lights
+            for (String lid : updatedScene.getLightIds())
+            {
+                if (!updatedScene.getLightStates().containsKey(lid))
+                {
+                    Light respectiveLight = bridge.getLight(lid);
+                    // Dirty clone
+                    String lightStateJson = Serializer.SerializeJson(respectiveLight.getLightState());
+                    LightState sceneLightState = Serializer.SerializeJson(lightStateJson, LightState.class);
+                    updatedScene.getLightStates().put(lid, sceneLightState);
+                }
+            }
+
             bridge.getScenes().put(id, updatedScene);
             bridge.writeConfig();
 
             // Construct the response message
-            // String retval = HueUtils.getResponseAttributesSuccess(postData, String.format("/scenes/%s", id));
             String retval = HueUtils.getResponsePropertiesSuccess(postData, String.format("/scenes/%s", id));
             LOG.info(String.format("Responding: %s", retval));
             return Response.ok(retval).build();
@@ -167,7 +186,7 @@ public class SceneResource
 
     @PUT
     @Path("/{id}/lightstates/{lid}")
-    public Response createSceneLights(@Context HttpServletRequest request, @PathParam("id") String id, @PathParam("lid") String lid)
+    public Response changeLightState(@Context HttpServletRequest request, @PathParam("id") String id, @PathParam("lid") String lid)
     {
         LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
 
@@ -176,10 +195,15 @@ public class SceneResource
             String postData = IOUtils.toString(request.getInputStream(), Charset.forName("UTF-8"));
             LOG.info(String.format("Received: %s", postData));
 
-            // The lightstate under the Scene must be detached from the actual light
             LightState sceneLightState = bridge.getScene(id).getLightStates().get(lid);
+            if (sceneLightState == null)
+            {
+                sceneLightState = new LightState();
+                // Dirty clone
+                // sceneLightState = Serializer.SerializeJson(Serializer.SerializeJson(bridge.getLight(lid).getLightState()), LightState.class);
+            }
+            // Update the lightState
             LightState updatedSceneLightState = Serializer.UpdateObject(sceneLightState, postData);
-            LOG.warn("Changing lightstate object " + sceneLightState + " -- with " + updatedSceneLightState);
             bridge.getLight(lid).setLightState(updatedSceneLightState);
             bridge.writeConfig();
 

@@ -18,6 +18,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by Nyllian on 26/11/2017.
@@ -143,11 +147,49 @@ public class LightResource
     @Path("/{id}")
     public Response deleteLight(@Context HttpServletRequest request, @PathParam("id") String id)
     {
-        LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
-        bridge.deleteLight(id);
-        bridge.writeConfig();
+        try
+        {
+            LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
+            bridge.deleteLight(id);
+            // Check if light was in group ==> Delete if so
+            for (String key : bridge.getGroups().keySet())
+            {
+                List<String> newLightIds = new ArrayList<>(Arrays.asList(bridge.getGroup(key).getLightIds()));
+                for (String lid : bridge.getGroup(key).getLightIds())
+                {
+                    if (id.equals(lid))
+                    {
+                        // remove light
+                        newLightIds.remove(lid);
+                    }
+                }
+                bridge.getGroup(key).setLightIds(newLightIds.toArray(new String[]{}));
+            }
+            // Check if light was in scene ==> Delete if so
+            for (String key : bridge.getScenes().keySet())
+            {
+                List<String> newLightIds = new ArrayList<>(Arrays.asList(bridge.getScene(key).getLightIds()));
+                for (String lid : bridge.getScene(key).getLightIds())
+                {
+                    if (id.equals(lid))
+                    {
+                        // remove light from lightIds
+                        newLightIds.remove(lid);
+                        // Remove light from lightStates
+                        bridge.getScene(key).getLightStates().remove(lid);
+                    }
+                }
+                bridge.getScene(key).setLightIds(newLightIds.toArray(new String[]{}));
+            }
+            bridge.writeConfig();
 
-        return Response.ok("[{ \"success\" : { \"/lights\" : \"Device removed\"}}]").build();
+            return Response.ok("[{ \"success\" : { \"/lights\" : \"Device removed\"}}]").build();
+        }
+        catch (Exception ex)
+        {
+            LOG.error("Unable to remove the light!", ex);
+            return Response.status(Response.Status.PAYMENT_REQUIRED).entity(ex).build();
+        }
     }
 
     @PUT
@@ -174,6 +216,12 @@ public class LightResource
             // TODO: When the TV turns off, no 'off' signal will be sent
 
             LightState currentLightState = bridge.getLight(id).getLightState();
+            // LightState sceneLightState = bridge.getScene(id).getLightStates().get(lid);
+            if (currentLightState == null)
+            {
+                currentLightState = Serializer.SerializeJson(postData, LightState.class);
+
+            }
             LightState newLightState = Serializer.UpdateObject(currentLightState, postData);
             bridge.getLight(id).setLightState(newLightState);
             // TODO: when the server powers down -- turn all devices in the off state -- otherwise, upon start all lights will turn on
@@ -186,7 +234,7 @@ public class LightResource
         catch (IOException iEx)
         {
             LOG.error("Unable to read POST data!", iEx);
-            return Response.serverError().entity(iEx).build();
+            return Response.status(Response.Status.PAYMENT_REQUIRED).entity(iEx).build();
         }
     }
 
