@@ -1,5 +1,13 @@
 apply plugin: 'java'
 
+ext {
+    distDir = new File(rootProject.projectDir, 'dist')
+    webappDir = new File(distDir, 'webapps')
+    confDir = new File(distDir, 'conf')
+    libDir = new File(distDir, 'lib')
+    logDir = new File(distDir, 'log')
+}
+
 subprojects {
     apply plugin: 'java'
     apply plugin: 'idea'
@@ -16,27 +24,87 @@ subprojects {
 
     dependencies {
         dependencies {
-            compile(
+            compile (
                     // Logging libraries
                     [group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'],
                     [group: 'org.slf4j', name: 'log4j-over-slf4j', version: '1.7.25'],
                     [group: 'org.slf4j', name: 'jul-to-slf4j', version: '1.7.25'],
                     [group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'],
-                    // JSON libraries
-                    [group: "com.fasterxml.jackson.core", name: "jackson-databind", version: "2.5.3"],
-                    [group: "com.fasterxml.jackson.core", name: "jackson-annotations", version: "2.5.3"],
-                    // Webserver libraries
-                    [group: "org.glassfish.jersey.containers", name: "jersey-container-servlet", version: "2.25"],
-                    [group: "org.glassfish.jersey.core", name: "jersey-server", version: "2.25"],
-                    [group: "org.glassfish.jersey.media", name: "jersey-media-json-jackson", version: "2.25"],
-                    [group: "javax.ws.rs", name: "javax.ws.rs-api", version: "2.0.1"],
-                    [group: "org.apache.tomcat.embed", name: "tomcat-embed-core", version: "9.0.1"],
-                    [group: "org.apache.tomcat", name: "jasper", version: "6.0.53"],
                     // Template libraries
                     [group: "org.freemarker", name: "freemarker", version: "2.3.27-incubating"],
                     // Others
                     [group: "commons-io", name: "commons-io", version: "2.6"],
             )
+        }
+    }
+
+    task prepareDir {
+        doLast {
+            distDir.mkdirs()
+            webappDir.mkdirs()
+            confDir.mkdirs()
+            logDir.mkdirs()
+            libDir.mkdirs()
+        }
+    }
+
+    task cleanDist {
+        doLast {
+            println("Removing your dist!!!");
+            distDir.deleteDir()
+        }
+    }
+}
+
+project(':vHue-shared') {
+    dependencies {
+        compile(
+                // JSON libraries
+                [group: "com.fasterxml.jackson.core", name: "jackson-databind", version: "2.5.3"],
+                [group: "com.fasterxml.jackson.core", name: "jackson-annotations", version: "2.5.3"],
+        )
+    }
+
+    build {
+        copy {
+            from configurations.runtime
+            into libDir
+        }
+    }
+}
+
+project(':vHue-webapp') {
+    apply plugin: 'war'
+
+    dependencies {
+        compile project(':vHue-shared')
+        compile(
+                [group: "javax.ws.rs", name: "javax.ws.rs-api", version: "2.0.1"],
+                [group: "org.apache.tomcat", name: "jasper", version: "6.0.53"],
+                // [group: "org.glassfish.jersey.core", name: "jersey-server", version: "2.25"],
+                [group: "org.glassfish.jersey.containers", name: "jersey-container-servlet", version: "2.25"],
+                //[group: "org.glassfish.jersey.media", name: "jersey-media-json-jackson", version: "2.25"],
+        )
+    }
+
+    war {
+        classpath = classpath.filter { !it.name.contains('slf4j') }
+        sourceSets.main.resources.srcDir 'src/main/java'
+        exclude('*/java')
+
+        from ('web/WEB-INF') {
+            include '*/*', '*.xml'
+            into 'WEB-INF/'
+        }
+    }
+    war.dependsOn 'prepareDir'
+
+    task releaseWar(dependsOn: 'war') {
+        doLast {
+            copy {
+                from war
+                into distDir
+            }
         }
     }
 }
@@ -46,16 +114,69 @@ project(':vHue-server') {
 
     mainClassName = 'net.nyllian.vhue.ServerMain'
 
-    run {
-        // workingDir = 'src/'
+    dependencies {
+        compile project(':vHue-shared')
+        compile(
+                // Webserver libraries
+                [group: "org.apache.tomcat.embed", name: "tomcat-embed-core", version: "9.0.1"],
+                [group: "org.apache.tomcat", name: "jasper", version: "6.0.53"],
+        )
+    }
 
+    run {
+        workingDir = rootProject.projectDir.getAbsolutePath() + '/dist'
         jvmArgs (
                 '-Dlogback.configurationFile=./conf/logback.xml'
         )
+    }
+    run.dependsOn project(':vHue-webapp').tasks.releaseWar
 
-        // configurations.runtime.each { println it }
+    jar.doFirst {
+        def manifestClassPath = []
+
+        for (file in configurations.runtime) {
+            manifestClassPath << 'lib/' + file.name;
+        }
+
+        manifest {
+            attributes(
+                    'Class-Path': manifestClassPath.join(' ')
+            )
+        }
+    }
+    jar.dependsOn prepareDir
+
+    jar {
+        manifest {
+            attributes (
+                    'Main-Class' : 'net.nyllian.vhue.ServerMain'
+            )
+        }
+    }
+    jar.dependsOn prepareDir
+
+    task releaseJar(dependsOn: jar) {
+        doLast {
+            copy {
+                from jar
+                into distDir
+            }
+            copy {
+                from new File("conf")
+                into confDir
+            }
+            copy {
+                from configurations.runtime
+                into libDir
+            }
+        }
     }
 }
+
+task release() {
+}
+release.dependsOn ':vHue-webapp:releaseWar', ':vHue-server:releaseJar';
+
 
 task wrapper(type: Wrapper) {
     gradleVersion '4.3.1'

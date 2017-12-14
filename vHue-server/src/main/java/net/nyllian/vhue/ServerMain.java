@@ -10,7 +10,6 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import javax.servlet.ServletException;
 import java.io.File;
-import java.net.MalformedURLException;
 import java.util.logging.LogManager;
 
 /**
@@ -36,20 +35,14 @@ public class ServerMain
             LogManager.getLogManager().reset();
             SLF4JBridgeHandler.install();
 
-            String webappDir = "src/main/web/";
-            tomcatServer.setPort(port);
-
-            Context ctx = tomcatServer.addWebapp("", new File(webappDir).getAbsolutePath());
-            File configFile = new File(webappDir + "WEB-INF/web.xml");
-            LOG.trace(String.format("Following config file is used for context: %s", configFile.getAbsolutePath()));
-            try
-            {
-                ctx.setConfigFile(configFile.toURI().toURL());
-            }
-            catch (MalformedURLException mEx)
-            {
-                LOG.error("Unable to load the specified web.xml file!", mEx);
-            }
+            String docBase = new File(".").getAbsolutePath();
+            tomcatServer.setBaseDir(docBase);
+            tomcatServer.setHostname("vHue");
+            tomcatServer.getHost().setAutoDeploy(true);
+            tomcatServer.getHost().setDeployOnStartup(true);
+            Context ctx = tomcatServer.addWebapp("", docBase + "/vHue-webapp.war");
+            ctx.setName("vHue");
+            ctx.setDisplayName("vHue");
 
             Connector connector = new Connector();
             connector.setPort(port);
@@ -59,7 +52,7 @@ public class ServerMain
         }
         catch (ServletException sEx)
         {
-            LOG.error("The current IP Address could not be retrieved!", sEx);
+            LOG.error("Unable to start the tomcat server!", sEx);
         }
         finally
         {
