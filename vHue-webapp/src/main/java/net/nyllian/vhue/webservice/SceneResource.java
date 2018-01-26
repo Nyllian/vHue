@@ -5,7 +5,7 @@ import net.nyllian.vhue.model.Light;
 import net.nyllian.vhue.model.LightState;
 import net.nyllian.vhue.model.Scene;
 import net.nyllian.vhue.model.views.SceneView;
-import net.nyllian.vhue.util.ResourceManager;
+import net.nyllian.vhue.server.util.ResourceManager;
 import net.nyllian.vhue.util.HueUtils;
 import net.nyllian.vhue.util.Serializer;
 import org.apache.commons.io.IOUtils;

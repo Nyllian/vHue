@@ -1,9 +1,7 @@
 package net.nyllian.vhue.model;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.*;
+import net.nyllian.vhue.model.views.LightView;
 import net.nyllian.vhue.util.Randomizer;
 
 /**
@@ -14,22 +12,28 @@ import net.nyllian.vhue.util.Randomizer;
 @JsonPropertyOrder({"modelid", "name", "lightState", "swversion", "type", "uniqueid"})
 public class Light implements IJSon
 {
+    @JsonView(LightView.ModelIdOnly.class)
     @JsonProperty("modelid")
     private String modelId = "BSB002";
+    @JsonView(LightView.NameOnly.class)
     @JsonProperty("name")
     private String name = "Dummy Light";
+    @JsonView(LightView.SwitchVersionOnly.class)
     @JsonProperty("swversion")
     private String switchVersion = "66009461";
+    @JsonView(LightView.TypeOnly.class)
     @JsonProperty("type")
     private String type = "Dummy color Light";
+    @JsonView(LightView.UniqueIdOnly.class)
     @JsonProperty("uniqueid")
     private String uniqueId = Randomizer.generateUniqueId();
+    @JsonView(LightView.LightStateOnly.class)
     @JsonProperty("state")
     private LightState lightState = new LightState();
+    @JsonView(LightView.ManufacturerNameOnly.class)
     @JsonProperty("manufacturername")
     private String manufacturerName = "Nyllian";
 
-    @JsonIgnore
     private String ipAddress;
 
     public Light()

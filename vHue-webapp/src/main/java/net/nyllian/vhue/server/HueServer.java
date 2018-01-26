@@ -5,7 +5,7 @@ import net.nyllian.vhue.model.BridgeConfig;
 import net.nyllian.vhue.model.Capabilities;
 import net.nyllian.vhue.util.HueUtils;
 import net.nyllian.vhue.util.Randomizer;
-import net.nyllian.vhue.util.ResourceManager;
+import net.nyllian.vhue.server.util.ResourceManager;
 import net.nyllian.vhue.util.Serializer;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.slf4j.Logger;
@@ -40,7 +40,7 @@ public class HueServer extends ResourceConfig
             initBridgeCapabilities();
             // startSsdpServer();
             startUpnpServer();
-            // startHueLightServer();
+            startHueLightServer();
         }
         catch (Exception ex)
         {
@@ -51,6 +51,26 @@ public class HueServer extends ResourceConfig
         Map<String, Object> resourceMap = new HashMap<>();
         resourceMap.put("manager", manager);
         setProperties(resourceMap);
+    }
+
+    private void startHueLightServer()
+    {
+        LOG.info("Starting Light Server...");
+
+        // TODO: Check if this should be done in a thread...
+        // TODO: When in thread, webapp and server can work separately
+        // TODO: If not in thread, the calls must all be in separate thread ==> This can cause sequentiallity issues
+
+        // TODO: How can this be launched as a thread, keep the thread alive and accept commands from the webapp
+
+        //
+        LightServer lightServer = new LightServer(manager.getBridge());
+        Thread t = new Thread(lightServer);
+        t.start();
+
+        manager.addResource(ResourceManager.RESOURCE_LIGHT_SERVER, lightServer);
+
+        LOG.info("Light Server started succesffully!");
     }
 
     private void startSsdpServer()

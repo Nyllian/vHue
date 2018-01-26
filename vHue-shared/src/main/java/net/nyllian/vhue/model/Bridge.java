@@ -93,6 +93,15 @@ public class Bridge implements IJSon
         new Thread(press).start();
     }
 
+    public void discoverLights()
+    {
+        // TODO: Search for new lights...
+        // TODO: Depending on the discovered lights, check ifi already added or not
+        // TODO: Should it be possible to add 2 lights onto multiple rooms / apps???
+
+        addDiscoveredLight(new DiscoveredLight().setName("NewDummyLight"));
+
+    }
 
     public Map<String, Object> getDiscoveredLights()
     {

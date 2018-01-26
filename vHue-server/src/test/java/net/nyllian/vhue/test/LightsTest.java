@@ -1,10 +1,12 @@
 package net.nyllian.vhue.test;
 
+import net.nyllian.vhue.model.Light;
+import net.nyllian.vhue.model.views.LightView;
+import net.nyllian.vhue.util.Serializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -17,17 +19,36 @@ public class LightsTest
 
     public static void main(String args[]) throws IOException
     {
-        Map<String, Object> map = new LinkedHashMap<>();
-        map.put("1", new AtomicBoolean(false));
-        map.put("2", new AtomicBoolean(true));
+        Light l1 = new Light();
+        l1.setIpAddress("192.168.0.123");
+        String s = Serializer.SerializeJsonView(LightView.LightProperties.class, l1);
+        System.out.println(s);
 
-        if (map.containsKey("3"))
+        String s2 = Serializer.SerializeJson(l1);
+        System.out.println(s2);
+        Light l2 = Serializer.SerializeJson(s2, Light.class);
+
+        System.out.println(l2.getIpAddress());
+
+        Thread t = new Thread(new TestThread());
+    }
+
+}
+class TestThread implements Runnable
+{
+    private AtomicBoolean running = new AtomicBoolean(true);
+
+    @Override
+    public void run()
+    {
+        while (running.get())
         {
-            System.out.println("contains");
+            System.err.println("Send command to the specified light...");
         }
-        else
-        {
-            System.out.println("not");
-        }
+    }
+
+    public void stopRunning()
+    {
+        running.set(false);
     }
 }

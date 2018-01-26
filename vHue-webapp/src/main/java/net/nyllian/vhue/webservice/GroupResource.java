@@ -1,7 +1,7 @@
 package net.nyllian.vhue.webservice;
 
 import net.nyllian.vhue.model.*;
-import net.nyllian.vhue.util.ResourceManager;
+import net.nyllian.vhue.server.util.ResourceManager;
 import net.nyllian.vhue.util.HueUtils;
 import net.nyllian.vhue.util.Serializer;
 import org.apache.commons.io.IOUtils;

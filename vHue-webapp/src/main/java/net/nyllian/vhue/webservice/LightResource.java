@@ -1,10 +1,9 @@
 package net.nyllian.vhue.webservice;
 
 import net.nyllian.vhue.model.Bridge;
-import net.nyllian.vhue.model.DiscoveredLight;
 import net.nyllian.vhue.model.Light;
 import net.nyllian.vhue.model.LightState;
-import net.nyllian.vhue.util.ResourceManager;
+import net.nyllian.vhue.server.util.ResourceManager;
 import net.nyllian.vhue.util.Serializer;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -43,6 +42,11 @@ public class LightResource
     {
         ResourceManager manager = (ResourceManager)application.getProperties().get("manager");
         bridge = manager.getBridge();
+
+        // TODO: Get the properties --> They have the ipaddress of all the lights
+        // TODO: It must also be possible to save the properties file with the ipaddresses of newly added (discovered) lights
+        // TODO: this is not possible.... (how must we fix this?)
+
     }
 
     @GET
@@ -69,6 +73,13 @@ public class LightResource
         LOG.debug(String.format("%s (%s)", request.getRequestURI(), request.getMethod()));
 
         // TODO: Start a new LightScan
+        // TODO: Start a new thread that will search new light resources
+        // TODO: Check if this can be done in the 'LightServer'...???
+
+        // TODO: Do this in separate thread?
+        bridge.discoverLights();
+
+        /*
         LOG.warn("newLights size => " + bridge.getDiscoveredLights().size());
         if (bridge.getDiscoveredLights().size() < 5)
         {
@@ -76,6 +87,7 @@ public class LightResource
             bridge.addDiscoveredLight(new DiscoveredLight().setName("NewDummyLight"));
             // Loop over all the 'Discovered' lights and compare with the current
         }
+        */
 
         return Response.ok("[{ \"success\" : { \"/lights\" : \"Searching for new devices\"}}]").build();
     }
